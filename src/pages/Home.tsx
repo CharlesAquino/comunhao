@@ -1,0 +1,552 @@
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
+import { Hand, Award, X, Clock, Heart, LoaderCircle, BookOpen } from 'lucide-react';
+import MocidadeGrid from '../components/MocidadeGrid';
+import SessaoAbertaModal from '../components/SessaoAbertaModal';
+import { getCurrentUserId, getDashboardData, subscribeToDataChanges, toggleUserAvailability } from '../services/dataService';
+import { enviarConviteOracao, responderConviteOracao, cancelarConvite, getConvitesPendentes, getConviteEnviadoEmAndamento, subscribeToConvites } from '../services/conviteService';
+import { mensagemErroConvite } from '../services/conviteErrors';
+import { entrarSessaoGrupo, listarSessoesGrupoAbertas, subscribeToSessaoGrupo } from '../services/oracaoAbertaService';
+import { ROUTES } from '../services/constants';
+import type { DashboardData } from '../types';
+import type { ConviteComRemetente, ConviteOracao } from '../services/conviteService';
+import { useToast } from '../contexts/ToastContext';
+import SectionHeader from '../components/ui/SectionHeader';
+import Button from '../components/ui/Button';
+import SealIcon from '../components/ui/SealIcon';
+import { deveEncaminharAceiteNovo, obterDestinoConviteAceito, obterModoConviteAceito } from '../services/conviteRouting';
+import { getResumablePrayerJourney, type PrayerJourney } from '../services/prayerJourneyService';
+import InstitutionalCrest from '../components/InstitutionalCrest';
+import { useSpatialSurface } from '../hooks/useSpatialSurface';
+import { PrayerCareIcon } from '../components/icons/SanctuaryIcons';
+import IncomingPrayerCall from '../components/oracao/IncomingPrayerCall';
+import missionWeekAmanhecer from '../assets/mission-week-amanhecer-v1.png';
+import missionWeekSantuario from '../assets/mission-week-santuario-v1.png';
+import estudosBannerLight from '../assets/estudos/comunhao-estudos-banner-light-v2.png';
+import estudosBannerDark from '../assets/estudos/comunhao-estudos-banner-dark-v2.png';
+import { readDashboardCache } from '../services/dashboardCache';
+import { useAdmin } from '../contexts/AdminContext';
+import InstitutionalAction from '../components/ui/InstitutionalAction';
+
+export default function Home() {
+  const [data, setData] = useState<DashboardData | null>(() => readDashboardCache());
+  const [loading, setLoading] = useState(() => readDashboardCache() === null);
+  const [criandoSala, setCriandoSala] = useState(false);
+  const [confirmandoConviteDupla, setConfirmandoConviteDupla] = useState(false);
+  const [convitesPendentes, setConvitesPendentes] = useState<ConviteComRemetente[]>([]);
+  const [conviteEnviado, setConviteEnviado] = useState<ConviteOracao | null>(null);
+  const [respondendo, setRespondendo] = useState<string | null>(null);
+  const [sessoesAbertas, setSessoesAbertas] = useState<Record<string, string>>({});
+  const [nomesSessoesAbertas, setNomesSessoesAbertas] = useState<Record<string, string>>({});
+  const [sessaoAtiva, setSessaoAtiva] = useState<{ sessaoId: string; anfitriaoId: string } | null>(null);
+  const [entrandoSessaoId, setEntrandoSessaoId] = useState<string | null>(null);
+  const [jornadaRetomavel, setJornadaRetomavel] = useState<PrayerJourney | null>(null);
+  const [alterandoDisponibilidade, setAlterandoDisponibilidade] = useState(false);
+  const ultimoDestinoConviteRef = useRef<string | null>(null);
+  const statusConviteEnviadoRef = useRef<ConviteOracao['status'] | null>(null);
+  const homeSpatialRef = useSpatialSurface<HTMLDivElement>({ maxTilt: 0.9, pointerRange: 0.55 });
+
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const toast = useToast();
+  const { can: canAdmin } = useAdmin();
+  const sessaoConviteId = searchParams.get('orar_com');
+
+  const loadDashboardData = useCallback(async () => {
+    try {
+      const result = await getDashboardData();
+      setData(result);
+    } catch (error) {
+      if (error instanceof Error && error.message === "USER_NOT_AUTHENTICATED") {
+        navigate(ROUTES.LOGIN);
+      } else {
+        toast.error(error instanceof Error ? error.message : 'Erro ao carregar dados do dashboard');
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [navigate, toast]);
+
+  useEffect(() => {
+    loadDashboardData();
+    getResumablePrayerJourney().then(setJornadaRetomavel).catch(() => undefined);
+    const unsubData = subscribeToDataChanges(() => loadDashboardData());
+    return () => { unsubData(); };
+  }, [loadDashboardData]);
+
+  const carregarConvites = useCallback(async (encaminharAceiteNovo = false) => {
+    try {
+      const [pendentes, enviado] = await Promise.all([
+        getConvitesPendentes().catch(() => []),
+        getConviteEnviadoEmAndamento().catch(() => null),
+      ]);
+      setConvitesPendentes(pendentes);
+      const destino = enviado ? obterDestinoConviteAceito(enviado) : null;
+      const deveEncaminhar = deveEncaminharAceiteNovo(
+        statusConviteEnviadoRef.current,
+        enviado?.status ?? null,
+        encaminharAceiteNovo,
+      );
+      const conviteJaEncaminhado = enviado ? window.sessionStorage.getItem('comunhao:convite-encaminhado') === enviado.id : false;
+      statusConviteEnviadoRef.current = enviado?.status ?? null;
+      if (
+        destino
+        && enviado
+        && deveEncaminhar
+        && !conviteJaEncaminhado
+        && ultimoDestinoConviteRef.current !== destino
+      ) {
+        ultimoDestinoConviteRef.current = destino;
+        window.sessionStorage.setItem('comunhao:convite-encaminhado', enviado.id);
+        const modo = obterModoConviteAceito(enviado);
+        navigate(`${destino}?modo=${modo}&preparar=1`);
+        return;
+      }
+      setConviteEnviado(enviado?.status === 'pendente' ? enviado : null);
+    } catch { /* silent */ }
+  }, [navigate]);
+
+  useEffect(() => {
+    carregarConvites();
+    let ativo = true;
+    let unsubConvite: (() => void) | undefined;
+
+    getCurrentUserId()
+      .then(userId => {
+        if (!ativo) return;
+        unsubConvite = subscribeToConvites(userId, payload => {
+          void carregarConvites(payload?.status === 'aceito');
+        });
+      })
+      .catch(() => {});
+
+    return () => {
+      ativo = false;
+      unsubConvite?.();
+    };
+  }, [carregarConvites, navigate]);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => { void carregarConvites(); }, 4000);
+    return () => window.clearInterval(interval);
+  }, [carregarConvites]);
+
+  const carregarSessoes = useCallback(async () => {
+    try {
+      const sessoes = await listarSessoesGrupoAbertas();
+      const sessoesPorAnfitriao: Record<string, string> = {};
+      const nomesPorSessao: Record<string, string> = {};
+      for (const sessao of sessoes) {
+        sessoesPorAnfitriao[sessao.anfitriao_id] = sessao.sessao_id;
+        nomesPorSessao[sessao.sessao_id] = sessao.anfitriao_nome;
+      }
+      setSessoesAbertas(sessoesPorAnfitriao);
+      setNomesSessoesAbertas(nomesPorSessao);
+    } catch { /* silent */ }
+  }, []);
+
+  useEffect(() => {
+    carregarSessoes();
+    const interval = setInterval(carregarSessoes, 3000);
+    return () => clearInterval(interval);
+  }, [carregarSessoes]);
+
+  const limparConviteMaoUrl = useCallback(() => {
+    const novosParametros = new URLSearchParams(searchParams);
+    novosParametros.delete('orar_com');
+    setSearchParams(novosParametros, { replace: true });
+  }, [searchParams, setSearchParams]);
+
+  const handleJuntarSessao = async (sessaoId: string) => {
+    if (entrandoSessaoId) return;
+    setEntrandoSessaoId(sessaoId);
+
+    try {
+      const sessao = await entrarSessaoGrupo(sessaoId);
+      const anfitriaoNome = nomesSessoesAbertas[sessaoId] || 'essa pessoa';
+      toast.success(`Orando com ${anfitriaoNome} 🙏`);
+      setSessaoAtiva({ sessaoId, anfitriaoId: sessao.anfitriao_id ?? '' });
+      limparConviteMaoUrl();
+      await carregarSessoes();
+    } catch (error) {
+      const mensagem = error instanceof Error ? error.message : '';
+      if (mensagem.includes('SESSAO_JA_ACEITA')) {
+        toast.info('Outra pessoa já aceitou esse momento de oração.');
+        limparConviteMaoUrl();
+        await carregarSessoes();
+      } else if (mensagem.includes('SESSAO_ENCERRADA') || mensagem.includes('SESSAO_NAO_ENCONTRADA')) {
+        toast.info('Esse pedido de oração não está mais disponível.');
+        limparConviteMaoUrl();
+        await carregarSessoes();
+      } else {
+        toast.error(mensagem || 'Erro ao entrar na oração');
+      }
+    } finally {
+      setEntrandoSessaoId(null);
+    }
+  };
+
+  const handleOrarAgora = async () => {
+    if (!data?.missaoAtual.id || criandoSala) return;
+    setCriandoSala(true);
+    try {
+      await enviarConviteOracao(data.missaoAtual.id, 'voz', 'dupla_semana');
+      setConfirmandoConviteDupla(false);
+      await carregarConvites();
+    } catch (error) {
+      toast.error(mensagemErroConvite(error));
+    } finally {
+      setCriandoSala(false);
+    }
+  };
+
+  const handleCancelarConvite = async () => {
+    if (!conviteEnviado) return;
+    try {
+      await cancelarConvite(conviteEnviado.id);
+      setConviteEnviado(null);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao cancelar');
+    }
+  };
+
+  const handleToggleAvailability = async () => {
+    if (!data || alterandoDisponibilidade || data.usuario.status_anel === 'orando') return;
+    const novoEstado = data.usuario.status_anel !== 'disponivel';
+    setAlterandoDisponibilidade(true);
+    try {
+      await toggleUserAvailability(novoEstado);
+      setData(current => current ? {
+        ...current,
+        usuario: { ...current.usuario, status_anel: novoEstado ? 'disponivel' : 'offline' },
+      } : current);
+      toast.success(novoEstado ? 'Você está disponível para oração.' : 'Sua disponibilidade foi encerrada.');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Não foi possível alterar sua disponibilidade.');
+      await loadDashboardData();
+    } finally {
+      setAlterandoDisponibilidade(false);
+    }
+  };
+
+  const handleResponderConvite = async (conviteId: string, resposta: 'aceito' | 'recusado', tipo: 'aceite' | 'voz' | 'video') => {
+    setRespondendo(conviteId);
+    try {
+      const result = await responderConviteOracao(conviteId, resposta, tipo);
+      if (result.status === 'aceito') {
+        const mode = tipo === 'voz' ? 'voz' : tipo === 'video' ? 'video' : 'silencio';
+        const destination = result.sala_id ? `/sala/${result.sala_id}` : `/timer/${conviteId}`;
+        navigate(`${destination}?modo=${mode}&preparar=1`);
+      }
+      await carregarConvites();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Erro ao responder');
+    } finally {
+      setRespondendo(null);
+    }
+  };
+
+  const sessaoAtivaId = sessaoAtiva?.sessaoId;
+  useEffect(() => {
+    if (!sessaoAtivaId) return;
+
+    const cancelar = subscribeToSessaoGrupo(sessaoAtivaId, {
+      onSessaoEncerrada: () => {
+        setSessaoAtiva(null);
+        carregarSessoes().catch(() => undefined);
+      },
+      onAnfitriaoAlterado: novoId => {
+        setSessaoAtiva(atual => atual ? { ...atual, anfitriaoId: novoId } : null);
+      },
+    });
+
+    return cancelar;
+  }, [sessaoAtivaId, carregarSessoes]);
+
+
+  if (loading) {
+    return (
+      <div className="relic-state flex h-screen flex-col items-center justify-center bg-transparent txt-tertiary">
+        <div className="w-8 h-8 border-4 border-[var(--accent-solid)] border-t-transparent rounded-full animate-spin mb-4" />
+        <p className="text-sm font-medium">Carregando...</p>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="relic-state flex h-screen items-center justify-center bg-transparent p-6 text-center font-medium txt-rose">
+        Erro ao carregar dados. Recarregue a página.
+      </div>
+    );
+  }
+
+  const isAvailable = data.usuario.status_anel === "disponivel";
+
+  return (
+    <div ref={homeSpatialRef} className="spatial-field relic-home relative z-10 flex min-h-full flex-col gap-[var(--relic-section-gap)] px-5 pb-4 pt-6 max-[360px]:px-4">
+      <header className="spatial-section spatial-section--quiet order-1 flex items-center gap-4 max-[360px]:gap-3">
+        <Link
+          to={ROUTES.PERFIL}
+          aria-label="Abrir meu perfil"
+          className={`spatial-person relic-avatar relic-interaction group relative flex size-20 shrink-0 items-center justify-center rounded-full border-[3px] border-[var(--surface-elevated)] bg-[var(--surface-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] max-[360px]:size-16 ${
+            isAvailable ? 'ring-4 ring-[var(--accent-primary)]/25 shadow-[0_0_24px_rgba(120,173,136,0.35)]' : ''
+          }`}
+        >
+          {data.usuario.avatar ? (
+            <img
+              src={data.usuario.avatar}
+              alt={`Foto de perfil de ${data.usuario.nome}`}
+              className="size-full rounded-full object-cover"
+            />
+          ) : (
+            <span className="font-display text-3xl font-semibold uppercase text-[var(--text-primary)]">
+              {data.usuario.nome?.[0] || '?'}
+            </span>
+          )}
+          <span
+            aria-label={isAvailable ? 'Disponível para oração' : 'Perfil offline'}
+            className={`absolute bottom-0.5 right-0.5 size-5 rounded-full border-[3px] border-[var(--canvas)] ${
+              isAvailable ? 'bg-[var(--success)] shadow-[0_0_10px_var(--success)] animate-pulse' : 'bg-[var(--text-muted)]'
+            }`}
+          />
+          {data.usuario.brasaoInstitucional && (
+            <span className="absolute -bottom-2 -left-3 z-10">
+              <InstitutionalCrest kind={data.usuario.brasaoInstitucional} size={30} />
+            </span>
+          )}
+        </Link>
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] txt-green mb-1">Comunhão</p>
+          <h1 className="font-display text-2xl font-semibold leading-tight tracking-tight txt-primary [overflow-wrap:anywhere] max-[360px]:text-xl">
+            Olá, {data.usuario.nome}
+          </h1>
+          <p className="mt-1 text-sm txt-tertiary">Seu espaço de cuidado e comunhão</p>
+          <button
+            type="button"
+            onClick={handleToggleAvailability}
+            disabled={alterandoDisponibilidade || data.usuario.status_anel === 'orando'}
+            aria-pressed={isAvailable}
+            className={`mt-3 inline-flex min-h-10 items-center gap-2 rounded-full border px-3.5 text-xs font-semibold transition-premium disabled:cursor-not-allowed disabled:opacity-55 ${
+              isAvailable
+                ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent-primary)]'
+                : 'border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)]'
+            }`}
+          >
+            {alterandoDisponibilidade
+              ? <LoaderCircle size={15} className="animate-spin" aria-hidden="true" />
+              : <span className={`size-2.5 rounded-full ${isAvailable ? 'bg-[var(--success)] shadow-[0_0_0_3px_var(--accent-soft)]' : 'bg-[var(--text-muted)]'}`} aria-hidden="true" />}
+            {alterandoDisponibilidade
+              ? 'Atualizando…'
+              : data.usuario.status_anel === 'orando'
+                ? 'Em oração'
+                : isAvailable ? 'Disponível para oração' : 'Ficar disponível'}
+          </button>
+        </div>
+      </header>
+
+      {jornadaRetomavel && (
+        <section className="spatial-section spatial-section--raised relic-surface order-2 rounded-2xl border border-[var(--celebration-border)] bg-[var(--surface-highlighted)] p-5 card-enter">
+          <div className="flex items-start gap-3">
+            <SealIcon Icon={Heart} size="lg" active />
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-bold txt-primary">Seu momento de oração foi interrompido</p>
+              <p className="mt-1 text-xs leading-relaxed txt-tertiary">
+                Retome no modo {jornadaRetomavel.modalidade}. Sua intenção continua privada.
+              </p>
+              <div className="mt-4 flex gap-2">
+                <Button onClick={() => navigate(`/timer/${jornadaRetomavel.referencia_id}`)} className="flex-1 text-xs">
+                  Retomar oração
+                </Button>
+                <Button onClick={() => setJornadaRetomavel(null)} variant="ghost" className="text-xs">
+                  Agora não
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className="editorial-journey-card comunhao-estudos-card spatial-section spatial-section--raised order-3 card-enter" aria-labelledby="comunhao-estudos-title">
+        <h2 id="comunhao-estudos-title" className="sr-only">Comunhão Estudos</h2>
+        <Link to="/estudos" aria-label="Abrir Comunhão Estudos" className="comunhao-estudos-card__art focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus)]">
+          <img src={estudosBannerLight} alt="Estudos Bíblicos — Conheça a Palavra. Entenda o contexto. Viva a verdade." className="comunhao-estudos-banner comunhao-estudos-banner--light" />
+          <img src={estudosBannerDark} alt="Estudos Bíblicos — Conheça a Palavra. Entenda o contexto. Viva a verdade." className="comunhao-estudos-banner comunhao-estudos-banner--dark" />
+        </Link>
+        <div className="comunhao-estudos-card__actions space-y-2.5">
+          {/* Widget Continuar Aprendendo */}
+          <div className="flex items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="grid size-6 place-items-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent-primary)] font-bold">
+                📖
+              </span>
+              <div>
+                <p className="font-semibold txt-primary">Quem é Jesus?</p>
+                <p className="text-[11px] text-[var(--text-muted)]">Evangelho de João · Módulo 1</p>
+              </div>
+            </div>
+            <span className="rounded-full border border-[var(--accent-border)] bg-[var(--accent-soft)] px-2 py-0.5 text-[10px] font-semibold text-[var(--accent-primary)]">
+              Continuar
+            </span>
+          </div>
+
+          <InstitutionalAction to="/estudos" icon={<BookOpen size={17} />}>
+            Acessar estudos
+          </InstitutionalAction>
+          {(canAdmin('estudos.review') || canAdmin('estudos.manage')) && (
+            <div className="flex flex-wrap gap-2 border-t border-[var(--border)] pt-3">
+                {canAdmin('estudos.review') && <Button variant="ghost" onClick={() => navigate('/estudos/revisao/curso-quem-e-jesus')} className="flex-1 text-xs">Revisar curso</Button>}
+                {canAdmin('estudos.manage') && <Button variant="ghost" onClick={() => navigate('/estudos/studio')} className="flex-1 text-xs">Gerenciar estudos</Button>}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {sessaoConviteId && !sessaoAtiva && (
+        <section className="spatial-section spatial-section--raised relic-surface order-2 rounded-2xl border border-[var(--care-border)] bg-[var(--surface)] p-5 card-enter">
+          <div className="flex items-start gap-3">
+            <SealIcon Icon={Hand} size="lg" active />
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-bold txt-primary">
+                {nomesSessoesAbertas[sessaoConviteId] || 'Alguém'} levantou a mão
+              </p>
+              <p className="mt-1 text-xs leading-relaxed txt-tertiary">
+                Essa pessoa quer companhia para orar agora. A sala compartilhada só começa quando alguém aceitar.
+              </p>
+              <div className="mt-4 flex gap-2">
+                <Button
+                  onClick={() => handleJuntarSessao(sessaoConviteId)}
+                  disabled={entrandoSessaoId === sessaoConviteId}
+                  className="flex-1 text-xs"
+                >
+                  <Heart size={15} />
+                  {entrandoSessaoId === sessaoConviteId ? 'Entrando...' : 'Aceito orar'}
+                </Button>
+                <Button
+                  onClick={limparConviteMaoUrl}
+                  variant="ghost"
+                  className="text-xs"
+                >
+                  Agora não
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {convitesPendentes[0] && (
+        <IncomingPrayerCall
+          nome={convitesPendentes[0].remetente_nome}
+          fotoUrl={convitesPendentes[0].remetente_foto}
+          origem={convitesPendentes[0].origem === 'sala_oracao' ? 'SALA DE ORAÇÃO' : 'DUPLA DA SEMANA'}
+          tipoConexao={convitesPendentes[0].tipo_conexao_remetente}
+          processando={respondendo === convitesPendentes[0].id}
+          onAcceptVideo={() => handleResponderConvite(convitesPendentes[0].id, 'aceito', 'video')}
+          onAcceptAudio={() => handleResponderConvite(convitesPendentes[0].id, 'aceito', 'voz')}
+          onDecline={() => handleResponderConvite(convitesPendentes[0].id, 'recusado', 'aceite')}
+        />
+      )}
+
+      {/* Missão da Semana */}
+      <section className="editorial-journey-card mission-week-card order-2 card-enter" aria-labelledby="missao-semana">
+        <h2 id="missao-semana" className="sr-only">Missão da semana</h2>
+        <img src={missionWeekAmanhecer} alt="" aria-hidden="true" className="mission-week-card__art mission-week-card__art--light" />
+        <img src={missionWeekSantuario} alt="" aria-hidden="true" className="mission-week-card__art mission-week-card__art--dark" />
+
+        <Link
+          to={data.missaoAtual.id ? ROUTES.PERFIL_USUARIO(data.missaoAtual.id) : ROUTES.COMUNIDADE}
+          aria-label={data.missaoAtual.id ? `Abrir perfil de ${data.missaoAtual.nome}` : 'Abrir comunidade'}
+          className="mission-week-card__avatar focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+        >
+          {data.missaoAtual.avatar
+            ? <img src={data.missaoAtual.avatar} alt={`Foto de ${data.missaoAtual.nome}`} />
+            : <span>{data.missaoAtual.nome ? data.missaoAtual.nome[0] : '?'}</span>}
+        </Link>
+
+        <div className="mission-week-card__identity">
+          <p className="mission-week-card__name">{data.missaoAtual.nome}</p>
+          <p className="mission-week-card__role"><span aria-hidden="true" /> Parceiro de oração</p>
+          {data.missaoAtual.brasaoInstitucional && <InstitutionalCrest kind={data.missaoAtual.brasaoInstitucional} size={22} />}
+        </div>
+
+        <div className="mission-week-card__message" aria-live="polite">
+          {conviteEnviado ? (
+            <>
+              <Clock size={22} className="mission-week-card__message-icon animate-pulse" />
+              <div><strong>Aguardando {data.missaoAtual.nome.split(' ')[0]}</strong><p>O convite foi enviado para o app.</p></div>
+              <button type="button" onClick={handleCancelarConvite} className="mission-week-card__cancel"><X size={14} /> Cancelar</button>
+            </>
+          ) : data.parceiroSustentador ? (
+            <>
+              <PrayerCareIcon aria-hidden="true" className="mission-week-card__message-icon" size={24} strokeWidth={1.55} />
+              <p><strong>{data.parceiroSustentador.nome}</strong> está orando por você nesta semana.</p>
+              {data.parceiroSustentador.brasaoInstitucional && <InstitutionalCrest kind={data.parceiroSustentador.brasaoInstitucional} size={19} />}
+            </>
+          ) : <p>Uma semana para fortalecer vínculos através da oração.</p>}
+        </div>
+
+        <button type="button" onClick={() => setConfirmandoConviteDupla(true)} disabled={criandoSala || Boolean(conviteEnviado)} className="mission-week-card__action mission-week-card__action--invite">
+          <strong>{criandoSala ? 'Enviando…' : `Convidar ${data.missaoAtual.nome.split(' ')[0]}`}</strong>
+          <span>Oração com sua dupla</span>
+        </button>
+        <button type="button" onClick={() => navigate('/oracao')} className="mission-week-card__action mission-week-card__action--room">
+          <strong>Sala de Oração</strong>
+          <span>Encontre a comunidade</span>
+        </button>
+      </section>
+
+      {confirmandoConviteDupla && createPortal(
+        <div className="app-modal-layer fixed inset-0 flex items-end justify-center bg-black/70 p-4 backdrop-blur-sm sm:items-center" role="presentation" onClick={() => !criandoSala && setConfirmandoConviteDupla(false)}>
+          <section role="dialog" aria-modal="true" aria-labelledby="confirmar-dupla-title" className="w-full max-w-sm rounded-[1.75rem] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-2xl" onClick={event => event.stopPropagation()}>
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--celebration)]">Dupla da semana</p>
+            <h2 id="confirmar-dupla-title" className="mt-2 font-display text-2xl font-semibold txt-primary">Convidar {data.missaoAtual.nome}?</h2>
+            <p className="mt-2 text-sm leading-relaxed txt-tertiary">Este convite pertence ao compromisso semanal. Ele não é uma chamada da Sala de Oração.</p>
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              <Button variant="ghost" onClick={() => setConfirmandoConviteDupla(false)} disabled={criandoSala}>Cancelar</Button>
+              <Button onClick={handleOrarAgora} disabled={criandoSala}>{criandoSala ? 'Enviando…' : 'Enviar convite'}</Button>
+            </div>
+          </section>
+        </div>,
+        document.body,
+      )}
+
+      {/* Mocidade */}
+      <section className="spatial-section spatial-section--quiet order-3 space-y-3">
+        <SectionHeader
+          title="Pessoas disponíveis agora"
+          eyebrow="Comunidade"
+          action={<Link to="/comunidade" className="text-xs font-semibold text-[var(--accent-primary)] hover:underline">Ver todos</Link>}
+        />
+        <div className="community-presence-card card-enter">
+          <MocidadeGrid
+            jovens={data.mocidade}
+            sessoesAbertas={sessoesAbertas}
+            onJuntarSessao={handleJuntarSessao}
+          />
+        </div>
+      </section>
+
+      {/* Footer */}
+      <div className="spatial-section spatial-section--quiet order-6 text-center pt-2 pb-4">
+        <Link to="/guia" className="inline-flex items-center gap-2 txt-tertiary hover:txt-primary text-xs font-medium transition px-4 py-2 rounded-full">
+          <Award size={13} />
+          Jornada de Serviço — como funciona
+        </Link>
+      </div>
+
+      {sessaoAtiva && (
+        <SessaoAbertaModal
+          sessaoId={sessaoAtiva.sessaoId}
+          anfitriaoId={sessaoAtiva.anfitriaoId}
+          meuId={data.usuario.id}
+          onClose={() => {
+            setSessaoAtiva(null);
+            carregarSessoes();
+          }}
+        />
+      )}
+    </div>
+  );
+}

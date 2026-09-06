@@ -1,0 +1,3646 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-display: 'Fraunces', Georgia, serif;
+  --animate-aurora: aurora 6s ease-in-out infinite alternate;
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-slide-up: slide-up 0.5s ease-out;
+}
+
+@keyframes aurora {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  50% { transform: translate(10px, -10px) scale(1.1); opacity: 0.8; }
+  100% { transform: translate(-10px, 5px) scale(1.05); opacity: 0.5; }
+}
+
+@keyframes aurora-reverse {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  50% { transform: translate(-15px, 10px) scale(1.15); opacity: 0.7; }
+  100% { transform: translate(15px, -5px) scale(1); opacity: 0.4; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@layer base {
+  body {
+    color: var(--txt-primary);
+    background: var(--body-bg, linear-gradient(180deg, #14120f 0%, #14120f 60%, #1a1610 100%));
+    background-attachment: fixed;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  svg.lucide {
+    stroke-width: 1.5;
+  }
+}
+
+:root {
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+}
+
+html, body, #root {
+  width: 100%;
+  min-height: 100%;
+}
+
+:root,
+:root[data-theme='light'] {
+  --sanctuary-canvas: #f5f1e8;
+  --stone-surface: #fcf9f2;
+  --stone-elevated: #fffdf8;
+  --wood-surface: #e9dfd0;
+  --living-green: #39745a;
+  --warm-light: #895718;
+  --parchment: #20231f;
+  --bronze: #926b38;
+  --canvas: var(--sanctuary-canvas);
+  --surface: var(--stone-surface);
+  --surface-elevated: var(--stone-elevated);
+  --surface-highlighted: #f5eddd;
+  --text-primary: var(--parchment);
+  --text-secondary: #666861;
+  --text-muted: #70726b;
+  --text-on-accent: #ffffff;
+  --border: #ded8cd;
+  --accent-primary: var(--living-green);
+  --accent-primary-hover: #2f654d;
+  --accent-soft: #e2f1e7;
+  --accent-border: #c4ddca;
+  --celebration: var(--warm-light);
+  --celebration-soft: #f7ead3;
+  --celebration-border: #ead09f;
+  --care: #ae5c5e;
+  --care-soft: #f7e4e1;
+  --care-border: #e8c2bd;
+  --success: #39745a;
+  --warning: #a96e20;
+  --danger: #a84d48;
+  --focus: #6ca582;
+  --shadow-card: 0 8px 24px rgba(44, 54, 46, 0.07);
+  --font-size-operational: 0.8125rem;
+  --radius-card: 20px;
+  --radius-control: 14px;
+  --nav-surface: var(--wood-surface);
+  --nav-border: #d6c9b7;
+  --nav-active-bg: rgba(57, 116, 90, 0.1);
+  --nav-shadow: 0 10px 28px rgba(68, 53, 35, 0.12);
+  --body-bg: var(--canvas);
+  --aurora-blob1: rgba(57, 116, 90, 0.05);
+  --aurora-blob2: rgba(169, 110, 32, 0.035);
+  --aurora-blob3: transparent;
+  --cover-gradient: linear-gradient(135deg, #edf3ea, #f5ead8);
+  --cover-overlay: rgba(255, 250, 242, 0.7);
+  --motion-micro: 160ms;
+  --motion-entrada: 260ms;
+  --motion-easing: cubic-bezier(0.16, 1, 0.3, 1);
+  --material-texture-overlay: rgba(255, 253, 248, 0.94);
+  --material-texture-overlay-strong: rgba(255, 253, 248, 0.96);
+  --material-canvas-overlay: rgba(245, 241, 232, 0.94);
+  --material-texture-blend: normal;
+  --material-texture-size: 460px;
+
+  /* Compatibilidade temporária para telas ainda fora do lote */
+  --txt-primary: var(--text-primary);
+  --txt-secondary: var(--text-secondary);
+  --txt-tertiary: var(--text-secondary);
+  --txt-muted: var(--text-muted);
+  --bg-surface: var(--surface);
+  --bg-elevated: var(--surface-elevated);
+  --bg-solid: var(--surface-elevated);
+  --border-subtle: var(--border);
+  --green-light: var(--accent-primary);
+  --green-mid: var(--accent-primary);
+  --amber-light: var(--celebration);
+  --amber-mid: var(--celebration);
+  --rose-light: var(--care);
+  --rose-mid: var(--care);
+  --glass-bg: var(--surface);
+  --glass-border: var(--border);
+  --glass-strong-bg: var(--surface-elevated);
+  --glass-strong-border: var(--border);
+  --input-bg: var(--surface-elevated);
+  --input-border: var(--border);
+  --input-placeholder: var(--text-muted);
+  --glass-shadow: var(--shadow-card);
+  --glass-strong-shadow: var(--shadow-card);
+  --glow-green: rgba(57, 116, 90, 0.16);
+  --glow-rose: rgba(174, 92, 94, 0.12);
+  --accent-solid: var(--accent-primary);
+  --accent-solid2: var(--accent-primary-hover);
+  --nav-active: var(--accent-primary);
+}
+
+:root[data-theme='dark'] {
+  --sanctuary-canvas: #0e1310;
+  --stone-surface: #181b19;
+  --stone-elevated: #222521;
+  --wood-surface: #17130f;
+  --living-green: #78ad88;
+  --warm-light: #c9a15a;
+  --parchment: #f0e9db;
+  --bronze: #a98049;
+  --canvas: var(--sanctuary-canvas);
+  --surface: var(--stone-surface);
+  --surface-elevated: var(--stone-elevated);
+  --surface-highlighted: #211e18;
+  --text-primary: var(--parchment);
+  --text-secondary: #b3ada1;
+  --text-muted: #999389;
+  --text-on-accent: #101712;
+  --border: #30332e;
+  --accent-primary: var(--living-green);
+  --accent-primary-hover: #8abe99;
+  --accent-soft: #1b3024;
+  --accent-border: #365443;
+  --celebration: var(--warm-light);
+  --celebration-soft: #332819;
+  --celebration-border: #574325;
+  --care: #cf7374;
+  --care-soft: #382122;
+  --care-border: #5c3435;
+  --success: var(--living-green);
+  --warning: var(--warm-light);
+  --danger: #d46c65;
+  --focus: #9bd5ad;
+  --shadow-card: none;
+  --nav-surface: var(--wood-surface);
+  --nav-border: #30281f;
+  --nav-active-bg: rgba(120, 173, 136, 0.1);
+  --nav-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+  --body-bg: var(--canvas);
+  --aurora-blob1: rgba(201, 161, 90, 0.025);
+  --aurora-blob2: rgba(120, 173, 136, 0.02);
+  --cover-gradient: linear-gradient(135deg, #242119, #1a1f1b);
+  --cover-overlay: rgba(24, 27, 25, 0.72);
+  --material-texture-overlay: rgba(24, 27, 25, 0.74);
+  --material-texture-overlay-strong: rgba(34, 37, 33, 0.82);
+  --material-canvas-overlay: rgba(14, 19, 16, 0.62);
+  --material-texture-blend: normal;
+  color-scheme: dark;
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, var(--green-light), var(--green-mid));
+  }
+
+  .text-gradient-amber {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, var(--amber-light), var(--amber-mid));
+  }
+
+  .glass {
+    background-color: var(--glass-bg);
+    background-image:
+      linear-gradient(var(--material-texture-overlay), var(--material-texture-overlay)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, var(--material-texture-size);
+    background-blend-mode: normal, var(--material-texture-blend);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .glass-strong {
+    background-color: var(--glass-strong-bg);
+    background-image:
+      linear-gradient(var(--material-texture-overlay-strong), var(--material-texture-overlay-strong)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, var(--material-texture-size);
+    background-blend-mode: normal, var(--material-texture-blend);
+    border: 1px solid var(--glass-strong-border);
+    box-shadow: var(--glass-strong-shadow);
+  }
+
+  .glass-shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(255,255,255,0.045) 0%, transparent 100%);
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  .page-enter {
+    animation: fade-in var(--motion-entrada) ease-out, slide-up var(--motion-entrada) ease-out;
+  }
+
+  .card-enter {
+    animation: slide-up var(--motion-entrada) ease-out both;
+  }
+
+  .card-enter:nth-child(1) { animation-delay: 0.05s; }
+  .card-enter:nth-child(2) { animation-delay: 0.1s; }
+  .card-enter:nth-child(3) { animation-delay: 0.15s; }
+  .card-enter:nth-child(4) { animation-delay: 0.2s; }
+  .card-enter:nth-child(5) { animation-delay: 0.25s; }
+  .card-enter:nth-child(6) { animation-delay: 0.3s; }
+  .card-enter:nth-child(7) { animation-delay: 0.35s; }
+  .card-enter:nth-child(8) { animation-delay: 0.4s; }
+
+  .card-3d {
+    perspective: 800px;
+    transform-style: preserve-3d;
+    transition: transform 0.3s var(--motion-easing), box-shadow 0.3s var(--motion-easing);
+    will-change: transform;
+  }
+  .card-3d:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-3d-shadow, 0 12px 40px rgba(0,0,0,0.12));
+  }
+
+  .txt-primary { color: var(--txt-primary); text-shadow: var(--txt-shadow, none); }
+  .txt-secondary { color: var(--txt-secondary); text-shadow: var(--txt-shadow, none); }
+  .txt-tertiary { color: var(--txt-tertiary); text-shadow: var(--txt-shadow, none); }
+  .txt-quaternary { color: var(--txt-muted); text-shadow: var(--txt-shadow, none); }
+  .txt-muted { color: var(--txt-muted); text-shadow: var(--txt-shadow, none); }
+  .bg-surface { background: var(--bg-surface); }
+  .bg-elevated { background: var(--bg-elevated); }
+  .hover\:bg-elevated:hover { background: var(--bg-elevated); }
+  .hover\:bg-surface:hover { background: var(--bg-surface); }
+  .group:hover .group-hover\:txt-primary { color: var(--txt-primary); }
+  .group:hover .group-hover\:txt-tertiary { color: var(--txt-tertiary); }
+  .hover\:txt-primary:hover { color: var(--txt-primary); }
+  .hover\:txt-secondary:hover { color: var(--txt-secondary); }
+  .hover\:txt-tertiary:hover { color: var(--txt-tertiary); }
+  .bg-solid { background: var(--bg-solid); }
+  .border-subtle { border-color: var(--border-subtle); }
+  .input-theme { background: var(--input-bg); border-color: var(--input-border); color: var(--txt-primary); }
+  .input-theme::placeholder { color: var(--input-placeholder); }
+  .txt-green { color: var(--green-light); }
+  .txt-amber { color: var(--amber-light); }
+  .txt-rose { color: var(--rose-light); }
+  .bg-green-subtle { background: color-mix(in srgb, var(--green-light) 10%, transparent); }
+  .border-green-subtle { border-color: color-mix(in srgb, var(--green-light) 20%, transparent); }
+  .glow-green { box-shadow: 0 0 20px var(--glow-green); }
+  .glow-rose { box-shadow: 0 0 15px var(--glow-rose); }
+  .bg-accent { background: var(--accent-solid); }
+  .bg-accent2 { background: var(--accent-solid2); }
+  .bg-accent-soft { background: var(--accent-soft); }
+
+  .elevation-1 { box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+  .elevation-2 { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+  .elevation-3 { box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
+
+  .card-surface {
+    background-color: var(--bg-elevated);
+    background-image:
+      linear-gradient(var(--material-texture-overlay), var(--material-texture-overlay)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, var(--material-texture-size);
+    background-blend-mode: normal, var(--material-texture-blend);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+  }
+
+  .text-operational {
+    font-size: var(--font-size-operational);
+    line-height: 1.45;
+    color: var(--text-secondary);
+  }
+
+  .presence-carousel {
+    -webkit-mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 2rem), transparent 100%);
+    mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 2rem), transparent 100%);
+  }
+
+  .mural-wordmark {
+    font-family: var(--font-display);
+    font-size: clamp(1.875rem, 7vw, 2.25rem);
+    font-weight: 600;
+    font-optical-sizing: auto;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  .material-stone {
+    background-color: var(--surface);
+    background-image:
+      linear-gradient(var(--material-texture-overlay), var(--material-texture-overlay)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, var(--material-texture-size);
+    background-blend-mode: normal, var(--material-texture-blend);
+  }
+
+  .material-app-canvas {
+    background-color: var(--canvas);
+    background-image:
+      linear-gradient(var(--material-canvas-overlay), var(--material-canvas-overlay)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, 520px;
+    background-blend-mode: normal, var(--material-texture-blend);
+  }
+
+  .button-seal {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    flex-flow: row nowrap;
+    vertical-align: middle;
+    line-height: 1.2;
+    border-radius: var(--radius-control);
+    border: 1px solid transparent;
+    box-shadow: inset 0 -2px 0 color-mix(in srgb, #000 18%, transparent);
+    transform: translateY(0);
+  }
+
+  .button-seal:hover {
+    filter: brightness(1.04);
+  }
+
+  .button-seal:active {
+    box-shadow: inset 0 2px 3px color-mix(in srgb, #000 22%, transparent);
+    transform: translateY(1px) scale(0.985);
+  }
+
+  .button-seal:focus-visible {
+    outline: 2px solid var(--celebration);
+    outline-offset: 3px;
+  }
+
+  .button-seal:disabled {
+    opacity: 0.42;
+    filter: grayscale(0.28);
+    box-shadow: none;
+  }
+
+  .button-seal--primary {
+    color: var(--text-on-accent);
+    background-color: var(--accent-primary);
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--accent-primary) 82%, transparent), color-mix(in srgb, var(--accent-primary) 82%, transparent)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, 420px;
+    border-color: color-mix(in srgb, var(--bronze) 72%, var(--accent-primary));
+  }
+
+  .button-seal--secondary {
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--surface-elevated) 88%, transparent);
+    border-color: var(--bronze);
+  }
+
+  .button-seal--ghost {
+    color: var(--text-secondary);
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  .button-seal--ghost:hover,
+  .button-quiet:hover {
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--accent-soft) 58%, transparent);
+  }
+
+  .button-seal--danger {
+    color: #fff7ee;
+    background-color: var(--danger);
+    border-color: color-mix(in srgb, var(--bronze) 44%, var(--danger));
+  }
+
+  .button-seal--icon {
+    color: var(--text-secondary);
+    background: color-mix(in srgb, var(--surface-elevated) 90%, transparent);
+    border-color: color-mix(in srgb, var(--bronze) 72%, var(--border));
+  }
+
+  .button-seal--icon:hover {
+    color: var(--text-primary);
+  }
+
+  .field-icon-button {
+    position: absolute;
+    top: 50%;
+    display: inline-flex;
+    width: 2.5rem;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    border-radius: 0.75rem;
+    color: var(--text-secondary);
+    transform: translateY(-50%);
+    transition:
+      color var(--motion-micro) var(--motion-easing),
+      background var(--motion-micro) var(--motion-easing),
+      border-color var(--motion-micro) var(--motion-easing);
+  }
+
+  .field-icon-button:hover {
+    color: var(--text-primary);
+    background: var(--accent-soft);
+    border-color: color-mix(in srgb, var(--bronze) 42%, var(--border));
+  }
+
+  .sanctuary-mini-action {
+    display: inline-flex;
+    min-width: 1.75rem;
+    min-height: 1.75rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    transition:
+      color var(--motion-micro) var(--motion-easing),
+      background var(--motion-micro) var(--motion-easing),
+      border-color var(--motion-micro) var(--motion-easing);
+  }
+
+  .sanctuary-mini-action:hover {
+    background: var(--accent-soft);
+    border-color: color-mix(in srgb, var(--bronze) 34%, var(--border));
+  }
+
+  .sanctuary-disclosure {
+    border-color: color-mix(in srgb, var(--bronze) 24%, var(--border));
+    transition:
+      transform var(--motion-micro) var(--motion-easing),
+      filter var(--motion-micro) var(--motion-easing),
+      border-color var(--motion-micro) var(--motion-easing);
+  }
+
+  .sanctuary-disclosure:hover {
+    filter: brightness(1.04);
+    border-color: color-mix(in srgb, var(--bronze) 58%, var(--border));
+  }
+
+  .sanctuary-disclosure:active {
+    transform: scale(0.99);
+  }
+
+  .sanctuary-switch {
+    box-shadow:
+      inset 0 1px 2px color-mix(in srgb, #000 22%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--bronze) 16%, transparent);
+  }
+
+  .prayer-action {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    min-height: 68px;
+    align-items: center;
+    gap: 13px;
+    overflow: hidden;
+    border: 1px solid var(--bronze);
+    border-radius: 17px;
+    padding: 10px 18px 10px 12px;
+    text-align: left;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #fff 18%, transparent),
+      inset 0 -3px 0 color-mix(in srgb, #000 24%, transparent),
+      0 8px 18px color-mix(in srgb, #000 16%, transparent);
+    transition:
+      transform var(--motion-micro) var(--motion-easing),
+      filter var(--motion-micro) var(--motion-easing),
+      box-shadow var(--motion-micro) var(--motion-easing);
+  }
+
+  .prayer-action::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(color-mix(in srgb, currentColor 4%, transparent), color-mix(in srgb, #000 8%, transparent)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, 360px;
+    opacity: 0.55;
+  }
+
+  .prayer-action--prayer {
+    color: #fff9e9;
+    background: color-mix(in srgb, var(--accent-primary) 82%, #182015);
+  }
+
+  .prayer-action--care {
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--surface-elevated) 90%, transparent);
+    border-color: color-mix(in srgb, var(--bronze) 84%, var(--border));
+  }
+
+  .prayer-action__notch {
+    position: absolute;
+    left: 50%;
+    top: -1px;
+    width: 32px;
+    height: 9px;
+    transform: translateX(-50%);
+    border: 1px solid var(--bronze);
+    border-top: 0;
+    border-radius: 0 0 999px 999px;
+    background: var(--surface);
+    box-shadow: 0 2px 0 color-mix(in srgb, #000 14%, transparent);
+  }
+
+  .prayer-action__mark {
+    display: grid;
+    width: 46px;
+    height: 46px;
+    flex: none;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--bronze) 78%, transparent);
+    border-radius: 50%;
+    background: color-mix(in srgb, #151713 76%, transparent);
+    box-shadow:
+      inset 0 0 0 2px color-mix(in srgb, var(--bronze) 14%, transparent),
+      0 4px 10px color-mix(in srgb, #000 26%, transparent);
+  }
+
+  .prayer-action__mark img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    filter: saturate(0.9) contrast(1.06);
+  }
+
+  .prayer-action__copy {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .prayer-action__label {
+    font-family: var(--font-display);
+    font-size: 1.04rem;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  .prayer-action__detail {
+    margin-top: 3px;
+    font-size: 0.7rem;
+    font-weight: 650;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+
+  .prayer-action__partner {
+    color: var(--celebration);
+  }
+
+  .prayer-action__ray {
+    width: 18px;
+    height: 1px;
+    flex: none;
+    background: var(--bronze);
+    box-shadow: 7px 0 0 -0.25px color-mix(in srgb, var(--bronze) 48%, transparent);
+  }
+
+  .prayer-action--compact {
+    min-height: 92px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 9px 8px 8px;
+    border-radius: 15px;
+    text-align: center;
+  }
+
+  .prayer-action--compact .prayer-action__mark {
+    width: 44px;
+    height: 44px;
+  }
+
+  .prayer-action--compact .prayer-action__mark img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .prayer-action--compact .prayer-action__label {
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.12;
+  }
+
+  .prayer-action--compact .prayer-action__copy {
+    width: 100%;
+    flex: none;
+    align-items: center;
+    text-align: center;
+  }
+
+  .prayer-action--compact .prayer-action__ray {
+    display: none;
+  }
+
+  .prayer-action:hover {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+  }
+
+  .prayer-action:active {
+    transform: translateY(1px) scale(0.99);
+    box-shadow:
+      inset 0 3px 5px color-mix(in srgb, #000 24%, transparent),
+      0 3px 8px color-mix(in srgb, #000 16%, transparent);
+  }
+
+  .prayer-action:focus-visible {
+    outline: 2px solid var(--celebration);
+    outline-offset: 3px;
+  }
+
+  .prayer-action:disabled {
+    cursor: not-allowed;
+    filter: grayscale(0.35);
+    opacity: 0.48;
+    box-shadow: none;
+  }
+
+  .button-seal > svg.lucide {
+    position: static;
+    inset: auto;
+    display: block;
+    width: 1.125rem;
+    height: 1.125rem;
+    min-width: 1.125rem;
+    min-height: 1.125rem;
+    flex: none;
+    align-self: center;
+    margin: 0;
+    transform: none;
+    z-index: 1;
+    stroke-width: 1.9;
+    filter: drop-shadow(0 1px 0 var(--bronze));
+  }
+
+  .button-seal--primary > .seal-icon {
+    color: var(--text-on-accent);
+    border-color: color-mix(in srgb, var(--bronze) 70%, transparent);
+    background: color-mix(in srgb, var(--surface-elevated) 10%, transparent);
+  }
+
+  .button-quiet {
+    transition: color var(--motion-micro) var(--motion-easing), background var(--motion-micro) var(--motion-easing);
+  }
+
+  .seal-icon {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    color: currentColor;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--bronze) 62%, var(--border));
+    border-radius: 50%;
+    background-color: color-mix(in srgb, var(--surface-elevated) 90%, transparent);
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--surface-elevated) 80%, transparent), color-mix(in srgb, #000 7%, transparent)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, 180px;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #fff 18%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, #000 22%, transparent);
+    transition:
+      color var(--motion-micro) var(--motion-easing),
+      border-color var(--motion-micro) var(--motion-easing),
+      background var(--motion-micro) var(--motion-easing),
+      box-shadow var(--motion-micro) var(--motion-easing);
+  }
+
+  .seal-icon::before {
+    content: '';
+    position: absolute;
+    inset: 8%;
+    z-index: -1;
+    border-radius: 50%;
+    background: url('./assets/brand/luz-compartilhada-emblem.webp') center / contain no-repeat;
+    filter: grayscale(1) contrast(1.1);
+    opacity: 0.13;
+  }
+
+  .seal-icon__glyph {
+    position: relative;
+    z-index: 1;
+    width: 48%;
+    height: 48%;
+    stroke-width: 1.75;
+    filter: drop-shadow(0 1px 0 color-mix(in srgb, #000 28%, transparent));
+  }
+
+  .seal-icon--sm { width: 28px; height: 28px; }
+  .seal-icon--md { width: 34px; height: 34px; }
+  .seal-icon--lg { width: 44px; height: 44px; }
+
+  .seal-icon--active {
+    color: var(--celebration);
+    border-color: var(--bronze);
+    background-color: color-mix(in srgb, var(--accent-soft) 78%, var(--surface-elevated));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, #fff 22%, transparent),
+      inset 0 -2px 0 color-mix(in srgb, #000 22%, transparent),
+      0 0 0 2px color-mix(in srgb, var(--bronze) 16%, transparent),
+      0 4px 10px color-mix(in srgb, var(--bronze) 12%, transparent);
+  }
+
+  .seal-icon--active::before {
+    opacity: 0.24;
+  }
+
+  .sanctuary-nav {
+    border: 1px solid var(--nav-border);
+    border-radius: 1.5rem;
+    background-color: var(--nav-surface);
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--nav-surface) 78%, transparent), color-mix(in srgb, var(--nav-surface) 78%, transparent)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, 460px;
+    box-shadow: var(--nav-shadow), inset 0 1px 0 color-mix(in srgb, var(--bronze) 24%, transparent);
+  }
+
+  .sanctuary-nav__item {
+    border-radius: 1rem;
+  }
+
+  .sanctuary-nav__item--active {
+    background: var(--nav-active-bg);
+    box-shadow: inset 0 -2px 0 var(--bronze);
+  }
+
+  .sanctuary-tab {
+    position: relative;
+    overflow: hidden;
+    min-height: 44px;
+    border: 1px solid transparent;
+    border-radius: 13px;
+  }
+
+  .sanctuary-tab--active {
+    background-color: var(--nav-active-bg);
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--nav-active-bg) 84%, transparent), color-mix(in srgb, var(--nav-active-bg) 84%, transparent)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, 260px;
+    border-color: color-mix(in srgb, var(--bronze) 54%, var(--border));
+    box-shadow: inset 0 -2px 0 var(--bronze);
+  }
+
+  .sanctuary-tab--active::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -1px;
+    width: 24px;
+    height: 7px;
+    transform: translateX(-50%);
+    border: 1px solid var(--bronze);
+    border-top: 0;
+    border-radius: 0 0 999px 999px;
+    background: var(--surface);
+  }
+
+  .sanctuary-choice {
+    min-height: 52px;
+    border-radius: 14px;
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--bronze) 20%, transparent);
+  }
+
+  .sanctuary-choice:focus-visible {
+    outline: 2px solid var(--celebration);
+    outline-offset: 3px;
+  }
+
+  .sanctuary-choice--active {
+    color: var(--text-primary);
+    border-color: color-mix(in srgb, var(--bronze) 70%, var(--border));
+    background-color: var(--accent-soft);
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--accent-soft) 86%, transparent), color-mix(in srgb, var(--accent-soft) 86%, transparent)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, 300px;
+    box-shadow:
+      inset 0 -2px 0 color-mix(in srgb, var(--bronze) 48%, transparent),
+      inset 0 1px 0 color-mix(in srgb, #fff 16%, transparent);
+  }
+
+  .login-sanctuary {
+    isolation: isolate;
+    background-color: var(--canvas);
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--canvas) 92%, transparent), color-mix(in srgb, var(--canvas) 95%, transparent)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, 560px;
+    background-blend-mode: normal, var(--material-texture-blend);
+  }
+
+  .login-light-beam {
+    z-index: -1;
+    background: radial-gradient(ellipse 34% 82% at 50% 0%, color-mix(in srgb, var(--celebration) 28%, transparent), transparent 72%);
+    opacity: 0.72;
+  }
+
+  .login-presence-mark {
+    z-index: -1;
+    background: url('./assets/brand/luz-compartilhada-emblem.webp') center / min(86vw, 360px) no-repeat;
+    opacity: 0.035;
+    filter: grayscale(1);
+    transform: scale(1.75);
+  }
+
+  .brand-emblem {
+    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.22));
+  }
+
+  .brand-divider {
+    width: 74px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--bronze) 20%, var(--bronze) 80%, transparent);
+    position: relative;
+  }
+
+  .brand-divider::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--celebration);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 5px var(--canvas);
+  }
+
+  .login-card {
+    border: 1px solid color-mix(in srgb, var(--bronze) 62%, var(--border));
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.18);
+  }
+
+  .login-input {
+    background-color: color-mix(in srgb, var(--surface-elevated) 92%, transparent);
+    background-image:
+      linear-gradient(var(--material-texture-overlay-strong), var(--material-texture-overlay-strong)),
+      url('./assets/brand/sanctuary-texture.webp');
+    background-size: auto, 640px;
+    background-blend-mode: normal, var(--material-texture-blend);
+  }
+
+  .acento-lateral {
+    position: relative;
+  }
+  .acento-lateral::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--cor-acento, var(--green-mid));
+    border-radius: 20px 0 0 20px;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .numero-destaque {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .transition-premium {
+    transition-duration: var(--motion-micro);
+    transition-timing-function: var(--motion-easing);
+  }
+  .transition-premium-entrada {
+    transition-duration: var(--motion-entrada);
+    transition-timing-function: var(--motion-easing);
+  }
+
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  .badge-rank {
+    display: inline-block;
+    flex: none;
+    object-fit: contain;
+    filter: saturate(0.96) contrast(1.02);
+    transition: transform var(--motion-micro) var(--motion-easing), filter var(--motion-micro) var(--motion-easing);
+  }
+
+  [data-theme='dark'] .badge-rank {
+    filter: brightness(1.08) saturate(0.92) contrast(1.04);
+  }
+
+  .badge-rank--animated:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.06) saturate(1.02);
+  }
+}
+
+/* Direção contemporânea: reduz o peso heráldico nos CTAs e na navegação. */
+.prayer-action {
+  border-color: var(--accent-border);
+  border-radius: 16px;
+  backdrop-filter: blur(14px) saturate(1.08);
+  -webkit-backdrop-filter: blur(14px) saturate(1.08);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 22%, transparent),
+    inset 0 0 18px color-mix(in srgb, #fff 5%, transparent),
+    0 2px 3px color-mix(in srgb, #000 10%, transparent),
+    0 10px 24px -10px color-mix(in srgb, #000 24%, transparent);
+  transform: translateY(0) perspective(500px) rotateX(0deg);
+}
+
+.prayer-action::before {
+  background-image:
+    linear-gradient(135deg, color-mix(in srgb, #fff 18%, transparent), color-mix(in srgb, #fff 2%, transparent)),
+    url('./assets/brand/sanctuary-texture.webp');
+  background-size: auto, 560px;
+  background-blend-mode: normal, soft-light;
+  opacity: 0.34;
+}
+
+.prayer-action--prayer {
+  color: var(--text-on-accent);
+  background: color-mix(in srgb, var(--accent-primary) 88%, transparent);
+}
+
+.prayer-action--prayer {
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 26%, transparent),
+    inset 0 0 20px color-mix(in srgb, #dff7e8 10%, transparent),
+    0 2px 3px color-mix(in srgb, #000 12%, transparent),
+    0 11px 24px -10px color-mix(in srgb, var(--accent-primary) 34%, #000);
+}
+
+.prayer-action--care {
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--surface-elevated) 82%, transparent);
+  border-color: var(--border);
+}
+
+.prayer-action__notch,
+.prayer-action__ray {
+  display: none;
+}
+
+.prayer-action__mark {
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, currentColor 9%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 18%, transparent),
+    inset 0 0 10px color-mix(in srgb, #fff 5%, transparent),
+    0 3px 8px color-mix(in srgb, #000 10%, transparent);
+}
+
+.prayer-action__mark svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 1.9;
+}
+
+.prayer-action--compact .prayer-action__mark svg {
+  width: 29px;
+  height: 29px;
+}
+
+.prayer-action__partner {
+  color: color-mix(in srgb, currentColor 76%, var(--celebration));
+}
+
+.seal-icon {
+  border-color: transparent;
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.seal-icon::before {
+  display: none;
+}
+
+.seal-icon__glyph {
+  width: 52%;
+  height: 52%;
+  filter: none;
+}
+
+.seal-icon--active {
+  color: var(--accent-primary);
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+  box-shadow: none;
+}
+
+.sanctuary-nav {
+  background-color: color-mix(in srgb, var(--nav-surface) 82%, transparent);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--nav-surface) 72%, transparent), color-mix(in srgb, var(--nav-surface) 72%, transparent)),
+    url('./assets/brand/sanctuary-texture.webp');
+  background-size: auto, 620px;
+  background-blend-mode: normal, soft-light;
+  backdrop-filter: blur(18px) saturate(1.08);
+  -webkit-backdrop-filter: blur(18px) saturate(1.08);
+  box-shadow:
+    0 2px 4px color-mix(in srgb, #000 10%, transparent),
+    0 16px 38px -14px color-mix(in srgb, #000 34%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #fff 18%, transparent),
+    inset 0 0 22px color-mix(in srgb, #fff 4%, transparent);
+  transform: translateZ(0);
+}
+
+.sanctuary-nav__item--active {
+  box-shadow:
+    inset 0 -2px 0 var(--accent-primary),
+    inset 0 0 14px color-mix(in srgb, var(--accent-primary) 8%, transparent);
+}
+
+.prayer-action:hover {
+  transform: translateY(-2px) perspective(500px) rotateX(0.7deg);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 26%, transparent),
+    inset 0 0 20px color-mix(in srgb, #fff 6%, transparent),
+    0 4px 6px color-mix(in srgb, #000 10%, transparent),
+    0 14px 28px -11px color-mix(in srgb, #000 27%, transparent);
+}
+
+.prayer-action:active {
+  transform: translateY(1px) scale(0.985);
+  box-shadow:
+    inset 0 2px 5px color-mix(in srgb, #000 13%, transparent),
+    0 2px 5px color-mix(in srgb, #000 10%, transparent);
+}
+
+.sanctuary-nav__item {
+  transform: translateY(0);
+}
+
+.sanctuary-nav__item:hover {
+  transform: translateY(-1px);
+}
+
+.sanctuary-nav__item:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.sanctuary-tab--active {
+  background-color: color-mix(in srgb, var(--accent-soft) 78%, transparent);
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--accent-soft) 78%, transparent), color-mix(in srgb, var(--accent-soft) 78%, transparent)),
+    url('./assets/brand/sanctuary-texture.webp');
+  background-size: auto, 520px;
+  background-blend-mode: normal, soft-light;
+  border-color: var(--accent-border);
+  box-shadow: inset 0 -2px 0 var(--accent-primary);
+}
+
+.sanctuary-tab--active::before {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .card-3d:hover {
+    transform: none;
+  }
+}
+
+/* Renderização adaptativa: acabamento escalável conforme o aparelho. */
+:root {
+  --render-blur: 14px;
+  --render-saturation: 1.06;
+  --render-texture-opacity: 0.34;
+  --render-highlight-opacity: 12%;
+  --render-depth:
+    0 1px 2px color-mix(in srgb, #000 8%, transparent),
+    0 10px 26px -16px color-mix(in srgb, #000 28%, transparent);
+  --render-depth-raised:
+    0 2px 4px color-mix(in srgb, #000 10%, transparent),
+    0 18px 42px -20px color-mix(in srgb, #000 38%, transparent);
+  --relic-edge-light: color-mix(in srgb, #fff 38%, transparent);
+  --relic-edge-shadow: color-mix(in srgb, #000 15%, transparent);
+  --relic-grain-opacity: 0.055;
+  --relic-specular-opacity: 0.3;
+  --relic-press-depth: 1px;
+}
+
+:root[data-graphics='economy'] {
+  --render-blur: 0px;
+  --render-saturation: 1;
+  --render-texture-opacity: 0.16;
+  --render-highlight-opacity: 5%;
+  --render-depth: 0 1px 3px color-mix(in srgb, #000 12%, transparent);
+  --render-depth-raised: 0 4px 12px color-mix(in srgb, #000 16%, transparent);
+  --relic-grain-opacity: 0;
+  --relic-specular-opacity: 0.12;
+}
+
+:root[data-graphics='ultra'] {
+  --render-blur: 22px;
+  --render-saturation: 1.14;
+  --render-texture-opacity: 0.46;
+  --render-highlight-opacity: 19%;
+  --render-depth:
+    0 1px 2px color-mix(in srgb, #000 9%, transparent),
+    0 14px 34px -17px color-mix(in srgb, #000 34%, transparent);
+  --render-depth-raised:
+    0 3px 6px color-mix(in srgb, #000 11%, transparent),
+    0 24px 54px -22px color-mix(in srgb, #000 46%, transparent);
+  --relic-grain-opacity: 0.085;
+  --relic-specular-opacity: 0.48;
+}
+
+:root[data-theme='dark'] {
+  --relic-edge-light: color-mix(in srgb, #fff 14%, transparent);
+  --relic-edge-shadow: color-mix(in srgb, #000 64%, transparent);
+  --relic-specular-opacity: 0.62;
+}
+
+/* Relíquia Viva HD — materiais ópticos sem alterar a arquitetura da tela. */
+.relic-home {
+  --relic-section-gap: 1.25rem;
+  letter-spacing: -0.006em;
+}
+
+.relic-home .font-display,
+.relic-home h1,
+.relic-home h2 {
+  font-kerning: normal;
+  font-optical-sizing: auto;
+  text-wrap: balance;
+}
+
+.relic-surface,
+.relic-hero {
+  position: relative;
+  isolation: isolate;
+  box-shadow:
+    inset 0 1px 0 var(--relic-edge-light),
+    inset 0 -1px 0 var(--relic-edge-shadow),
+    var(--render-depth);
+}
+
+.relic-surface::before,
+.relic-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: var(--relic-grain-opacity);
+  background-image: url('./assets/brand/sanctuary-texture.webp');
+  background-size: calc(560px * var(--device-pixel-ratio, 1));
+  mix-blend-mode: soft-light;
+}
+
+.relic-surface::after,
+.relic-hero::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: var(--relic-specular-opacity);
+  background:
+    radial-gradient(ellipse at 18% 0%, color-mix(in srgb, #fff 15%, transparent), transparent 40%),
+    linear-gradient(118deg, transparent 58%, color-mix(in srgb, var(--accent-primary) 5%, transparent));
+}
+
+.relic-surface > *,
+.relic-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.relic-hero {
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--celebration) 32%, var(--relic-edge-light)),
+    inset 0 -1px 0 var(--relic-edge-shadow),
+    0 0 0 1px color-mix(in srgb, var(--celebration) 5%, transparent),
+    var(--render-depth-raised);
+}
+
+.relic-avatar {
+  box-shadow:
+    inset 0 0 0 1px var(--relic-edge-light),
+    0 0 0 1px color-mix(in srgb, var(--accent-primary) 20%, var(--border)),
+    0 12px 28px -14px color-mix(in srgb, #000 62%, transparent);
+}
+
+.relic-avatar::before {
+  content: '';
+  position: absolute;
+  inset: -0.45rem;
+  z-index: -1;
+  border-radius: 999px;
+  opacity: 0.34;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent-primary) 26%, transparent), transparent 68%);
+  filter: blur(calc(var(--render-blur) * 0.72));
+}
+
+.relic-interaction {
+  transform: translateZ(0);
+  transition:
+    transform var(--motion-micro) var(--motion-easing),
+    box-shadow var(--motion-micro) var(--motion-easing),
+    border-color var(--motion-micro) var(--motion-easing);
+}
+
+.relic-interaction:active {
+  transform: translateY(var(--relic-press-depth)) scale(0.992);
+}
+
+.relic-state {
+  min-height: min(70dvh, 38rem);
+  background: radial-gradient(circle at 50% 38%, color-mix(in srgb, var(--accent-primary) 8%, transparent), transparent 35%);
+}
+
+:root[data-theme='light'] .relic-surface::after,
+:root[data-theme='light'] .relic-hero::after {
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(255, 255, 255, 0.8), transparent 42%),
+    linear-gradient(118deg, transparent 58%, color-mix(in srgb, var(--celebration) 5%, transparent));
+}
+
+:root[data-graphics='economy'] .relic-avatar::before,
+:root[data-graphics='economy'] .relic-surface::before,
+:root[data-graphics='economy'] .relic-hero::before {
+  display: none;
+}
+
+@media (min-width: 390px) {
+  .relic-home {
+    --relic-section-gap: 1.4rem;
+  }
+}
+
+/* Relíquia Viva Spatial — profundidade responsiva, sem câmera e sem movimento contínuo. */
+.spatial-field,
+.spatial-relic {
+  --spatial-rotate-x: 0deg;
+  --spatial-rotate-y: 0deg;
+  --spatial-far-x: 0px;
+  --spatial-far-y: 0px;
+  --spatial-mid-x: 0px;
+  --spatial-mid-y: 0px;
+  --spatial-near-x: 0px;
+  --spatial-near-y: 0px;
+  --spatial-shadow-x: 0px;
+  --spatial-shadow-y: 3px;
+  --spatial-aura-x: 0px;
+  --spatial-aura-y: 8px;
+  --spatial-brightness: 1;
+  --spatial-light-x: 50%;
+  --spatial-light-y: 18%;
+}
+
+.home-uhd-environment {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: -1;
+  width: min(100vw, 28rem);
+  height: var(--app-viewport-height, 100dvh);
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.5;
+  background-color: var(--canvas);
+  background-image:
+    linear-gradient(180deg, color-mix(in srgb, var(--canvas) 28%, transparent), color-mix(in srgb, var(--canvas) 58%, transparent)),
+    url('/louvor-ambient-v1.webp');
+  background-position: center, center;
+  background-size: cover, cover;
+  background-repeat: no-repeat;
+  transform:
+    translate3d(calc(-50% + var(--spatial-far-x)), var(--spatial-far-y), 0)
+    scale(1.035);
+  transform-origin: center;
+  transition: transform 130ms linear, opacity 240ms var(--motion-easing);
+  filter: saturate(0.84) contrast(1.025);
+  will-change: transform;
+}
+
+.home-uhd-environment::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--canvas) 54%, transparent), transparent 20%, transparent 80%, color-mix(in srgb, var(--canvas) 54%, transparent)),
+    radial-gradient(ellipse at 50% 32%, transparent 20%, color-mix(in srgb, var(--canvas) 16%, transparent) 72%, color-mix(in srgb, var(--canvas) 42%, transparent));
+}
+
+:root[data-theme='dark'] .home-uhd-environment {
+  opacity: 0.64;
+  background-image:
+    linear-gradient(180deg, color-mix(in srgb, var(--canvas) 22%, transparent), color-mix(in srgb, var(--canvas) 54%, transparent)),
+    url('/louvor-ambient-v1.webp');
+  filter: saturate(0.82) contrast(1.08) brightness(0.8);
+}
+
+:root[data-graphics='ultra'] .home-uhd-environment {
+  opacity: 0.72;
+  filter: saturate(0.94) contrast(1.06);
+}
+
+:root[data-theme='dark'][data-graphics='ultra'] .home-uhd-environment {
+  opacity: 0.76;
+  filter: saturate(0.9) contrast(1.12) brightness(0.82);
+}
+
+:root[data-graphics='economy'] .home-uhd-environment {
+  display: none;
+  background-image: none;
+}
+
+.spatial-relic {
+  transform:
+    perspective(900px)
+    rotateX(var(--spatial-rotate-x))
+    rotateY(var(--spatial-rotate-y));
+  transform-style: preserve-3d;
+  transition: transform 90ms linear, box-shadow var(--motion-micro) var(--motion-easing);
+  will-change: transform;
+}
+
+.spatial-section {
+  transform-style: preserve-3d;
+  transition: transform 110ms linear, filter 140ms linear;
+  will-change: transform;
+}
+
+.spatial-section--quiet {
+  transform: translate3d(var(--spatial-mid-x), var(--spatial-mid-y), 0);
+}
+
+.spatial-section--raised {
+  transform:
+    perspective(1100px)
+    translate3d(var(--spatial-near-x), var(--spatial-near-y), 0)
+    rotateX(var(--spatial-rotate-x))
+    rotateY(var(--spatial-rotate-y));
+}
+
+.spatial-person {
+  transform: translate3d(var(--spatial-near-x), var(--spatial-near-y), 10px);
+}
+
+.spatial-person::after {
+  content: '';
+  position: absolute;
+  inset: -0.35rem;
+  z-index: -1;
+  border-radius: 999px;
+  opacity: 0.24;
+  background: radial-gradient(circle at var(--spatial-light-x) var(--spatial-light-y), #fff, transparent 34%);
+  mix-blend-mode: soft-light;
+}
+
+.spatial-relic::after {
+  background:
+    radial-gradient(
+      ellipse at var(--spatial-light-x) var(--spatial-light-y),
+      color-mix(in srgb, #fff 17%, transparent),
+      transparent 38%
+    ),
+    linear-gradient(118deg, transparent 58%, color-mix(in srgb, var(--accent-primary) 5%, transparent));
+}
+
+.spatial-depth {
+  transition: transform 110ms linear;
+  will-change: transform;
+}
+
+.spatial-depth--far {
+  transform: translate3d(var(--spatial-far-x), var(--spatial-far-y), -8px) scale(1.025);
+}
+
+.spatial-depth--mid {
+  transform: translate3d(var(--spatial-mid-x), var(--spatial-mid-y), 7px);
+}
+
+.spatial-depth--near {
+  transform: translate3d(var(--spatial-near-x), var(--spatial-near-y), 18px);
+}
+
+.spatial-avatar::before {
+  content: '';
+  position: absolute;
+  inset: 8%;
+  z-index: -1;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--accent-primary) 25%, transparent);
+  filter: blur(calc(var(--render-blur) * 0.9));
+  transform: translate3d(var(--spatial-aura-x), var(--spatial-aura-y), -4px);
+  opacity: 0.55;
+}
+
+.spatial-crest {
+  filter:
+    drop-shadow(var(--spatial-shadow-x) var(--spatial-shadow-y) 4px rgba(0, 0, 0, 0.36))
+    brightness(var(--spatial-brightness));
+  transform: translateZ(24px);
+  transition: filter 100ms linear;
+}
+
+:root[data-graphics='ultra'] .spatial-relic {
+  perspective: 1050px;
+}
+
+:root[data-graphics='ultra'] .spatial-avatar::after {
+  content: '';
+  position: absolute;
+  inset: -0.3rem;
+  pointer-events: none;
+  border-radius: 1.2rem;
+  border: 1px solid color-mix(in srgb, #fff 16%, transparent);
+  opacity: 0.6;
+  mask-image: linear-gradient(125deg, #000, transparent 48%);
+}
+
+:root[data-graphics='economy'] .spatial-relic,
+:root[data-graphics='economy'] .spatial-section,
+:root[data-graphics='economy'] .spatial-person,
+:root[data-graphics='economy'] .spatial-depth,
+:root[data-graphics='economy'] .spatial-crest {
+  transform: none;
+  transition: none;
+  will-change: auto;
+}
+
+:root[data-graphics='economy'] .spatial-avatar::before,
+:root[data-graphics='economy'] .spatial-avatar::after,
+:root[data-graphics='economy'] .spatial-person::after {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-uhd-environment {
+    transform: translateX(-50%) scale(1.025);
+    transition: none;
+    will-change: auto;
+  }
+
+  .spatial-relic,
+  .spatial-section,
+  .spatial-person,
+  .spatial-depth,
+  .spatial-crest {
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+
+  .spatial-avatar::before,
+  .spatial-avatar::after,
+  .spatial-person::after {
+    display: none;
+  }
+}
+
+.premium-viewport {
+  isolation: isolate;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.premium-atmosphere {
+  overflow: hidden;
+  contain: strict;
+}
+
+.premium-atmosphere__light {
+  position: absolute;
+  border-radius: 999px;
+  opacity: 0.7;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.premium-atmosphere__light--primary {
+  left: -28%;
+  top: -12%;
+  width: 78%;
+  height: 38%;
+  background: radial-gradient(circle, var(--aurora-blob1) 0%, transparent 70%);
+  filter: blur(calc(var(--render-blur) * 2.5));
+  animation: premium-light-drift 12s ease-in-out infinite alternate;
+}
+
+.premium-atmosphere__light--secondary {
+  right: -34%;
+  top: 35%;
+  width: 72%;
+  height: 42%;
+  background: radial-gradient(circle, var(--aurora-blob2) 0%, transparent 72%);
+  filter: blur(calc(var(--render-blur) * 2));
+  animation: premium-light-drift 15s ease-in-out -4s infinite alternate-reverse;
+}
+
+.premium-atmosphere__vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(115deg, color-mix(in srgb, #fff var(--render-highlight-opacity), transparent), transparent 28%),
+    radial-gradient(circle at 50% 35%, transparent 48%, color-mix(in srgb, #000 7%, transparent) 100%);
+}
+
+@keyframes premium-light-drift {
+  from { transform: translate3d(-2%, -1%, 0) scale(1); }
+  to { transform: translate3d(5%, 3%, 0) scale(1.08); }
+}
+
+/* ========================================================
+   SANTUÁRIO CONTEMPORÂNEO — EVOLUÇÃO VISUAL
+   ======================================================== */
+
+/* 1. Aurora Espiritual Dinâmica no Cabeçalho */
+.sanctuary-spiritual-aurora {
+  position: absolute;
+  top: -4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(100vw, 38rem);
+  height: 20rem;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.sanctuary-spiritual-aurora__glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  filter: blur(56px);
+  will-change: transform, opacity;
+  animation: spiritual-aurora-breathe 14s ease-in-out infinite alternate;
+}
+
+.sanctuary-spiritual-aurora__glow--amber {
+  background: radial-gradient(ellipse at 30% 25%, color-mix(in srgb, var(--celebration) 24%, transparent), transparent 70%);
+}
+
+.sanctuary-spiritual-aurora__glow--emerald {
+  background: radial-gradient(ellipse at 70% 35%, color-mix(in srgb, var(--accent-primary) 20%, transparent), transparent 68%);
+  animation-delay: -7s;
+}
+
+@keyframes spiritual-aurora-breathe {
+  0% { transform: scale(0.95) translate3d(-1%, -1%, 0); opacity: 0.65; }
+  50% { transform: scale(1.08) translate3d(2%, 2%, 0); opacity: 0.95; }
+  100% { transform: scale(1.02) translate3d(-2%, 1%, 0); opacity: 0.72; }
+}
+
+/* 2. Cards com Borda de Luz Angular Lapidada */
+.relic-surface,
+.card-surface {
+  transition: transform var(--motion-micro) var(--motion-easing), box-shadow var(--motion-micro) var(--motion-easing), border-color var(--motion-micro) var(--motion-easing);
+}
+
+:root[data-theme='dark'] .relic-surface,
+:root[data-theme='dark'] .card-surface {
+  border-color: color-mix(in srgb, var(--border) 74%, rgba(201, 161, 90, 0.26)) !important;
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.16),
+    inset 1px 0 1px 0 rgba(201, 161, 90, 0.1),
+    0 12px 32px -16px rgba(0, 0, 0, 0.75);
+}
+
+:root[data-theme='light'] .relic-surface,
+:root[data-theme='light'] .card-surface {
+  border-color: color-mix(in srgb, var(--border) 82%, rgba(137, 87, 24, 0.18)) !important;
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.92),
+    inset 1px 0 1px 0 rgba(201, 161, 90, 0.14),
+    0 12px 28px -12px rgba(44, 54, 46, 0.1);
+}
+
+/* 3. Coração da Intercessão em Onda de Ressonância */
+.prayer-resonance-pulse {
+  position: relative;
+}
+
+.prayer-resonance-pulse::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  border: 1.5px solid color-mix(in srgb, var(--accent-primary) 65%, transparent);
+  animation: prayer-pulse-wave 2.6s cubic-bezier(0.2, 0.8, 0.25, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes prayer-pulse-wave {
+  0% { transform: scale(0.9); opacity: 0.9; }
+  70% { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+/* 4. Capas dos Cursos e Banners com Efeito Espacial 2.5D */
+.study-course-artwork--card,
+.study-course-artwork--featured {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: transform 380ms cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 380ms cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.study-course-artwork--card:hover,
+.study-course-artwork--featured:hover {
+  transform: translateY(-3px) scale(1.015) rotateX(1.5deg);
+  box-shadow: 0 18px 36px -14px color-mix(in srgb, var(--celebration) 28%, rgba(0, 0, 0, 0.5));
+}
+
+/* 5. Barra de Navegação Inferior Flutuante & Translúcida (Floating Dock) */
+.sanctuary-floating-dock {
+  border-radius: 1.6rem !important;
+  max-width: calc(var(--app-max-width, 30rem) - 1.25rem) !important;
+  box-shadow:
+    0 14px 40px -10px color-mix(in srgb, #000 60%, transparent),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 0 1px color-mix(in srgb, var(--nav-border) 60%, transparent) !important;
+}
+
+:root[data-theme='dark'] .sanctuary-floating-dock {
+  background: color-mix(in srgb, var(--nav-surface) 84%, transparent) !important;
+  backdrop-filter: blur(24px) saturate(1.25);
+  -webkit-backdrop-filter: blur(24px) saturate(1.25);
+}
+
+:root[data-theme='light'] .sanctuary-floating-dock {
+  background: color-mix(in srgb, var(--nav-surface) 90%, transparent) !important;
+  backdrop-filter: blur(20px) saturate(1.15);
+  -webkit-backdrop-filter: blur(20px) saturate(1.15);
+}
+
+.sanctuary-floating-dock .sanctuary-nav__item--active {
+  background: color-mix(in srgb, var(--accent-primary) 12%, transparent);
+  border-radius: 1.15rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sanctuary-spiritual-aurora__glow,
+  .prayer-resonance-pulse::before,
+  .study-course-artwork--card:hover,
+  .study-course-artwork--featured:hover {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+
+
+.premium-surface {
+  position: relative;
+  box-shadow: var(--render-depth);
+  transform: translateZ(0);
+  transition:
+    transform var(--motion-micro) var(--motion-easing),
+    border-color var(--motion-micro) var(--motion-easing),
+    box-shadow var(--motion-micro) var(--motion-easing);
+}
+
+.premium-surface::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, #fff var(--render-highlight-opacity), transparent),
+    transparent 34%,
+    color-mix(in srgb, #000 3%, transparent)
+  );
+  opacity: 0.72;
+}
+
+.premium-surface > * {
+  position: relative;
+  z-index: 1;
+}
+
+.button-seal,
+.prayer-action,
+.sanctuary-nav {
+  -webkit-backdrop-filter: blur(var(--render-blur)) saturate(var(--render-saturation));
+  backdrop-filter: blur(var(--render-blur)) saturate(var(--render-saturation));
+}
+
+.button-seal {
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff var(--render-highlight-opacity), transparent),
+    inset 0 -2px 0 color-mix(in srgb, #000 16%, transparent),
+    var(--render-depth);
+}
+
+.sanctuary-nav {
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff var(--render-highlight-opacity), transparent),
+    inset 0 0 20px color-mix(in srgb, #fff 4%, transparent),
+    var(--render-depth-raised);
+}
+
+.graphics-option {
+  border-color: var(--border);
+  background: color-mix(in srgb, var(--surface-elevated) 72%, transparent);
+  transition:
+    transform var(--motion-micro) var(--motion-easing),
+    background var(--motion-micro) var(--motion-easing),
+    border-color var(--motion-micro) var(--motion-easing),
+    box-shadow var(--motion-micro) var(--motion-easing);
+}
+
+.graphics-option:active {
+  transform: scale(0.985);
+}
+
+.graphics-option--active {
+  border-color: var(--accent-primary);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, #fff 8%, transparent), transparent),
+    var(--accent-soft);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #fff 16%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent-primary) 10%, transparent),
+    var(--render-depth);
+}
+
+:root[data-graphics='economy'] .premium-atmosphere__light {
+  animation: none;
+  filter: none;
+  opacity: 0.35;
+}
+
+:root[data-graphics='economy'] .button-seal,
+:root[data-graphics='economy'] .prayer-action,
+:root[data-graphics='economy'] .sanctuary-nav {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+:root[data-graphics='economy'] .premium-surface,
+:root[data-graphics='economy'] .sanctuary-nav {
+  transform: none;
+}
+
+:root[data-graphics='ultra'] .material-app-canvas,
+:root[data-graphics='ultra'] .glass,
+:root[data-graphics='ultra'] .glass-strong {
+  background-size: auto, calc(620px * var(--device-pixel-ratio, 1));
+}
+
+:root[data-graphics='ultra'] img {
+  image-rendering: auto;
+}
+
+
+/* RC3 — runtime móvel, guias e Mural Feed */
+html,
+body,
+#root {
+  height: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+body {
+  padding-left: var(--safe-area-left);
+  padding-right: var(--safe-area-right);
+}
+
+.mural-feed-card {
+  box-shadow: var(--render-depth);
+  transform: translateZ(0);
+}
+
+.mural-page--hd {
+  isolation: isolate;
+}
+
+/* Um único enquadramento ambiental para Home, Mural, Sala e Tesouro. */
+:root {
+  --louvor-environment-image: url('/louvor-ambient-v1.webp');
+}
+
+:root[data-theme='light'] {
+  --louvor-environment-image: url('/louvor-ambient-light-v1.webp');
+}
+
+.shared-louvor-environment {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: -1;
+  width: min(100vw, 28rem);
+  height: var(--app-viewport-height, 100dvh);
+  pointer-events: none;
+  opacity: 1;
+  background: var(--louvor-environment-image);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: brightness(0.76) saturate(0.82) contrast(0.94);
+  transform: translateX(-50%) scale(1.025);
+  transform-origin: center;
+}
+
+:root[data-theme='light'] .shared-louvor-environment {
+  opacity: 1;
+  filter: brightness(0.98) saturate(0.72) contrast(0.9);
+}
+
+:root[data-graphics='economy'] .shared-louvor-environment {
+  display: none;
+}
+
+.mural-hd-environment {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: -1;
+  width: min(100vw, 28rem);
+  height: var(--app-viewport-height, 100dvh);
+  pointer-events: none;
+  opacity: 0.68;
+  background:
+    radial-gradient(circle at calc(18% + var(--spatial-mid-x)) 16%, color-mix(in srgb, var(--care) 8%, transparent), transparent 28%),
+    radial-gradient(circle at calc(86% + var(--spatial-far-x)) 62%, color-mix(in srgb, var(--accent-primary) 10%, transparent), transparent 34%),
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 18%, transparent), transparent 42%, color-mix(in srgb, var(--canvas) 58%, transparent)),
+    url('/louvor-ambient-v1.webp');
+  background-size: auto, auto, auto, calc(680px * var(--device-pixel-ratio, 1));
+  background-blend-mode: normal, normal, normal, soft-light;
+  transform: translateX(-50%) scale(1.025);
+}
+
+:root[data-theme='light'] .mural-hd-environment {
+  opacity: 0.5;
+}
+
+:root[data-graphics='economy'] .mural-hd-environment {
+  display: none;
+}
+
+.louvor-page-environment {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--canvas) 44%, transparent), color-mix(in srgb, var(--canvas) 78%, transparent)),
+    url('/louvor-ambient-v1.webp') center / cover no-repeat;
+  filter: saturate(0.82) contrast(1.06);
+}
+
+.tesouro-page {
+  isolation: isolate;
+}
+
+.tesouro-page > .louvor-page-environment {
+  z-index: -1;
+}
+
+.tesouro-page > :not(.louvor-page-environment):not(.shared-louvor-environment) {
+  position: relative;
+  z-index: 1;
+}
+
+.tesouro-page > .shared-louvor-environment {
+  z-index: -1;
+}
+
+.tesouro-page > .louvor-page-environment {
+  opacity: 0.3;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--canvas) 60%, transparent), color-mix(in srgb, var(--canvas) 82%, transparent)),
+    url('/louvor-ambient-v1.webp') center / cover no-repeat;
+  filter: saturate(0.72) contrast(1.04);
+}
+
+:root[data-graphics='ultra'] .tesouro-page > .louvor-page-environment {
+  opacity: 0.42;
+}
+
+:root[data-theme='light'] .tesouro-page > .louvor-page-environment {
+  opacity: 0.18;
+}
+
+/* A Cantina privilegia leitura e escolha; o resgate acontece na Carteira. */
+@media (max-width: 459px) {
+  .cantina-product-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cantina-product-card {
+    display: grid;
+    grid-template-columns: 6.75rem minmax(0, 1fr);
+  }
+
+  .cantina-product-image {
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+  }
+
+  .cantina-product-image > div {
+    width: 100%;
+    height: 100%;
+    min-height: 8.75rem;
+    aspect-ratio: auto;
+  }
+
+  .cantina-product-body {
+    overflow: hidden;
+  }
+}
+
+.louvor-page-environment + .absolute,
+.louvor-page-environment ~ header,
+.louvor-page-environment ~ main,
+.louvor-page-environment ~ footer {
+  position: relative;
+  z-index: 1;
+}
+
+:root[data-theme='light'] .louvor-page-environment {
+  opacity: 0.22;
+  filter: sepia(0.14) saturate(0.58) brightness(1.24) contrast(0.88);
+}
+
+:root[data-graphics='ultra'] .louvor-page-environment {
+  opacity: 0.55;
+}
+
+:root[data-graphics='economy'] .louvor-page-environment {
+  display: none;
+}
+
+.mural-feed-card__content {
+  background:
+    radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--accent-primary) 12%, transparent), transparent 35%),
+    linear-gradient(145deg, color-mix(in srgb, var(--surface-elevated) 92%, transparent), var(--surface));
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.mural-feed-card__content--testimony {
+  background:
+    radial-gradient(circle at 85% 10%, color-mix(in srgb, var(--celebration) 16%, transparent), transparent 38%),
+    linear-gradient(145deg, color-mix(in srgb, var(--celebration-soft) 42%, var(--surface)), var(--surface));
+}
+
+.guide-sheet {
+  max-height: calc(100dvh - var(--safe-area-top));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.page-help-access {
+  scroll-margin-bottom: calc(7rem + var(--safe-area-bottom));
+}
+
+@media (max-width: 420px) {
+  .mural-feed-card__content {
+    min-height: 10rem;
+  }
+}
+
+/* 1.4.0-dev.1 — Mural Social em desenvolvimento */
+.mural-feed-card--awaiting-care {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--care) 18%, transparent),
+    var(--render-depth);
+}
+
+.mural-feed-card__content--with-media {
+  display: block;
+  min-height: 0;
+  padding: 0;
+}
+
+.mural-photo-frame {
+  aspect-ratio: 4 / 5;
+  max-height: min(62dvh, 34rem);
+}
+
+.mural-intercede-action {
+  transition:
+    color 160ms ease,
+    background 160ms ease,
+    transform 120ms ease;
+}
+
+.mural-intercede-action--active {
+  color: #ff465f;
+  background: color-mix(in srgb, #ff465f 11%, transparent);
+}
+
+.profile-cover-card > :not(.profile-cover__background) {
+  position: relative;
+  z-index: 1;
+}
+
+.premium-surface > .profile-cover__background,
+.profile-cover-card > .profile-cover__background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-cover__background > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-cover__background--preserve > .profile-cover__art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.profile-cover-card--themed {
+  border-color: color-mix(in srgb, var(--celebration) 34%, var(--border));
+  box-shadow: var(--render-depth);
+}
+
+.institutional-crest {
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 3px 7px rgba(0, 0, 0, 0.42));
+}
+
+.institutional-crest__aura {
+  filter: blur(9px);
+  opacity: 0.78;
+}
+
+.institutional-crest__halo {
+  filter: blur(3px);
+  opacity: 0.82;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .institutional-crest__aura,
+  .institutional-crest__halo {
+    animation: institutional-crest-breathe 3.8s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .institutional-crest__halo {
+    animation-delay: -1.9s;
+  }
+}
+
+@keyframes institutional-crest-breathe {
+  0%, 100% { opacity: 0.62; transform: scale(0.94); }
+  50% { opacity: 0.96; transform: scale(1.06); }
+}
+
+.institutional-crest__shadow {
+  fill: rgba(3, 10, 7, 0.72);
+  stroke: rgba(0, 0, 0, 0.34);
+  stroke-width: 1.5;
+}
+
+.institutional-crest__rim {
+  fill: #b9904f;
+  stroke: #ead39b;
+  stroke-width: 1;
+}
+
+.institutional-crest__field {
+  stroke: #07110d;
+  stroke-width: 1;
+}
+
+.institutional-crest__inner {
+  stroke: rgba(234, 211, 155, 0.58);
+  stroke-width: 0.8;
+}
+
+.institutional-crest__bevel {
+  fill: rgba(24, 18, 10, 0.9);
+  stroke: rgba(255, 236, 186, 0.35);
+  stroke-width: 0.7;
+}
+
+.institutional-crest__shine {
+  fill: rgba(255, 255, 255, 0.11);
+}
+
+.institutional-crest__rivets {
+  fill: #f0d28b;
+  stroke: rgba(41, 27, 8, 0.7);
+  stroke-width: 0.55;
+}
+
+.institutional-crest__symbol {
+  fill: none;
+  stroke: #f1e5c7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.25;
+}
+
+.institutional-crest__flame {
+  fill: #caa45e;
+  stroke: #f1d38e;
+  stroke-width: 1.2;
+}
+
+.institutional-crest__seal {
+  fill: #f0d28b;
+  stroke: #5e431d;
+  stroke-width: 0.75;
+}
+
+.institutional-crest__seal-mark {
+  fill: none;
+  stroke: #4b3517;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 0.75;
+}
+
+.institutional-crest__banner {
+  stroke: rgba(255, 239, 195, 0.55);
+  stroke-width: 0.65;
+}
+
+.institutional-crest__laurel {
+  fill: none;
+  stroke: #d7b86e;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.05;
+  opacity: 0.78;
+}
+
+.institutional-crest--pastoral .institutional-crest__rim {
+  fill: #789987;
+  stroke: #d6e4d8;
+}
+
+.institutional-crest--pastoral .institutional-crest__field {
+  fill: #17372d;
+}
+
+.institutional-crest--pastoral .institutional-crest__flame {
+  fill: #8cbea1;
+  stroke: #e4f2e8;
+}
+
+.institutional-crest--equipe .institutional-crest__rim {
+  fill: #92734b;
+  stroke: #d9c49f;
+}
+
+.institutional-crest--equipe .institutional-crest__field {
+  fill: #27312d;
+}
+
+.pastoral-priority--baixa { background: rgba(125, 145, 170, 0.13); color: #aebed0; }
+.pastoral-priority--normal { background: var(--accent-soft); color: var(--accent-primary); }
+.pastoral-priority--alta { background: rgba(223, 157, 71, 0.14); color: #e8b36e; }
+.pastoral-priority--urgente { background: rgba(227, 78, 99, 0.16); color: #ff9aac; }
+
+.community-member-card .profile-cover__overlay {
+  background: linear-gradient(180deg, rgba(5, 12, 9, 0.34), rgba(5, 12, 9, 0.68));
+}
+
+:root[data-theme='light'] .community-member-card .profile-cover__overlay {
+  background: linear-gradient(180deg, rgba(255, 252, 245, 0.12), rgba(255, 252, 245, 0.52));
+}
+
+.profile-cover__overlay {
+  background: rgba(5, 12, 9, 0.46);
+}
+
+.profile-cover-card--themed .profile-cover-card__name {
+  color: #f4f0e8;
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.45);
+}
+
+.profile-cover-card--themed .profile-cover-card__secondary {
+  color: #d4cec2;
+}
+
+.profile-cover-option {
+  border-color: var(--border);
+  background: var(--surface-elevated);
+}
+
+.profile-cover-option__overlay {
+  background: rgba(5, 12, 9, 0.48);
+}
+
+.profile-cover-option__label {
+  color: #f4f0e8;
+}
+
+.profile-cover-option__description {
+  color: #d0c9bd;
+}
+
+:root[data-theme='light'] .profile-cover__overlay {
+  background: rgba(255, 252, 245, 0.18);
+}
+
+:root[data-theme='light'] .profile-cover-card--themed .profile-cover-card__name {
+  color: var(--text-primary);
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.58);
+}
+
+:root[data-theme='light'] .profile-cover-card--themed .profile-cover-card__secondary {
+  color: var(--text-secondary);
+}
+
+:root[data-theme='light'] .profile-cover-option__overlay {
+  background: rgba(255, 252, 245, 0.14);
+}
+
+:root[data-theme='light'] .profile-cover-option__label {
+  color: var(--text-primary);
+}
+
+:root[data-theme='light'] .profile-cover-option__description {
+  color: var(--text-secondary);
+}
+
+.profile-cover-option--selected {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 1px var(--accent-primary);
+}
+
+.tesouro-feature,
+.tesouro-product,
+.tesouro-balance {
+  box-shadow: var(--shadow-card);
+}
+
+.kesef-coin-mark img {
+  filter: drop-shadow(0 3px 6px rgba(43, 28, 12, 0.24));
+}
+
+.tesouro-product {
+  transition:
+    transform var(--motion-micro) var(--motion-easing),
+    border-color var(--motion-micro) ease,
+    background-color var(--motion-micro) ease;
+}
+
+.tesouro-product:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+.tesouro-product:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .tesouro-product:hover:not(:disabled) {
+    border-color: var(--accent-border);
+    transform: translateY(-1px);
+  }
+}
+
+.mural-intercede-action--active svg {
+  filter: drop-shadow(0 0 8px color-mix(in srgb, #ff465f 48%, transparent));
+  animation: mural-heart-pop 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.comments-sheet,
+.mural-composer-sheet {
+  padding-bottom: var(--safe-area-bottom);
+  overscroll-behavior: contain;
+}
+
+.patent-seal-dialog {
+  margin-bottom: var(--safe-area-bottom);
+}
+
+@keyframes mural-heart-pop {
+  0% { transform: scale(0.72); }
+  55% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+@keyframes prayer-ascent-spark {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  40% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--spark-tx, 0px)), calc(-50% + var(--spark-ty, -36px))) scale(1.35);
+  }
+}
+
+.prayer-ascent-particle {
+  animation: prayer-ascent-spark 680ms cubic-bezier(0.18, 0.9, 0.32, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@media (min-width: 640px) {
+  .comments-sheet {
+    margin-inline: auto;
+    max-width: 34rem;
+    border-radius: 1.75rem 1.75rem 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mural-intercede-action--active svg,
+  .prayer-ascent-particle {
+    animation: none !important;
+  }
+}
+
+
+
+/* DEV1-MULTIBRAND-RESPONSIVE-V1
+   Grade responsiva para iOS, Samsung One UI, Xiaomi HyperOS e Huawei/HarmonyOS. */
+:root {
+  --app-viewport-height: 100dvh;
+  --app-viewport-offset-top: 0px;
+  --app-max-width: 30rem;
+  --app-content-max-width: 46rem;
+  --app-page-gutter: 1rem;
+  --app-top-utility-height: 3.75rem;
+  --app-bottom-nav-height: 5.75rem;
+  --app-touch-target: 3rem;
+  --app-card-radius: 1.4rem;
+}
+
+body {
+  padding-inline: 0;
+}
+
+.app-shell {
+  width: min(100%, var(--app-max-width));
+  height: var(--app-viewport-height, 100dvh);
+  min-height: 0;
+  padding-inline: var(--safe-area-left) var(--safe-area-right);
+}
+
+.app-shell__main {
+  position: relative;
+  z-index: auto;
+  min-height: 0;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-top: calc(var(--safe-area-top) + var(--app-top-utility-height) + 0.75rem);
+  padding-bottom: calc(var(--safe-area-bottom) + var(--app-bottom-nav-height) + 1rem);
+  scroll-padding-top: calc(var(--safe-area-top) + var(--app-top-utility-height));
+  scroll-padding-bottom: calc(var(--safe-area-bottom) + var(--app-bottom-nav-height) + 1rem);
+}
+
+/* Rotas protegidas que vivem fora do BaseLayout precisam possuir a própria
+   superfície de rolagem, pois o viewport nativo mantém body/#root bloqueados. */
+.standalone-scroll-page {
+  width: 100%;
+  height: var(--app-viewport-height, 100dvh);
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-top: max(2rem, var(--safe-area-top));
+  padding-bottom: max(3rem, var(--safe-area-bottom));
+}
+
+.standalone-scroll-page::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hierarquia oficial do DS: conteúdo < utilitários < navegação < dialogs.
+   O main não pode formar um stacking context, pois isso aprisiona dialogs de
+   rota atrás da navegação inferior. */
+.app-modal-layer {
+  z-index: 170;
+}
+
+.app-shell__utility {
+  top: calc(var(--safe-area-top) + 0.75rem);
+  right: max(var(--app-page-gutter), var(--safe-area-right));
+  max-width: calc(100% - var(--app-page-gutter) * 2 - var(--safe-area-left) - var(--safe-area-right));
+}
+
+.app-shell__bottom-nav {
+  padding-inline: max(var(--app-page-gutter), var(--safe-area-left)) max(var(--app-page-gutter), var(--safe-area-right));
+  padding-top: 0.5rem;
+  padding-bottom: max(0.5rem, var(--safe-area-bottom));
+}
+
+/* Ações flutuantes globais respeitam a zona ocupada pela navegação. */
+.global-page-help {
+  bottom: calc(var(--safe-area-bottom) + var(--app-bottom-nav-height) + 1rem);
+}
+
+.app-shell__nav {
+  height: 4.75rem;
+}
+
+.mural-page-header,
+.mural-feed-list {
+  padding-inline: var(--app-page-gutter);
+}
+
+.mural-feed-card,
+.mural-type-card,
+.mural-composer-sheet {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.mural-feed-card__header,
+.mural-feed-card__badges,
+.mural-feed-card__care-row,
+.mural-feed-card__actions {
+  padding-inline: clamp(0.75rem, 3.5vw, 1rem);
+}
+
+.mural-feed-card__actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(3rem, 0.7fr) minmax(3rem, 0.8fr);
+  width: 100%;
+}
+
+.mural-feed-card__actions > * {
+  min-width: 0;
+  min-height: var(--app-touch-target);
+  justify-content: center;
+  margin-left: 0 !important;
+  padding-inline: clamp(0.45rem, 2vw, 0.75rem);
+  white-space: nowrap;
+}
+
+.mural-composer-overlay {
+  --mural-composer-top-reserve: calc(var(--safe-area-top) + var(--app-top-utility-height) + 0.75rem);
+  top: var(--app-viewport-offset-top, 0px);
+  height: var(--app-viewport-height, 100dvh);
+  padding-top: var(--mural-composer-top-reserve);
+  padding-bottom: calc(var(--app-bottom-nav-height) + var(--safe-area-bottom));
+  padding-inline: var(--safe-area-left) var(--safe-area-right);
+}
+
+.mural-composer-sheet {
+  width: min(100%, var(--app-max-width));
+  height: calc(var(--app-viewport-height, 100dvh) - var(--mural-composer-top-reserve) - var(--app-bottom-nav-height) - var(--safe-area-bottom));
+  max-height: calc(var(--app-viewport-height, 100dvh) - var(--mural-composer-top-reserve) - var(--app-bottom-nav-height) - var(--safe-area-bottom));
+  padding-bottom: 0;
+}
+
+.mural-composer-header,
+.mural-composer-body,
+.mural-composer-footer {
+  padding-inline: var(--app-page-gutter);
+}
+
+.mural-composer-header {
+  position: relative;
+  z-index: 3;
+}
+
+.mural-composer-body {
+  scrollbar-gutter: stable;
+  scroll-padding-bottom: 1rem;
+}
+
+.mural-composer-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  padding-bottom: calc(0.75rem + var(--safe-area-bottom));
+  box-shadow: 0 -0.75rem 1.25rem color-mix(in srgb, var(--canvas) 28%, transparent);
+}
+
+.mural-composer-photo-frame {
+  width: min(100%, 18rem);
+  aspect-ratio: 4 / 5;
+  max-height: min(46dvh, 24rem);
+}
+
+.mural-composer-sheet .mural-type-card {
+  display: flex;
+  min-height: 3rem;
+  flex: none;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  padding: 0.65rem 0.8rem;
+  white-space: normal;
+}
+
+.mural-composer-photo-frame > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mural-type-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.mural-type-card {
+  display: flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  padding: 0.65rem 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.mural-type-card > span {
+  min-width: 0;
+}
+
+.mural-type-card[aria-pressed='true'] {
+  color: var(--accent-primary);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-primary) 18%, transparent);
+}
+
+.mural-type-card[aria-pressed='true'] > span {
+  color: var(--accent-primary);
+}
+
+.mural-composer-sheet button,
+.mural-composer-sheet label,
+.mural-feed-card button,
+.app-shell__nav a {
+  touch-action: manipulation;
+}
+
+@media (max-width: 359px) {
+  :root { --app-page-gutter: 0.75rem; }
+  .mural-type-card { min-height: 2.75rem; padding-inline: 0.6rem; }
+  .mural-feed-card__actions { grid-template-columns: minmax(0, 1.2fr) 3rem 3rem; }
+  .mural-feed-card__actions > * { font-size: 0.78rem; }
+  .mural-composer-header .grid { grid-template-columns: 3rem minmax(0, 1fr) 4.5rem; }
+}
+
+@media (min-width: 360px) and (max-width: 389px) {
+  :root { --app-page-gutter: 1rem; }
+}
+
+@media (min-width: 390px) and (max-width: 429px) {
+  :root { --app-page-gutter: 1.125rem; }
+}
+
+@media (min-width: 430px) {
+  :root { --app-page-gutter: 1.25rem; }
+}
+
+/* O shell deixa de simular um telefone quando há espaço de tablet.
+   O limite superior evita linhas excessivamente longas em monitores grandes,
+   sem criar faixas vazias em tablets Android, iPadOS ou dispositivos dobráveis. */
+@media (min-width: 600px) {
+  :root {
+    --app-max-width: 80rem;
+    --app-page-gutter: clamp(1.5rem, 3vw, 2.5rem);
+    --app-top-utility-height: 4rem;
+    --app-bottom-nav-height: 6rem;
+  }
+
+  .app-shell__utility {
+    right: max(
+      var(--app-page-gutter),
+      var(--safe-area-right),
+      calc((100% - var(--app-content-max-width)) / 2)
+    );
+  }
+
+  .app-shell__bottom-nav {
+    left: 50%;
+    width: min(calc(100% - var(--app-page-gutter) * 2), 42rem);
+    padding-inline: 0;
+    transform: translateX(-50%);
+  }
+
+  .app-shell__nav {
+    height: 5rem;
+    border-radius: 1.5rem 1.5rem 0 0;
+  }
+
+  /* Tablet não é um celular ampliado. O ambiente continua full-bleed, mas a
+     raiz de cada rota comum preserva uma coluna de leitura confortável. */
+  .app-shell__main > * {
+    width: min(100%, var(--app-content-max-width));
+    margin-inline: auto;
+  }
+
+  .app-shell__main > .app-content-wide {
+    width: min(100%, 76rem);
+  }
+
+  /* O enquadramento ambiental acompanha o shell expandido no tablet. A regra
+     base preserva a composição estreita dos celulares; acima de 600 px, o
+     plano de fundo cobre todo o viewport, inclusive em paisagem. */
+  .shared-louvor-environment,
+  .mural-hd-environment {
+    left: 0;
+    width: 100vw;
+    min-width: 100%;
+    transform: scale(1.015);
+  }
+}
+
+@media (min-width: 900px) {
+  :root {
+    --app-page-gutter: clamp(2rem, 4vw, 3.5rem);
+  }
+}
+
+@media (max-height: 700px) {
+  :root {
+    --app-top-utility-height: 3.35rem;
+    --app-bottom-nav-height: 5.15rem;
+  }
+  .mural-composer-photo-frame {
+    width: min(100%, 16rem);
+    max-height: 34dvh;
+  }
+  .mural-type-card {
+    min-height: 2.75rem;
+  }
+  .mural-composer-footer p {
+    display: none;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .mural-composer-sheet {
+    width: min(96vw, 42rem);
+    height: calc(var(--app-viewport-height, 100dvh) - var(--mural-composer-top-reserve) - var(--app-bottom-nav-height) - var(--safe-area-bottom));
+    max-height: calc(var(--app-viewport-height, 100dvh) - var(--mural-composer-top-reserve) - var(--app-bottom-nav-height) - var(--safe-area-bottom));
+    border-radius: 1.25rem;
+  }
+  .mural-type-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .mural-type-card {
+    min-height: 2.75rem;
+  }
+}
+
+@media (min-width: 600px) and (min-height: 700px) {
+  .mural-composer-overlay {
+    padding: var(--mural-composer-top-reserve) max(1rem, var(--safe-area-right)) calc(var(--app-bottom-nav-height) + var(--safe-area-bottom)) max(1rem, var(--safe-area-left));
+  }
+  .mural-composer-sheet {
+    width: min(100%, 32rem);
+    height: auto;
+    max-height: min(calc(var(--app-viewport-height, 100dvh) - var(--mural-composer-top-reserve) - var(--app-bottom-nav-height) - var(--safe-area-bottom)), 54rem);
+    border-radius: 1.75rem;
+  }
+}
+  .mural-create-button {
+    position: fixed;
+    right: max(1.5rem, calc(50vw - 12.5rem));
+    bottom: calc(8.25rem + env(safe-area-inset-bottom));
+    z-index: 40;
+    margin: 0;
+    transform: none;
+  }
+
+  .mural-create-button:hover {
+    transform: translateY(-1px);
+  }
+
+  .mural-create-button:active {
+    transform: translateY(1px) scale(0.985);
+  }
+
+/* Chamadas de oração — convite e antessala compartilham a mesma linguagem
+   nos temas Santuário e Amanhecer. */
+.prayer-incoming,
+.prayer-prejoin {
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+  width: 100vw;
+  height: var(--app-viewport-height, 100dvh);
+  min-height: 0;
+  overflow-y: auto;
+  color: var(--text-primary);
+  background-color: var(--canvas);
+  background-position: center;
+  background-size: cover;
+}
+
+:root[data-theme='dark'] .prayer-incoming,
+:root[data-theme='dark'] .prayer-prejoin {
+  background-image:
+    linear-gradient(180deg, rgba(7, 12, 9, 0.06), rgba(7, 12, 9, 0.28)),
+    url('./assets/environments/santuario-uhd-dark-v1.png');
+}
+
+:root[data-theme='light'] .prayer-incoming,
+:root[data-theme='light'] .prayer-prejoin {
+  background-image:
+    linear-gradient(180deg, rgba(250, 247, 238, 0.05), rgba(250, 247, 238, 0.2)),
+    url('./assets/environments/santuario-uhd-light-v1.png');
+}
+
+.prayer-incoming__content {
+  width: min(100%, 31rem);
+  min-height: var(--app-viewport-height, 100dvh);
+  margin-inline: auto;
+  padding: max(1.5rem, env(safe-area-inset-top)) 1.25rem max(1.25rem, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-rows: auto minmax(11rem, 1fr) auto auto;
+  align-items: center;
+  gap: clamp(0.8rem, 2.2dvh, 1.25rem);
+  text-align: center;
+}
+
+.prayer-incoming__emblem {
+  width: clamp(3.25rem, 9dvh, 4.5rem);
+  height: auto;
+  justify-self: center;
+  object-fit: contain;
+  filter: drop-shadow(0 0.5rem 1rem rgba(0, 0, 0, 0.2));
+}
+
+.prayer-incoming__portrait {
+  width: clamp(10.5rem, 26dvh, 14rem);
+  aspect-ratio: 1;
+  align-self: end;
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 2px solid color-mix(in srgb, var(--celebration) 72%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-elevated) 86%, transparent);
+  box-shadow: 0 1.2rem 3rem color-mix(in srgb, var(--canvas) 70%, transparent), 0 0 0 0.45rem color-mix(in srgb, var(--celebration) 8%, transparent);
+}
+
+.prayer-incoming__portrait img { width: 100%; height: 100%; object-fit: cover; }
+.prayer-incoming__portrait span { font-family: var(--font-display); font-size: clamp(4rem, 12dvh, 6rem); color: var(--text-secondary); }
+
+.prayer-incoming__copy { align-self: center; }
+.prayer-incoming__eyebrow {
+  margin: 0 0 0.4rem;
+  color: var(--accent-primary);
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.22em;
+}
+.prayer-incoming__copy h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  max-width: 100%;
+  font-size: clamp(2.65rem, 14vw, 4.1rem);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+.prayer-incoming__invitation { margin: 0.8rem auto 0; max-width: 19rem; font-size: 0.98rem; line-height: 1.45; color: var(--text-secondary); }
+.prayer-incoming__privacy { margin: 0.9rem auto 0; max-width: 18rem; display: flex; align-items: center; justify-content: center; gap: 0.55rem; font-size: 0.76rem; line-height: 1.4; color: var(--accent-primary); }
+.prayer-incoming__privacy svg { flex: none; }
+.prayer-incoming__status { margin: 0.85rem 0 0; display: inline-flex; align-items: center; gap: 0.6rem; color: var(--accent-primary); font-size: 0.87rem; font-weight: 650; }
+.prayer-incoming__status span { width: 0.85rem; aspect-ratio: 1; border: 2px dotted currentColor; border-radius: 999px; animation: spin 2s linear infinite; }
+
+.prayer-incoming__actions {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(4.6rem, 0.75fr) minmax(10rem, 1.65fr) minmax(5.4rem, 0.85fr);
+  align-items: start;
+  gap: 0.7rem;
+}
+.prayer-incoming__action {
+  min-width: 0;
+  min-height: 4.75rem;
+  border: 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+.prayer-incoming__action > span { min-height: 3.5rem; width: 100%; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 1.25rem; background: color-mix(in srgb, var(--surface) 82%, transparent); }
+.prayer-incoming__action--decline { color: var(--danger); }
+.prayer-incoming__action--decline > span { width: 3.5rem; border-radius: 999px; border-color: color-mix(in srgb, var(--danger) 72%, transparent); background: color-mix(in srgb, var(--danger) 10%, var(--surface)); }
+.prayer-incoming__action--primary { color: var(--text-primary); font-size: 0.74rem; }
+.prayer-incoming__action--primary > span { color: #102019; border-color: color-mix(in srgb, var(--accent-primary) 55%, var(--celebration)); background: linear-gradient(135deg, #78aa8d, #a8c9aa); box-shadow: 0 0.75rem 1.75rem rgba(42, 78, 58, 0.22); }
+.prayer-incoming__action--audio { color: var(--celebration); }
+.prayer-incoming__action--audio > span { border-color: color-mix(in srgb, var(--celebration) 70%, transparent); }
+.prayer-incoming__action:disabled { opacity: 0.55; }
+
+.prayer-prejoin__topbar {
+  width: min(100%, 42rem);
+  margin-inline: auto;
+  padding: max(1rem, env(safe-area-inset-top)) 1.25rem 0.75rem;
+  display: grid;
+  grid-template-columns: 2.75rem 1fr 2.75rem;
+  align-items: center;
+}
+.prayer-prejoin__topbar button { width: 2.75rem; height: 2.75rem; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 0.9rem; color: var(--text-primary); background: color-mix(in srgb, var(--surface) 88%, transparent); }
+.prayer-prejoin__topbar img { width: 3.35rem; justify-self: center; filter: drop-shadow(0 0.4rem 0.8rem rgba(0, 0, 0, 0.2)); }
+.prayer-prejoin__body { width: min(100%, 42rem); margin-inline: auto; padding: 0.5rem 1.25rem max(1.5rem, env(safe-area-inset-bottom)); display: flex; min-height: calc(100dvh - 5rem); flex-direction: column; gap: 1rem; }
+.prayer-prejoin__preview { position: relative; min-height: 17rem; flex: 1; max-height: 52dvh; overflow: hidden; border: 1px solid color-mix(in srgb, var(--celebration) 55%, var(--border)); border-radius: 2rem; background: color-mix(in srgb, var(--surface) 90%, transparent); box-shadow: 0 1.5rem 3.5rem color-mix(in srgb, var(--canvas) 58%, transparent); }
+.prayer-prejoin__preview video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
+.prayer-prejoin__preview video.is-hidden { opacity: 0; }
+.prayer-prejoin__camera-off, .prayer-prejoin__preparing { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.65rem; color: var(--text-secondary); }
+.prayer-prejoin__preparing { background: color-mix(in srgb, var(--surface) 88%, transparent); font-size: 0.82rem; }
+.prayer-prejoin__controls { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.prayer-prejoin__controls button { min-height: 3.4rem; display: flex; align-items: center; justify-content: center; gap: 0.55rem; border: 1px solid var(--border); border-radius: 1rem; color: var(--text-primary); background: color-mix(in srgb, var(--surface) 88%, transparent); font-size: 0.78rem; font-weight: 700; }
+.prayer-prejoin__controls button[aria-pressed='true'] { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 45%, var(--border)); }
+.prayer-prejoin__copy { text-align: center; }
+.prayer-prejoin__copy > p { color: var(--accent-primary); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.2em; }
+.prayer-prejoin__copy h1 { margin: 0.25rem 0 0.45rem; font-family: var(--font-display); font-size: clamp(2rem, 6vw, 2.8rem); font-weight: 500; line-height: 1.05; }
+.prayer-prejoin__copy span { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--text-secondary); font-size: 0.78rem; }
+.prayer-prejoin__copy strong { display: block; margin-top: 0.55rem; color: var(--danger); font-size: 0.76rem; font-weight: 650; }
+.prayer-prejoin__enter { width: 100%; min-height: 3.5rem; }
+
+/* Figurinhas efêmeras das salas de oração. As duas coleções usam o
+   mesmo recorte para preservar geometria, acessibilidade e troca de tema. */
+.prayer-sticker {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 1.15rem;
+  background: color-mix(in srgb, var(--surface-elevated) 84%, transparent);
+}
+.prayer-sticker > img {
+  position: absolute;
+  width: 400%;
+  max-width: none;
+  height: 400%;
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
+}
+.prayer-sticker-picker {
+  position: fixed;
+  z-index: 80;
+  right: max(0.75rem, env(safe-area-inset-right));
+  bottom: calc(6.4rem + env(safe-area-inset-bottom));
+  left: max(0.75rem, env(safe-area-inset-left));
+  width: min(calc(100% - 1.5rem), 34rem);
+  max-height: min(65dvh, 39rem);
+  margin-inline: auto;
+  padding: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--celebration) 35%, var(--border));
+  border-radius: 1.65rem;
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  box-shadow: 0 1.4rem 4rem color-mix(in srgb, var(--canvas) 72%, transparent);
+  backdrop-filter: blur(1.1rem);
+  animation: prayer-sticker-sheet-in 180ms ease-out both;
+}
+.prayer-sticker-picker > header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.prayer-sticker-picker > header span { color: var(--celebration); font-size: 0.65rem; font-weight: 800; letter-spacing: 0.16em; }
+.prayer-sticker-picker > header h2 { margin-top: 0.15rem; font-family: var(--font-display); font-size: 1.35rem; font-weight: 550; }
+.prayer-sticker-picker__tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; padding: 0.25rem; border-radius: 0.9rem; background: var(--surface-elevated); }
+.prayer-sticker-picker__tabs button { min-height: 2.6rem; border: 1px solid transparent; border-radius: 0.7rem; color: var(--text-secondary); font-size: 0.78rem; font-weight: 750; }
+.prayer-sticker-picker__tabs button[aria-selected='true'] { border-color: color-mix(in srgb, var(--accent-primary) 42%, var(--border)); color: var(--text-primary); background: color-mix(in srgb, var(--accent-primary) 17%, var(--surface)); box-shadow: 0 0.35rem 1rem rgba(0, 0, 0, 0.1); }
+.prayer-sticker-picker__grid { min-height: 0; padding: 0.15rem; overflow-y: auto; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; overscroll-behavior: contain; }
+.prayer-sticker-picker__grid button { min-width: 0; border: 1px solid transparent; border-radius: 1.1rem; transition: transform 150ms ease, border-color 150ms ease, background 150ms ease; }
+.prayer-sticker-picker__grid button:hover, .prayer-sticker-picker__grid button:focus-visible { border-color: var(--celebration); background: var(--celebration-soft); transform: translateY(-2px); }
+.prayer-sticker-picker__grid button:active { transform: scale(0.94); }
+.prayer-sticker-picker__grid button:disabled { opacity: 0.55; }
+.prayer-sticker-picker > p { margin: 0; color: var(--text-muted); font-size: 0.68rem; text-align: center; }
+.prayer-sticker-reaction {
+  position: fixed;
+  z-index: 75;
+  top: 50%;
+  left: 50%;
+  width: min(58vw, 17rem);
+  pointer-events: none;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  animation: prayer-sticker-pop 3.2s cubic-bezier(0.2, 0.85, 0.25, 1) both;
+  filter: drop-shadow(0 1.2rem 1.8rem rgba(0, 0, 0, 0.3));
+}
+.prayer-sticker-reaction .prayer-sticker { background: transparent; }
+.prayer-sticker-reaction > span { display: inline-block; margin-top: 0.3rem; padding: 0.38rem 0.75rem; border: 1px solid var(--border); border-radius: 999px; color: var(--text-primary); background: color-mix(in srgb, var(--surface) 92%, transparent); font-size: 0.72rem; font-weight: 750; backdrop-filter: blur(0.7rem); }
+.chat-sticker-message { width: min(56vw, 14rem); max-width: 14rem; }
+.chat-sticker-message .prayer-sticker { background: transparent; filter: drop-shadow(0 0.7rem 1rem rgba(0, 0, 0, 0.18)); }
+.chat-sticker-message__meta { width: fit-content; margin-left: auto; padding: 0.25rem 0.45rem; border-radius: 999px; background: color-mix(in srgb, var(--surface) 84%, transparent); backdrop-filter: blur(0.5rem); }
+
+@keyframes prayer-sticker-sheet-in { from { opacity: 0; transform: translateY(0.8rem) scale(0.98); } }
+@keyframes prayer-sticker-pop {
+  0% { opacity: 0; transform: translate(-50%, -42%) scale(0.55) rotate(-4deg); }
+  12% { opacity: 1; transform: translate(-50%, -50%) scale(1.08) rotate(2deg); }
+  22%, 75% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); }
+  100% { opacity: 0; transform: translate(-50%, -62%) scale(0.92); }
+}
+
+@media (max-width: 390px), (max-height: 700px) {
+  .prayer-sticker-picker { bottom: calc(5.8rem + env(safe-area-inset-bottom)); max-height: 58dvh; padding: 0.8rem; }
+  .prayer-sticker-picker__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.35rem; }
+  .prayer-sticker-picker > header h2 { font-size: 1.12rem; }
+}
+
+@media (min-width: 700px) {
+  .prayer-sticker-picker { left: auto; right: max(1.5rem, env(safe-area-inset-right)); margin-inline: 0; }
+  .prayer-sticker-reaction { width: min(34vw, 20rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prayer-sticker-picker, .prayer-sticker-reaction { animation-duration: 1ms; }
+  .prayer-sticker-picker__grid button { transition: none; }
+}
+
+@media (min-width: 700px) {
+  .prayer-incoming__content { width: min(100%, 43rem); grid-template-rows: auto minmax(14rem, 1fr) auto auto; }
+  .prayer-incoming__portrait { width: clamp(13rem, 28dvh, 18rem); }
+  .prayer-incoming__actions { width: min(100%, 31rem); justify-self: center; }
+}
+
+@media (max-height: 680px) {
+  .prayer-incoming__content { grid-template-rows: auto minmax(7.5rem, 1fr) auto auto; padding-top: max(0.7rem, env(safe-area-inset-top)); gap: 0.5rem; }
+  .prayer-incoming__emblem { width: 2.8rem; }
+  .prayer-incoming__portrait { width: clamp(7.5rem, 22dvh, 10rem); }
+  .prayer-incoming__copy h1 { font-size: clamp(2.1rem, 7dvh, 3rem); }
+  .prayer-incoming__invitation { margin-top: 0.4rem; }
+  .prayer-incoming__privacy { margin-top: 0.45rem; }
+  .prayer-incoming__status { margin-top: 0.45rem; }
+}
+
+/* Missão da semana — arte estrutural Amanhecer/Santuário com conteúdo semântico real. */
+.editorial-journey-card {
+  position: relative;
+  container-type: inline-size;
+  width: min(100%, 36rem);
+  margin-inline: auto;
+  overflow: hidden;
+  border-radius: 4.8cqw;
+  isolation: isolate;
+  filter: drop-shadow(0 18px 35px rgb(0 0 0 / 0.24));
+}
+
+.mission-week-card {
+  aspect-ratio: 1145 / 1373;
+  color: #f1eadc;
+}
+
+.mission-week-card__art {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.mission-week-card__art--light { display: none; }
+:root[data-theme='light'] .mission-week-card__art--light { display: block; }
+:root[data-theme='light'] .mission-week-card__art--dark { display: none; }
+
+.mission-week-card__avatar {
+  position: absolute;
+  left: 8.3%;
+  top: 17.2%;
+  width: 26.5%;
+  height: 23.2%;
+  overflow: hidden;
+  border-radius: 19%;
+  background: #163125;
+  box-shadow: none;
+}
+
+.mission-week-card__avatar img { width: 100%; height: 100%; object-fit: cover; }
+.mission-week-card__avatar span { display: grid; width: 100%; height: 100%; place-items: center; font-family: var(--font-display); font-size: 12cqw; color: #f2e8d5; }
+
+.mission-week-card__identity {
+  position: absolute;
+  left: 38.5%;
+  top: 19.5%;
+  width: 50%;
+  min-height: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.2cqw;
+}
+
+.mission-week-card__name {
+  max-width: 100%;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 6.2cqw, 2.25rem);
+  font-weight: 650;
+  line-height: 0.98;
+  text-wrap: balance;
+  text-shadow: 0 2px 14px rgb(0 0 0 / 0.55);
+}
+
+.mission-week-card__role { display: flex; align-items: center; gap: 1.4cqw; font-size: clamp(0.62rem, 2.8cqw, 1rem); color: #c8bfae; }
+.mission-week-card__role span { width: 1.6cqw; aspect-ratio: 1; border-radius: 999px; background: #81c39b; box-shadow: 0 0 10px rgb(129 195 155 / 0.8); }
+
+.mission-week-card__message {
+  position: absolute;
+  left: 8%;
+  top: 45.2%;
+  width: 84%;
+  height: 22%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.3cqw;
+  padding: 4cqw 6cqw;
+  text-align: center;
+  font-size: clamp(0.7rem, 3.4cqw, 1.18rem);
+  line-height: 1.35;
+  color: #ded5c5;
+}
+
+.mission-week-card__message strong { color: #f6eddf; }
+.mission-week-card__message p { margin: 0; }
+.mission-week-card__message-icon { flex: none; color: #d7af5d; }
+.mission-week-card__cancel { display: inline-flex; align-items: center; gap: 0.8cqw; border-bottom: 1px solid currentColor; color: #e49a93; font-size: 0.84em; }
+
+.mission-week-card__action {
+  position: absolute;
+  top: 72.4%;
+  height: 18.2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1cqw;
+  padding: 4cqw 3cqw 3cqw;
+  border-radius: 6cqw;
+  text-align: center;
+  color: #e9e1d4;
+  transition: color 160ms ease, opacity 160ms ease;
+}
+
+.mission-week-card__action--invite { left: 5.6%; width: 42.7%; }
+.mission-week-card__action--room { left: 52.2%; width: 42.2%; }
+.mission-week-card__action > * { transition: color 160ms ease, transform 120ms ease, text-shadow 160ms ease; }
+.mission-week-card__action strong { max-width: 100%; font-family: var(--font-sans); font-size: clamp(0.68rem, 3.1cqw, 1.08rem); font-weight: 750; line-height: 1.08; letter-spacing: -0.015em; text-wrap: balance; }
+.mission-week-card__action span { max-width: 100%; font-family: var(--font-sans); font-size: clamp(0.5rem, 1.95cqw, 0.7rem); font-weight: 520; line-height: 1.2; letter-spacing: 0.005em; color: #bdb4a6; text-wrap: balance; }
+.mission-week-card__action:hover strong { color: #f5d990; text-shadow: 0 0 12px rgb(220 177 85 / 0.22); }
+.mission-week-card__action:hover span { color: #d7cebf; }
+.mission-week-card__action:active > * { transform: translateY(1px) scale(0.98); }
+.mission-week-card__action:focus-visible { outline: 2px solid var(--focus); outline-offset: -5px; }
+.mission-week-card__action:disabled { cursor: not-allowed; opacity: 0.52; }
+
+:root[data-theme='light'] .editorial-journey-card { filter: drop-shadow(0 16px 30px rgb(98 74 28 / 0.17)); }
+:root[data-theme='light'] .mission-week-card { color: #34442a; }
+:root[data-theme='light'] .mission-week-card__avatar { background: #d9d7b8; }
+:root[data-theme='light'] .mission-week-card__avatar span { color: #405034; }
+:root[data-theme='light'] .mission-week-card__name { color: #34442a; text-shadow: 0 1px 0 rgb(255 255 255 / 0.75); }
+:root[data-theme='light'] .mission-week-card__role { color: #657055; }
+:root[data-theme='light'] .mission-week-card__message { color: #5c624d; }
+:root[data-theme='light'] .mission-week-card__message strong { color: #34442a; }
+:root[data-theme='light'] .mission-week-card__action { color: #3f4a35; }
+:root[data-theme='light'] .mission-week-card__avatar { left: 7.3%; top: 16.4%; width: 23.5%; height: 20.8%; border-radius: 18%; }
+:root[data-theme='light'] .mission-week-card__identity { left: 35.5%; }
+:root[data-theme='light'] .mission-week-card__action { top: 77.3%; height: 20.8%; }
+:root[data-theme='light'] .mission-week-card__action span { color: #66705c; }
+:root[data-theme='light'] .mission-week-card__action:hover strong { color: #2f553d; text-shadow: none; }
+:root[data-theme='light'] .mission-week-card__action:hover span { color: #526048; }
+
+@media (min-width: 760px) {
+  .editorial-journey-card { width: min(66vw, 40rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mission-week-card__action { transition: none; }
+}
+
+/* Saguão vivo da comunidade */
+.community-presence-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(1rem, 4.5vw, 1.4rem);
+  border: 1px solid rgb(213 174 88 / 0.26);
+  border-radius: clamp(1.6rem, 7vw, 2.4rem);
+  background:
+    linear-gradient(rgb(6 13 10 / 0.08), rgb(6 13 10 / 0.2)),
+    url('./assets/community-presence-santuario-v1.png') center / cover no-repeat,
+    #0c120f;
+  box-shadow:
+    inset 0 1px 0 rgb(255 239 198 / 0.08),
+    0 18px 44px rgb(0 0 0 / 0.2);
+}
+
+.community-presence-card::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(3 8 6 / 0.03), transparent 30%, rgb(3 8 6 / 0.08));
+  content: '';
+  pointer-events: none;
+}
+
+.community-presence__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.65rem 0 1.25rem;
+}
+
+.community-presence__kicker {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: #d6af62;
+  font-size: 0.62rem;
+  font-weight: 750;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.community-presence__header h3 {
+  margin: 0;
+  color: #f2ebdf;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 5vw, 1.65rem);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.community-presence__status {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 0.4rem;
+  align-items: center;
+  min-width: max-content;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgb(118 190 145 / 0.22);
+  border-radius: 999px;
+  background: rgb(58 103 76 / 0.18);
+  color: #b9c5bb;
+}
+
+.community-presence__status strong { color: #e8f1e9; font-size: 0.82rem; line-height: 1; }
+.community-presence__status > span:last-child { grid-column: 2; font-size: 0.58rem; line-height: 1; }
+.community-presence__pulse { grid-row: 1 / 3; width: 0.55rem; aspect-ratio: 1; border-radius: 50%; background: #78c393; box-shadow: 0 0 0 4px rgb(120 195 147 / 0.1), 0 0 14px rgb(120 195 147 / 0.62); }
+
+.community-presence__rail {
+  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 4.8rem;
+  gap: clamp(0.7rem, 4vw, 1.25rem);
+  margin: 0 -0.25rem;
+  padding: 0.3rem 0.25rem 0.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+}
+
+.community-presence__rail::before {
+  position: absolute;
+  top: 2.55rem;
+  right: 2.5rem;
+  left: 2.5rem;
+  z-index: -1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(213 174 88 / 0.18) 12%, rgb(111 183 137 / 0.2) 50%, rgb(213 174 88 / 0.18) 88%, transparent);
+  content: '';
+}
+
+.community-presence__person {
+  display: flex;
+  width: 4.8rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  scroll-snap-align: start;
+}
+
+.community-presence__profile {
+  display: flex;
+  width: 100%;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.2rem 0.1rem 0.45rem;
+  border-radius: 1.2rem;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.community-presence__profile:hover { background: rgb(213 174 88 / 0.06); transform: translateY(-2px); }
+.community-presence__profile:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.community-presence__profile > span { color: #d4cec3; font-size: 0.72rem; font-weight: 620; }
+
+.community-presence__join {
+  min-height: 1.75rem;
+  padding: 0.3rem 0.58rem;
+  border: 1px solid rgb(213 174 88 / 0.28);
+  border-radius: 999px;
+  background: rgb(213 174 88 / 0.08);
+  color: #e0bd73;
+  font-size: 0.61rem;
+  font-weight: 700;
+}
+
+:root[data-theme='light'] .community-presence-card {
+  border-color: rgb(158 119 43 / 0.28);
+  background:
+    linear-gradient(rgb(255 252 242 / 0.03), rgb(245 241 221 / 0.08)),
+    url('./assets/community-presence-amanhecer-v1.png') center / cover no-repeat,
+    #f5f1e3;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.85), 0 18px 42px rgb(105 84 43 / 0.13);
+}
+
+:root[data-theme='light'] .community-presence__kicker { color: #96702c; }
+:root[data-theme='light'] .community-presence__header h3 { color: #34442a; }
+:root[data-theme='light'] .community-presence__status { border-color: rgb(67 128 87 / 0.2); background: rgb(106 174 128 / 0.12); color: #617064; }
+:root[data-theme='light'] .community-presence__status strong { color: #36523e; }
+:root[data-theme='light'] .community-presence__profile > span { color: #50594d; }
+:root[data-theme='light'] .community-presence__profile:hover { background: rgb(97 142 105 / 0.09); }
+:root[data-theme='light'] .community-presence__join { border-color: rgb(145 105 36 / 0.24); background: rgb(212 174 86 / 0.1); color: #76561f; }
+
+@media (min-width: 760px) {
+  .community-presence__rail { grid-auto-columns: 5.25rem; gap: 1.5rem; }
+  .community-presence__person { width: 5.25rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .community-presence__profile { transition: none; }
+}
+
+/* Banner editorial da Sala de Oração — a cópia acessível permanece no HTML. */
+.prayer-room-hero {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  border: 1px solid rgb(213 174 88 / 0.22);
+  border-radius: clamp(1.25rem, 5vw, 2rem);
+  background: url('./assets/prayer-room-hero-santuario-v2.png') center / cover no-repeat;
+  box-shadow: 0 16px 36px rgb(0 0 0 / 0.2);
+}
+
+:root[data-theme='light'] .prayer-room-hero {
+  border-color: rgb(158 119 43 / 0.24);
+  background-image: url('./assets/prayer-room-hero-amanhecer-v2.png');
+  box-shadow: 0 16px 36px rgb(105 84 43 / 0.13);
+}
+
+/* Faixa editorial do Mural. O título semântico permanece no HTML. */
+.mural-editorial-hero {
+  width: 100%;
+  aspect-ratio: 5.4 / 1;
+  overflow: hidden;
+  background: url('./assets/mural-hero-santuario-v3.png') center / contain no-repeat;
+  filter: drop-shadow(0 8px 18px rgb(0 0 0 / 0.2));
+}
+
+:root[data-theme='light'] .mural-editorial-hero {
+  background-image: url('./assets/mural-hero-amanhecer-v3.png');
+  filter: drop-shadow(0 8px 18px rgb(105 84 43 / 0.14));
+}
+
+.institutional-action {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  width: min(82%, 22rem);
+  min-height: 3.15rem;
+  margin: 0.7rem auto 0;
+  padding: 0.35rem 1.25rem 0.35rem 0.42rem;
+  border: 1px solid rgb(213 174 88 / 0.38) !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, rgb(35 61 48 / 0.98), rgb(18 34 27 / 0.98)) !important;
+  color: #eee4d2 !important;
+  box-shadow: inset 0 1px 0 rgb(255 241 205 / 0.08), 0 8px 20px rgb(0 0 0 / 0.18) !important;
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  font-weight: 700;
+  transition: border-color 160ms ease, color 160ms ease, transform 140ms ease, box-shadow 160ms ease;
+}
+
+.institutional-action::after {
+  position: absolute;
+  top: 50%;
+  right: 0.85rem;
+  width: 0.28rem;
+  aspect-ratio: 1;
+  border: 1px solid #d8af5e;
+  content: '';
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.institutional-action__seal {
+  display: grid;
+  width: 2.35rem;
+  aspect-ratio: 1;
+  flex: none;
+  place-items: center;
+  border: 1px solid rgb(217 177 91 / 0.32);
+  border-radius: 50%;
+  background: rgb(213 174 88 / 0.1);
+  color: #dfbd74;
+}
+
+.institutional-action:hover {
+  border-color: rgb(225 190 112 / 0.62) !important;
+  color: #fff7e8 !important;
+  transform: translateY(-1px);
+}
+
+.institutional-action:active { transform: translateY(1px) scale(0.985); }
+.institutional-action:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.institutional-action:disabled,
+.institutional-action[aria-disabled='true'] { pointer-events: none; opacity: 0.46; filter: grayscale(0.25); box-shadow: none !important; }
+
+:root[data-theme='light'] .institutional-action {
+  border-color: rgb(147 109 40 / 0.34) !important;
+  background: linear-gradient(135deg, rgb(246 243 225 / 0.98), rgb(226 232 208 / 0.98)) !important;
+  color: #36503b !important;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9), 0 8px 18px rgb(104 80 36 / 0.13) !important;
+}
+
+:root[data-theme='light'] .institutional-action__seal {
+  border-color: rgb(135 98 32 / 0.28);
+  background: rgb(213 174 88 / 0.13);
+  color: #76571f;
+}
+/* Comunhão Estudos — banner e ações formam uma única peça editorial. */
+.comunhao-estudos-card {
+  border: 1px solid var(--accent-border);
+  background: var(--surface-highlighted);
+}
+.comunhao-estudos-card__art {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  overflow: hidden;
+  background: var(--surface-elevated);
+}
+.comunhao-estudos-banner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.comunhao-estudos-banner--dark { display: none; }
+:root[data-theme='dark'] .comunhao-estudos-banner--light { display: none; }
+:root[data-theme='dark'] .comunhao-estudos-banner--dark { display: block; }
+.comunhao-estudos-card__actions {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem 1rem;
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+}
+
+/* Capas do catálogo usam o mesmo par de temas dos banners editoriais. */
+.study-course-cover--dark { display: none; }
+:root[data-theme='dark'] .study-course-cover--light { display: none; }
+:root[data-theme='dark'] .study-course-cover--dark { display: block; }
+
+/* Capas editoriais de cursos: identidade própria sem repetir o masthead do
+   produto. A arte remota aprovada ocupa este mesmo contrato quando existir. */
+.study-course-artwork {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 82% 18%, color-mix(in srgb, var(--celebration) 24%, transparent), transparent 32%),
+    linear-gradient(135deg, color-mix(in srgb, var(--accent-deep) 88%, #07120d), color-mix(in srgb, var(--canvas) 80%, #172217));
+  color: #f8f0df;
+}
+
+.study-course-artwork[data-artwork-tone='2'] {
+  background:
+    radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--accent-primary) 24%, transparent), transparent 34%),
+    linear-gradient(142deg, color-mix(in srgb, #16271f 86%, var(--canvas)), color-mix(in srgb, #594421 56%, var(--canvas)));
+}
+
+.study-course-artwork[data-artwork-tone='3'] {
+  background:
+    radial-gradient(circle at 76% 82%, color-mix(in srgb, var(--celebration) 20%, transparent), transparent 35%),
+    linear-gradient(132deg, color-mix(in srgb, #243326 78%, var(--canvas)), color-mix(in srgb, #151d18 88%, var(--canvas)));
+}
+
+:root[data-theme='light'] .study-course-artwork {
+  color: #31432f;
+  background:
+    radial-gradient(circle at 82% 18%, rgb(210 174 91 / 0.25), transparent 32%),
+    linear-gradient(135deg, #f5f1e5, #dfe7d4);
+}
+
+:root[data-theme='light'] .study-course-artwork[data-artwork-tone='2'] {
+  background: radial-gradient(circle at 18% 12%, rgb(83 122 83 / 0.18), transparent 34%), linear-gradient(142deg, #edf1e5, #e5d7ba);
+}
+
+:root[data-theme='light'] .study-course-artwork[data-artwork-tone='3'] {
+  background: radial-gradient(circle at 76% 82%, rgb(190 145 58 / 0.2), transparent 35%), linear-gradient(132deg, #f7f0df, #d8e1cf);
+}
+
+.study-course-artwork--card { aspect-ratio: 16 / 9; }
+.study-course-artwork--featured { aspect-ratio: auto; }
+.study-course-artwork--hero { aspect-ratio: 3 / 1; }
+
+.studies-featured-layout {
+  position: relative;
+  isolation: isolate;
+  min-height: 28rem;
+  overflow: hidden;
+  background: #07130e;
+}
+
+.studies-featured-layout .study-course-artwork--featured {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.studies-featured-layout .study-course-cover { object-position: 66% center; }
+
+.studies-featured-copy {
+  position: relative;
+  z-index: 2;
+  min-height: 28rem;
+  justify-content: flex-end;
+  border: 0 !important;
+  background: linear-gradient(180deg, transparent 18%, rgb(3 10 7 / 0.18) 38%, rgb(3 10 7 / 0.94) 84%);
+}
+
+.studies-featured-copy .txt-primary { color: #fff8e9; }
+.studies-featured-copy .txt-secondary { color: #e0d8c9; }
+
+.study-course-artwork__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: min(78%, 30rem);
+  flex-direction: column;
+  align-self: flex-end;
+  gap: 0.4rem;
+  padding: clamp(1.1rem, 4vw, 2rem);
+}
+
+.study-course-artwork__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: clamp(0.62rem, 1.5vw, 0.75rem);
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #dfbd74;
+}
+
+:root[data-theme='light'] .study-course-artwork__eyebrow { color: #795b21; }
+.study-course-artwork__content strong { font-family: var(--font-display); font-size: clamp(1.35rem, 4.2vw, 2.8rem); line-height: 1; text-wrap: balance; }
+.study-course-artwork__content > span:last-child { font-size: clamp(0.7rem, 1.8vw, 0.9rem); opacity: 0.78; }
+
+.study-course-artwork__watermark {
+  position: absolute;
+  right: 5%;
+  top: 13%;
+  width: 38%;
+  height: 74%;
+  color: #dfbd74;
+  opacity: 0.15;
+  stroke-width: 0.8;
+}
+
+.study-course-artwork__halo { position: absolute; border: 1px solid currentColor; border-radius: 999px; opacity: 0.08; }
+.study-course-artwork__halo--one { right: -8%; top: -32%; width: 58%; aspect-ratio: 1; }
+.study-course-artwork__halo--two { right: 11%; top: -4%; width: 31%; aspect-ratio: 1; }
+
+.studies-course-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+@media (min-width: 600px) {
+  .mural-page-header,
+  .mural-feed-list {
+    width: min(100%, 42rem);
+    margin-inline: auto;
+  }
+
+  .tesouro-product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .studies-course-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .studies-search { max-width: 42rem; }
+  .study-course-artwork--hero .study-course-artwork__content { width: min(60%, 32rem); }
+  .studies-course-intro > div > p { max-width: 68ch; }
+}
+
+@media (min-width: 720px) {
+  .studies-featured-layout {
+    min-height: clamp(28rem, 48vw, 34rem);
+  }
+
+  .studies-featured-layout .study-course-cover { object-position: center; }
+  .studies-featured-copy {
+    width: min(58%, 39rem);
+    min-height: clamp(28rem, 48vw, 34rem);
+    justify-content: center;
+    background: linear-gradient(90deg, rgb(3 12 8 / 0.97) 0%, rgb(3 12 8 / 0.84) 52%, transparent 100%);
+  }
+
+  .tesouro-feature {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(20rem, 1.08fr);
+    align-items: stretch;
+  }
+
+  .tesouro-feature__media { min-height: 23rem; }
+  .tesouro-feature__media > img { width: 100%; height: 100%; object-fit: contain; }
+
+  .studies-lesson-page:not(.studies-lesson-page--open) { max-width: 52rem; }
+  .studies-lesson-page--open {
+    display: grid;
+    grid-template-columns: minmax(18rem, 0.78fr) minmax(0, 1.22fr);
+    align-items: start;
+    gap: 1.5rem;
+  }
+
+  .studies-lesson-page--open > * { margin-top: 0 !important; }
+  .studies-lesson-page--open > :first-child,
+  .studies-lesson-page--open > header { grid-column: 1 / -1; }
+  .studies-lesson-page--open > :nth-child(3) { position: sticky; top: 1rem; grid-column: 1; }
+  .studies-lesson-page--open > :nth-child(4) { grid-column: 2; }
+  .studies-lesson-page--open > :nth-child(4) p { max-width: 70ch; }
+}
+
+@media (min-width: 1050px) {
+  .studies-course-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

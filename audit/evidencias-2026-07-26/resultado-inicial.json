@@ -1,0 +1,105 @@
+{
+  "finalUrl": "http://127.0.0.1:5173/timer/00000000-0000-0000-0000-000000000000",
+  "title": "",
+  "body": "",
+  "routes": [
+    {
+      "name": "04-home",
+      "route": "/",
+      "finalUrl": "http://127.0.0.1:5173/",
+      "body": "Erro ao carregar dados. Recarregue a página.\nInício\nMural\nEBD\nTesouro\nPerfil\n\nUsuário não encontrado no banco de dados.\n\nUsuário não encontrado no banco de dados."
+    },
+    {
+      "name": "05-mural",
+      "route": "/mural",
+      "finalUrl": "http://127.0.0.1:5173/mural",
+      "body": "COMUNIDADE\n\nMural de Oração\nIntercessão ativa\n\nPedidos, testemunhos e avisos para caminharmos juntos em oração.\n\nC\nCharles Aquino\nagora mesmo\n\nOrem pelo grupo e pelo projeto.\n\n1 irmão orando\nInterceder\n0\nInício\nMural\nEBD\nTesouro\nPerfil"
+    },
+    {
+      "name": "06-ranking",
+      "route": "/ranking",
+      "finalUrl": "http://127.0.0.1:5173/ranking",
+      "body": "Jornada de Serviço\n\n8 patentes · uma caminhada de comunhão\n\nMEU PROGRESSO\n\n?\nServo Fiel\nIV\n0 XP\n\n0 PC · 0+ XP\n\nESCALADA DA SEMANA\n\nQuem mais ganhou Pontos de Comunhão nos últimos 7 dias.\n\nDisponível em breve\n\nSERVIÇO\nServo Fiel\nIV–I\n\n5 membros · mínimo 0 XP\n\nGuardião\nIV–I\n\n0 membros · mínimo 300 XP\n\nIntercessor\nIV–I\n\n0 membros · mínimo 800 XP\n\nMISSÃO\nAtalaia\nIV–I\n\n0 membros · mínimo 1800 XP\n\nDiscipulador\nIV–I\n\n0 membros · mínimo 3500 XP\n\nMissionário\nIV–I\n\n0 membros · mínimo 6000 XP\n\nSABEDORIA\nConselheiro\nIV–I\n\n0 membros · mínimo 9500 XP\n\nPacificador\nPatente máxima\n\n0 membros · mínimo 18500 XP\n\nComo funciona a Jornada?\n0\nInício\nMural\nEBD\nTesouro\nPerfil"
+    },
+    {
+      "name": "07-ebd",
+      "route": "/ebd",
+      "finalUrl": "http://127.0.0.1:5173/ebd",
+      "body": "Escola Bíblica Digital\n\nLições e Quiz\n\nNenhuma lição disponível ainda.\n\nEm breve o professor adicionará o conteúdo.\n\n0\nInício\nMural\nEBD\nTesouro\nPerfil"
+    },
+    {
+      "name": "08-loja",
+      "route": "/loja",
+      "finalUrl": "http://127.0.0.1:5173/loja",
+      "body": "Tesouro\n\nResgate prêmios com seus pontos de comunhão\n\nItens\nMeus Pedidos\n\nNenhum item disponível na loja.\n\n0\nInício\nMural\nEBD\nTesouro\nPerfil"
+    },
+    {
+      "name": "09-carteira",
+      "route": "/carteira",
+      "finalUrl": "http://127.0.0.1:5173/carteira",
+      "body": "Minha Carteira\n\nSeu registro de fidelidade em Kesef\n\n0\nKESEF\n\nכֶּסֶף\n\nSEU CÓDIGO DE INDICAÇÃO\n\n5A45B1DA\n\nCompartilhe e ganhe +20 Kesef por novo membro!\n\nHISTÓRICO DE ATIVIDADE\n\nNenhuma atividade ainda.\n\nOre, estude e acompanhe seu saldo crescer.\n\nInício\nMural\nEBD\nTesouro\nPerfil"
+    },
+    {
+      "name": "10-comunidade",
+      "route": "/comunidade",
+      "finalUrl": "http://127.0.0.1:5173/comunidade",
+      "body": "Usuário não encontrado no banco de dados.\n0\nInício\nMural\nEBD\nTesouro\nPerfil"
+    },
+    {
+      "name": "11-perfil",
+      "route": "/perfil",
+      "finalUrl": "http://127.0.0.1:5173/perfil",
+      "body": "Perfil não encontrado.\n0\nInício\nMural\nEBD\nTesouro\nPerfil"
+    },
+    {
+      "name": "12-guia",
+      "route": "/guia",
+      "finalUrl": "http://127.0.0.1:5173/guia",
+      "body": "Jornada de Serviço\n\n8 patentes · Serviço, Missão e Sabedoria\n\nQuanto mais você ora, estuda e participa, mais amadurece na jornada. Cada patente tem 4 divisões (IV → I). Ao chegar ao topo, a próxima patente reconhece uma nova etapa de serviço.\n\nCOMO EVOLUIR\n\nOre com outros +5 XP\n\nOrar com alguém rende XP de comunhão e Pontos de Comunhão\n\nComplete lições +10 XP\n\nEstude a lição da EBD e faça o quiz\n\nIndique amigos +15 XP\n\nCada novo membro que você trouxer rende XP\n\nExemplo de progresso\n\nServo Fiel II\nGuardião\n\n200 / 300 XP — 67% · 67 PC\n\nAS 8 PATENTES DA JORNADA\nSERVIÇO\n\nConstância, proteção e oração pela comunidade\n\nServo Fiel\nIV → I\nInicial\n\nConstância e serviço na vida de oração\n\nA partir de 0 XP\n\nGuardião\nIV → I\n\nProteção e cuidado pela comunidade\n\nA partir de 300 XP · I a IV\n\nIntercessor\nIV → I\n\nPerseverança em oração constante\n\nA partir de 800 XP · I a IV\n\nMISSÃO\n\nVigilância, formação e envio para servir\n\nAtalaia\nIV → I\n\nVigilância espiritual e prontidão\n\nA partir de 1800 XP · I a IV\n\nDiscipulador\nIV → I\n\nFormação e multiplicação da fé\n\nA partir de 3500 XP · I a IV\n\nMissionário\nIV → I\n\nDisponibilidade para ir e servir\n\nA partir de 6000 XP · I a IV\n\nSABEDORIA\n\nDiscernimento, maturidade e promoção da paz\n\nConselheiro\nIV → I\n\nDiscernimento para orientar com cuidado\n\nA partir de 9500 XP · I a IV\n\nPacificador\nLadder\n\nMaturidade para promover comunhão e paz\n\nA partir de 18500 XP\n\nVISUAL\n\nComo cada esfera aparece no grid da mocidade:\n\nSERVIÇO\n\nServo Fiel\nServo Fiel\nGuardião\nGuardião\nIntercessor\nIntercessor\n\nMISSÃO\n\nAtalaia\nAtalaia\nDiscipulador\nDiscipulador\nMissionário\nMissionário\n\nSABEDORIA\n\nConselheiro\nConselheiro\nPacificador\nPacificador\nAnel verde = disponível para oração\nAnel rosa = orando no momento\nAnel cinza = offline\n\n\"Orai sem cessar.\"\n1 Tessalonicenses 5:17\n\n0\nInício\nMural\nEBD\nTesouro\nPerfil"
+    },
+    {
+      "name": "13-admin-membro",
+      "route": "/admin",
+      "finalUrl": "http://127.0.0.1:5173/admin",
+      "body": "Acesso Restrito\n\nApenas professores podem acessar o painel.\n\nWHATSAPP\nSENHA\nEntrar como Professor\nVoltar ao Início\n0\nInício\nMural\nEBD\nTesouro\nPerfil"
+    }
+  ],
+  "interactions": [
+    {
+      "name": "criar-pedido",
+      "body": "COMUNIDADE\n\nMural de Oração\nIntercessão ativa\n\nPedidos, testemunhos e avisos para caminharmos juntos em oração.\n\nC\nCharles Aquino\nagora mesmo\n\nOrem pelo grupo e pelo projeto.\n\n1 irmão orando\nInterceder\nLevantar um clamor\n\nA mocidade poderá se unir a você em oração.\n\nPedido ou testemunho\nCancelar\nPublicar\n0\nInício\nMural\nEBD\nTesouro\nPerfil\n\nErro ao criar pedido"
+    },
+    {
+      "name": "interceder",
+      "body": "COMUNIDADE\n\nMural de Oração\nIntercessão ativa\n\nPedidos, testemunhos e avisos para caminharmos juntos em oração.\n\nC\nCharles Aquino\nagora mesmo\n\nOrem pelo grupo e pelo projeto.\n\n1 irmão orando\nInterceder\n0\nInício\nMural\nEBD\nTesouro\nPerfil"
+    },
+    {
+      "name": "loja-meus-pedidos",
+      "body": "Tesouro\n\nResgate prêmios com seus pontos de comunhão\n\nItens\nMeus Pedidos\n\nVocê ainda não fez nenhum pedido.\n\n0\nInício\nMural\nEBD\nTesouro\nPerfil"
+    },
+    {
+      "name": "cadastro",
+      "body": "Bem-vindo\n\nJunte-se à mocidade e fortaleça\na corrente de intercessão.\n\nAdicionar\nAdicionar foto do perfil\nFoto de perfil (opcional — você poderá alterar depois)\nSEU NOME\nWHATSAPP\nSENHA\nCÓDIGO DE INDICAÇÃO (OPCIONAL)\nCriar Conta\nJá tem conta? Faça login\n\nAo entrar, você concorda em orar pelo seu parceiro da semana."
+    },
+    {
+      "name": "19-chat-id-invalido",
+      "body": "Carregando...\n\nMensagens\n\nNenhuma mensagem ainda\n\nEnvie uma mensagem para começar a conversa",
+      "finalUrl": "http://127.0.0.1:5173/chat/00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "name": "20-sala-id-invalido",
+      "body": "Conexão interrompida. Edge Function returned a non-2xx status code\nVoltar",
+      "finalUrl": "http://127.0.0.1:5173/sala/00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "name": "21-timer-id-invalido",
+      "body": "Em Oração Silenciosa\n\n00:03\n\nDE COMUNHÃO\n\nAmém",
+      "finalUrl": "http://127.0.0.1:5173/timer/00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "name": "admin-charles",
+      "body": "Administração\nSair\nSorteio do Círculo\n\nGerar novas duplas de oração\n\nSorteio da Semana\nGestão Pastoral\n0\nAtivos\n5\nAtenção\n0\nAfastados\n\n0% engajados esta semana\n\nTodos\nVerde\nAmarelo\nVermelho\n\nCharles Aquino\n\nAdmin\nAtenção\n13d\ndisponivel\n0 pts\nConvidar via WhatsApp\nJ\n\nJovem Teste 2\n\nAtenção\n4d\ndisponivel\n0 pts\nConvidar via WhatsApp\nJ\n\nJovem Teste 3\n\nAtenção\n4d\ndisponivel\n0 pts\nConvidar via WhatsApp\nJ\n\nJovem Teste 4\n\nAtenção\n4d\ndisponivel\n0 pts\nConvidar via WhatsApp\nJ\n\nJovem Teste 5\n\nAtenção\n4d\noffline\n0 pts\nConvidar via WhatsApp\nGerenciar Guardiões\n\nGuardiões ajudam na moderação do mural, sorteio e pedidos da loja.\n\nCharles Aquino\nMembro · 0 PC\nJovem Teste 2\nMembro · 0 PC\nJovem Teste 3\nMembro · 0 PC\nJovem Teste 4\nMembro · 0 PC\nJovem Teste 5\nMembro · 0 PC\nModerar Mural\n\nEditar ou remover postagens\n\nCharles Aquino\nCLAMOR\n\nOrem pelo grupo e pelo projeto.\n\n1 intercessão(ões)\n12/07/2026\n3\nInício\nMural\nEBD\nTesouro\nPerfil",
+      "finalUrl": "http://127.0.0.1:5173/admin"
+    }
+  ]
+}

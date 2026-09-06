@@ -1,0 +1,37 @@
+Data/hora: 2026-08-01 12:32 America/Sao_Paulo
+Versão: 1.4.0-dev.1
+Identificador: 2026-08-01_1232__CORRECAO-COMPOSITOR-E-AUTO-NOTIFICACAO__1.4.0-DEV1
+
+Objetivo:
+- compactar o compositor social do Mural;
+- preservar a hierarquia de publicação no topo e no rodapé;
+- impedir notificações para o próprio autor da ação de aceitar oração.
+
+Arquivos alterados:
+- src/pages/Mural.tsx
+- src/index.css
+- supabase/migrations/20260801133000_bloquear_auto_notificacoes.sql
+- supabase/tests/20260801133000_bloquear_auto_notificacoes.test.sql
+- docs/MURAL_SOCIAL_1.4.0-DEV1.md
+
+Migration:
+- não aplicada; deve ser revisada e testada somente em Supabase local/staging.
+
+Validação:
+- npm test: 24 arquivos e 110 testes aprovados;
+- npm run build -- --mode development: aprovado;
+- npm run lint: aprovado com avisos preexistentes.
+
+Rollback:
+- reverter os arquivos frontend/CSS;
+- remover a migration antes de aplicá-la em qualquer ambiente;
+- se já aplicada em staging, restaurar a função anterior de notificação e validar os testes SQL.
+
+Status: concluído no workspace de desenvolvimento; não publicar em testing/produção.
+
+SHA-256:
+aaa44c0afd3675a6fc3a6d72c81627773a2910a0639bed261de38e0f3e6d6115  src/pages/Mural.tsx
+4fe435545a40829a9a6d87e7c5e46fd0b9a71cad36b15990db920b9d4f3ee352  src/index.css
+47e72e7fb9f3f3f26772bb8cbfd92b12df45a0ba7adb81e75a552344ece9f4e7  supabase/migrations/20260801133000_bloquear_auto_notificacoes.sql
+dd80b003eeb4a3d751a286fa79e88a47a35aa7c0a6d0dd214811003e9c930246  supabase/tests/20260801133000_bloquear_auto_notificacoes.test.sql
+4b2c08b944457a91f672812b559a858c7a9cf00b4b1fa8d173b571404b3d27ef  docs/MURAL_SOCIAL_1.4.0-DEV1.md

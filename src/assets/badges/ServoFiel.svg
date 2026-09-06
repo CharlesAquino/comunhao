@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="servo-fiel-title servo-fiel-desc">
+  <title id="servo-fiel-title">Insígnia Servo Fiel</title>
+  <desc id="servo-fiel-desc">Escudo em verde musgo e dourado envelhecido com um ramo de oliveira em marfim.</desc>
+
+  <defs>
+    <linearGradient id="servo-fiel-depth" x1="12" y1="7" x2="50" y2="57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#314C3B"/>
+      <stop offset="0.58" stop-color="#1F382C"/>
+      <stop offset="1" stop-color="#172B22"/>
+    </linearGradient>
+    <linearGradient id="servo-fiel-gold" x1="18" y1="8" x2="46" y2="55" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#C3A067"/>
+      <stop offset="0.5" stop-color="#926B38"/>
+      <stop offset="1" stop-color="#684725"/>
+    </linearGradient>
+    <linearGradient id="servo-fiel-leaf" x1="24" y1="18" x2="42" y2="46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF8E8"/>
+      <stop offset="1" stop-color="#D9D0B8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Profundidade sem filtro: uma silhueta deslocada preserva nitidez em 24px. -->
+  <path d="M32 4.5 53.5 11.5v17.3C53.5 42.2 45.3 52.5 32 60 18.7 52.5 10.5 42.2 10.5 28.8V11.5L32 4.5Z" fill="#0E1D17" opacity=".72" transform="translate(0 1.5)"/>
+
+  <!-- Escudo comum e borda dupla. -->
+  <path d="M32 4.5 53.5 11.5v17.3C53.5 42.2 45.3 52.5 32 60 18.7 52.5 10.5 42.2 10.5 28.8V11.5L32 4.5Z" fill="url(#servo-fiel-gold)"/>
+  <path d="M32 8.1 49.9 13.95v14.7c0 11.55-6.75 20.45-17.9 27.15-11.15-6.7-17.9-15.6-17.9-27.15v-14.7L32 8.1Z" fill="url(#servo-fiel-depth)" stroke="#D2B680" stroke-width="1.25"/>
+  <path d="M32 11.2 46.7 16v12.55c0 9.85-5.45 17.45-14.7 23.35-9.25-5.9-14.7-13.5-14.7-23.35V16L32 11.2Z" fill="none" stroke="#80613A" stroke-width="1"/>
+
+  <!-- Ramo de oliveira autoral: haste simples e seis folhas, legível em escala pequena. -->
+  <path d="M28 45.5c4.2-6 6-13.5 6.1-22.5" fill="none" stroke="url(#servo-fiel-leaf)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M33.7 28.5c-4.3-.5-6.7-2.5-7.2-6 4.2 0 6.7 2 7.2 6Z" fill="url(#servo-fiel-leaf)"/>
+  <path d="M33.4 33.6c4.2-.5 6.8-2.6 7.5-6.1-4.2 0-6.9 2.1-7.5 6.1Z" fill="url(#servo-fiel-leaf)"/>
+  <path d="M31.6 38.9c-4.3-.2-7-2-8-5.4 4.2-.3 7 1.5 8 5.4Z" fill="url(#servo-fiel-leaf)"/>
+  <path d="M29.7 43.3c4.1.2 7-1.4 8.3-4.7-4.1-.7-7 .9-8.3 4.7Z" fill="url(#servo-fiel-leaf)"/>
+
+  <!-- Ponto de serviço: detalhe secundário discreto e estável em 24px. -->
+  <circle cx="27.7" cy="46.1" r="1.35" fill="#B1844D"/>
+</svg>

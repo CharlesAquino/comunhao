@@ -1,0 +1,109 @@
+{
+  "sourceImage": "app/imagens-DEV/Moeda-removebg-preview.png",
+  "zonesDir": "app/.img2threejs/detail-inventory",
+  "detailInventory": {
+    "scanMethod": "grid-3x3",
+    "targetMinDetails": 9,
+    "details": [
+      {
+        "id": "outer-rim-edge-wear",
+        "kind": "edge-wear",
+        "description": "Irregular bright bronze wear and pitted dents distributed along the raised outer rim.",
+        "region": { "x": 0.0, "y": 0.0, "width": 1.0, "height": 1.0, "units": "normalized" },
+        "scale": "micro-to-meso",
+        "affects": "albedo, roughness and bump",
+        "mapsTo": { "type": "material.localOverrides", "ref": "aged-bronze.outer-rim-edge-wear" },
+        "evidenceRef": "app/.img2threejs/detail-inventory/zone-r0c0.png",
+        "confidence": 0.94
+      },
+      {
+        "id": "outer-rim-profile",
+        "kind": "raised-ridge",
+        "description": "Thick rounded perimeter with a darker sidewall visible along the lower edge.",
+        "region": { "x": 0.0, "y": 0.66, "width": 1.0, "height": 0.34, "units": "normalized" },
+        "scale": "meso",
+        "affects": "geometry and silhouette",
+        "mapsTo": { "type": "component.localFeatures", "ref": "outer-rim.rounded-profile" },
+        "evidenceRef": "app/.img2threejs/detail-inventory/zone-r2c1.png",
+        "confidence": 0.9
+      },
+      {
+        "id": "outer-bead-ring",
+        "kind": "fastener",
+        "description": "Dense ring of small raised bronze beads close to the perimeter.",
+        "region": { "x": 0.12, "y": 0.1, "width": 0.76, "height": 0.8, "units": "normalized" },
+        "scale": "micro",
+        "affects": "surface relief and repeated geometry",
+        "mapsTo": { "type": "component.localFeatures", "ref": "front-face.outer-bead-ring" },
+        "evidenceRef": "app/.img2threejs/detail-inventory/zone-r1c2.png",
+        "confidence": 0.95
+      },
+      {
+        "id": "inner-bead-ring",
+        "kind": "fastener",
+        "description": "Second finer bead ring inset from the perimeter, separated by a recessed groove.",
+        "region": { "x": 0.14, "y": 0.12, "width": 0.72, "height": 0.76, "units": "normalized" },
+        "scale": "micro",
+        "affects": "surface relief and repeated geometry",
+        "mapsTo": { "type": "component.localFeatures", "ref": "front-face.inner-bead-ring" },
+        "evidenceRef": "app/.img2threejs/detail-inventory/zone-r1c0.png",
+        "confidence": 0.92
+      },
+      {
+        "id": "hebrew-inscription",
+        "kind": "raised-ridge",
+        "description": "Raised Hebrew inscription with rough worn crests and cavity-darkened edges.",
+        "region": { "x": 0.2, "y": 0.18, "width": 0.6, "height": 0.34, "units": "normalized" },
+        "scale": "meso",
+        "affects": "front-face identity and relief response",
+        "mapsTo": { "type": "component.localFeatures", "ref": "front-face.hebrew-inscription" },
+        "evidenceRef": "app/.img2threejs/detail-inventory/zone-r0c1.png",
+        "confidence": 0.98
+      },
+      {
+        "id": "central-flame",
+        "kind": "raised-ridge",
+        "description": "Raised flame emblem with a bright worn crest and dark recessed outline.",
+        "region": { "x": 0.4, "y": 0.52, "width": 0.2, "height": 0.2, "units": "normalized" },
+        "scale": "meso",
+        "affects": "front-face identity and relief response",
+        "mapsTo": { "type": "component.localFeatures", "ref": "front-face.central-flame" },
+        "evidenceRef": "app/.img2threejs/detail-inventory/zone-r1c1.png",
+        "confidence": 0.98
+      },
+      {
+        "id": "flame-dot-arc",
+        "kind": "fastener",
+        "description": "Semicircular arc of raised dots surrounding the flame emblem.",
+        "region": { "x": 0.3, "y": 0.44, "width": 0.4, "height": 0.35, "units": "normalized" },
+        "scale": "micro",
+        "affects": "surface relief and repeated geometry",
+        "mapsTo": { "type": "component.localFeatures", "ref": "front-face.flame-dot-arc" },
+        "evidenceRef": "app/.img2threejs/detail-inventory/zone-r1c1.png",
+        "confidence": 0.96
+      },
+      {
+        "id": "field-pitting",
+        "kind": "pitting",
+        "description": "Dense nonuniform pits and granular bronze variation across the recessed central field.",
+        "region": { "x": 0.18, "y": 0.16, "width": 0.64, "height": 0.68, "units": "normalized" },
+        "scale": "micro",
+        "affects": "bump, roughness and albedo",
+        "mapsTo": { "type": "material.localOverrides", "ref": "aged-bronze.field-pitting" },
+        "evidenceRef": "app/.img2threejs/detail-inventory/zone-r1c1.png",
+        "confidence": 0.93
+      },
+      {
+        "id": "cavity-patina",
+        "kind": "stain",
+        "description": "Dark brown patina concentrated in grooves, around relief edges and toward the inner field.",
+        "region": { "x": 0.1, "y": 0.1, "width": 0.8, "height": 0.8, "units": "normalized" },
+        "scale": "meso-to-micro",
+        "affects": "albedo, roughness and ambient occlusion",
+        "mapsTo": { "type": "material.localOverrides", "ref": "aged-bronze.cavity-patina" },
+        "evidenceRef": "app/.img2threejs/detail-inventory/zone-r2c1.png",
+        "confidence": 0.92
+      }
+    ]
+  }
+}

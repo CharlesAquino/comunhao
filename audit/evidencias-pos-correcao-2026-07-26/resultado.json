@@ -1,0 +1,19 @@
+[
+  {
+    "fluxo": "login-acessivel",
+    "telefoneNomeado": true,
+    "senhaNomeada": true,
+    "mostrarSenhaNomeado": true
+  },
+  {
+    "fluxo": "timer-invalido",
+    "bloqueado": true,
+    "cronometroIniciado": false,
+    "botaoAmem": 0
+  },
+  {
+    "fluxo": "chat-invalido",
+    "erroVisivel": true,
+    "estadoVazioIncorreto": false
+  }
+]

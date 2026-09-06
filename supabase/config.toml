@@ -1,0 +1,18 @@
+# Configuração local do Supabase CLI para o ambiente development.
+# O vínculo remoto continua sujeito a autenticação explícita.
+project_id = "csxrhvgfnkqmkehgmnkp"
+
+[db]
+major_version = 15
+
+[api]
+enabled = true
+
+[studio]
+enabled = false
+
+[inbucket]
+enabled = false
+
+[analytics]
+enabled = false

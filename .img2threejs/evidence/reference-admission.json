@@ -1,0 +1,14 @@
+{
+  "admitted": true,
+  "reasons": [],
+  "provenance": {
+    "viewpoint": "front",
+    "sourcePath": "app/imagens-DEV/Moeda-removebg-preview.png",
+    "width": 500,
+    "height": 500,
+    "foregroundCoverage": 0.4056,
+    "largestComponentFraction": 1.0,
+    "pHash": "18347927290108915202",
+    "duplicateOfHash": null
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "channel": "testing",
+  "versionCode": 14055,
+  "versionName": "1.4.0-dev.55",
+  "minimumVersionCode": 14008,
+  "mandatory": false,
+  "apkUrl": "https://csxrhvgfnkqmkehgmnkp.supabase.co/storage/v1/object/public/app-updates/development/comunhao-1.4.0-dev.55.apk",
+  "sha256": "25748f7ea29cbec4f30ae0e0861f281b82cdb677118e68a78564eb3bf08c34bb",
+  "size": 55611000,
+  "releaseDate": "2026-09-05",
+  "releaseTitle": "Santuário Contemporâneo — Salto Integral 100% Concluído",
+  "testerMessage": "Versão exclusiva do grupo piloto, entregue pelo canal interno de atualização.",
+  "releaseNotes": [
+    "Barra Superior: halo pulsante com pulso 'breathing' nas notificações e mensagens não lidas",
+    "Barra Superior: micro-shimmer dourado dinâmico na pílula do saldo Kesef ao pontuar",
+    "Home: widget 'Continuar Aprendendo' integrado ao card de Estudos com atalho direto",
+    "Home: aura viva e pulsante no avatar ao ativar disponibilidade de oração",
+    "Mural: filtros por categoria espiritual e gesto Double-Tap to Intercede com pulso de amor",
+    "EBD: barra superior de leitura bíblica sagrada e feedback háptico no quiz",
+    "Tesouro: vitrine interativa com moeda Kesef 3D e Passaporte/Ticket Dourado de resgate",
+    "Perfil: altar da Chama Sagrada na sequência de oração com brilho celestial"
+  ]
+}

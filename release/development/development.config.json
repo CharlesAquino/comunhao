@@ -1,0 +1,21 @@
+{
+  "channel": "development",
+  "versionCode": 14044,
+  "versionName": "1.4.0-dev.44",
+  "applicationId": "br.com.igreja.oracao.dev",
+  "appName": "Comunhão Dev",
+  "publishable": true,
+  "updateChannel": "testing",
+  "manifestUrl": "https://csxrhvgfnkqmkehgmnkp.supabase.co/storage/v1/object/public/app-updates/development/version.json",
+  "databaseMigrationApplied": true,
+  "notes": [
+    "Todas as abas administrativas seguem o mesmo padrão visual",
+    "Cabeçalhos, métricas, filtros e estados foram normalizados",
+    "Moeda Kesef aplicada aos principais indicadores econômicos",
+    "Temas Amanhecer e Santuário preservados",
+    "Fluxos e permissões existentes foram mantidos",
+    "Canal remoto exclusivo dos APKs development",
+    "Atualiza as instalações development sem substituir a RC3",
+    "Usar banco local ou projeto Supabase de staging"
+  ]
+}

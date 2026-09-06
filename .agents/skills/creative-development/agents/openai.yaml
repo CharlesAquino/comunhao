@@ -1,0 +1,4 @@
+interface:
+  display_name: "Creative Development"
+  short_description: "Motion, 3D, vídeo e direção visual"
+  default_prompt: "Use $creative-development para projetar e implementar esta experiência visual com clareza, performance e acessibilidade."

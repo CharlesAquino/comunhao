@@ -1,0 +1,16 @@
+[
+  {
+    "theme": "dark",
+    "type": "assertions",
+    "themeApplied": "dark",
+    "passwordVisible": true,
+    "submitHeight": 48
+  },
+  {
+    "theme": "light",
+    "type": "assertions",
+    "themeApplied": "light",
+    "passwordVisible": true,
+    "submitHeight": 48
+  }
+]

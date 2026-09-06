@@ -1,0 +1,535 @@
+# Documentação do Projeto: oracao-app (Comunhão | Oração Constante)
+
+## 1. Propósito do Projeto
+Este aplicativo é uma plataforma de tecnologia voltada para a comunhão e intercessão cristã, desenhada especificamente para salas de jovens (EBD) da Assembleia de Deus. O objetivo é automatizar o contato, fomentar a oração constante e utilizar a tecnologia para fortalecer os laços entre os jovens.
+
+## 2. Visão Geral e Dinâmica
+O projeto nasceu a partir de uma dinâmica presencial de "círculo de oração" feita na EBD.
+
+- **Dinâmica Principal (Círculo de Oração)**: Sistema de corrente onde cada jovem ora por alguém específico da turma, garantindo que ninguém fique sem intercessão e promovendo a rotação de parcerias.
+- **Gamificação**: Ranking de constância baseado em "Pontos de Comunhão" (evita comportamento artificial de deixar chamada muda ligada).
+- **Status em Tempo Real**: Uso de "anéis" visuais para indicar disponibilidade:
+    - 🟢 **Verde (Emerald)**: Disponível / Mão Levantada.
+    - 🔴 **Vermelho (Rose)**: Em Oração.
+    - ⚪ **Cinza**: Offline.
+- **Identidade Visual**: Dark mode nativo com tema "Menta Pastel" (verde-100 a verde-300), Glassmorphism, suporte a Light Mode (estilo Instagram) com toggle persistente.
+
+## 3. Stack Tecnológica (Atual - Implementada)
+
+| Tecnologia | Versão | Status | Finalidade |
+|---|---|---|---|
+| **React** | ^19.2.7 | ✅ Implementado | Framework frontend |
+| **TypeScript** | ^7.0.2 | ✅ Implementado | Tipagem estrita (strict mode) |
+| **Vite** | ^8.1.1 | ✅ Implementado | Build tool / dev server |
+| **Tailwind CSS** | ^4.3.2 | ✅ Implementado | Estilização utilitária (config via `@theme` no `index.css`) |
+| **React Router DOM** | ^7.18.1 | ✅ Implementado | Roteamento SPA com App Shell (`BaseLayout`) |
+| **Lucide React** | ^1.24.0 | ✅ Implementado | Ícones (substituíram todos emojis) |
+| **Supabase JS** | ^2.110.2 | ✅ Implementado | Backend-as-a-Service (Auth + Postgres + Realtime + Storage) |
+| **Vite PWA Plugin** | ^1.3.0 | ✅ Configurado | Service Worker, manifest, instalação mobile |
+| **Oxlint** | ^1.71.0 | ✅ Configurado | Linter rápido |
+| **Vitest + Testing Library** | ^4.1.10 / ^16.3.2 | ✅ Configurado | Testes unitários e de integração |
+| **GitHub Actions** | — | ✅ Configurado | CI (lint + test + build) |
+| **Capacitor** | — | 🔄 Planejado | Empacotamento mobile (iOS/Android) — mesma base web |
+
+**Backend/Dados (Supabase - Já Implementado):**
+- **Auth**: Phone OTP (WhatsApp) — Login, Register, VerifyOtp funcionando
+- **Database**: PostgreSQL com RLS habilitado (políticas atuais permissivas — **pendente apertar**)
+- **Realtime**: Subscriptions em `usuarios`, `pedidos`, `intercessoes` para UI reativa
+- **Storage**: Bucket `avatars` para fotos de perfil
+
+## 4. Estrutura de Diretórios (Atual)
+
+```
+oracao-app/
+├── .env                          # Credenciais Supabase (⚠️ COMMITADO - remover do histórico)
+├── .env.example                  # Template de variáveis (a criar)
+├── .gitignore
+├── .oxlintrc.json
+├── README.md                     # Template Vite padrão (não customizado)
+├── index.html                    # Com script inline de tema para evitar flash
+├── package.json
+├── tsconfig.json
+├── vite.config.js                # Config Vite + PWA + React + Tailwind
+├── setup_db.sql                  # Schema PostgreSQL + RLS + functions
+├── setup_db_migration.sql        # Migrações adicionais
+├── .github/workflows/ci.yml      # CI: lint + test + build
+├── public/
+│   ├── favicon.svg
+│   ├── icons.svg
+│   ├── pwa-192x192.png
+│   └── pwa-512x512.png
+├── dist/                         # Build de produção (gerado)
+└── src/
+    ├── main.tsx                  # Entry point + ErrorBoundary + ThemeProvider
+    ├── App.tsx                   # Rotas: /login, /register, /verify-otp, /, /mural, /ranking, /admin
+    ├── index.css                 # Tailwind v4 + @theme + variáveis CSS + glassmorphism + animações
+    ├── vite-env.d.ts
+    ├── assets/
+    │   ├── hero.png
+    │   ├── react.svg
+    │   └── vite.svg
+    ├── components/
+    │   ├── layout/
+    │   │   └── BaseLayout.tsx    # App shell: fundo aurora + bottom nav + ThemeToggle
+    │   ├── ErrorBoundary.tsx     # Captura erros de renderização
+    │   ├── ThemeToggle.tsx       # Botão Sol/Lua (canto superior direito)
+    │   ├── AvatarPicker.tsx      # Upload de avatar (validação tamanho/tipo)
+    │   ├── MocidadeGrid.tsx      # Grid de jovens com anéis de status
+    │   └── PedidoCard.tsx        # Card de pedido/testemunho com botão interceder
+    ├── pages/
+    │   ├── Login.tsx             # Login por telefone (WhatsApp)
+    │   ├── Register.tsx          # Cadastro nome + telefone + avatar
+    │   ├── VerifyOtp.tsx         # Verificação OTP 6 dígitos (Supabase Auth)
+    │   ├── Home.tsx              # Dashboard: missão, sustentador, grid, toggle disponibilidade
+    │   ├── Mural.tsx             # Feed pedidos/testemunhos + modal criar + intercessão
+    │   ├── Ranking.tsx           # Pódio + leaderboard por pontos_comunhao
+    │   └── Admin.tsx             # Painel Professor: sorteio círculo + moderação mural
+    ├── services/
+    │   ├── supabaseClient.ts     # Cliente Supabase singleton (env vars)
+    │   ├── constants.ts          # STORAGE_KEYS, LIMITS, ROUTES, MESSAGES, WHATSAPP config
+    │   ├── dataService.ts        # Camada de dados centralizada (typed)
+    │   ├── adminAuth.ts          # Senha admin (localStorage hash simples)
+    │   └── whatsappService.ts    # Stub: notifyPrayerPartners() + sendWhatsAppMessage()
+    ├── contexts/
+    │   └── ThemeContext.tsx      # Estado tema + persistência localStorage + data-theme no <html>
+    ├── types/
+    │   └── index.ts              # Tipos: Usuario, DashboardData, PedidoMural, PedidoAdmin, etc.
+    ├── test/
+    │   ├── setup.ts              # Vitest setup (jest-dom, cleanup)
+    │   ├── MocidadeGrid.test.tsx
+    │   ├── adminAuth.test.ts
+    │   ├── ErrorBoundary.test.tsx
+    │   └── constants.test.ts
+    └── documentação/
+        └── Genesis               # Este arquivo
+```
+
+## 5. Modelagem de Dados (Implementada no Supabase)
+
+### Tabela: `usuarios`
+| Campo | Tipo | Descrição |
+|---|---|---|
+| `id` | UUID (PK) | Identificador único (auth.uid()) |
+| `nome` | TEXT | Nome completo ou social |
+| `telefone` | TEXT (UNIQUE) | Número WhatsApp para OTP |
+| `foto_url` | TEXT | Link Storage (bucket `avatars`) |
+| `status_anel` | ENUM | `offline`, `disponivel`, `orando` |
+| `pontos_comunhao` | INT | Total de pontos no ranking |
+| `streak_dias` | INT | Dias consecutivos orando |
+| `orando_por_id` | UUID (FK) | Referência a quem este jovem deve orar |
+| `sendo_orado_por_id` | UUID (FK) | Referência a quem ora por este jovem |
+| `last_login` | TIMESTAMP | Último acesso (filtro inativos no sorteio) |
+| `device_id` | TEXT | ID do dispositivo (troca de aparelho) |
+| `criado_em` | TIMESTAMP | Data de cadastro |
+
+### Tabela: `pedidos`
+| Campo | Tipo | Descrição |
+|---|---|---|
+| `id` | UUID (PK) | Identificador único |
+| `autor_id` | UUID (FK) | Referência a `usuarios.id` |
+| `texto` | TEXT | Pedido de oração ou testemunho |
+| `tipo` | ENUM | `em_clamor` ou `testemunho` |
+| `criado_em` | TIMESTAMP | Data de criação |
+| `finalizado_em` | TIMESTAMP | Data em que virou testemunho |
+
+### Tabela: `intercessoes` (N:N)
+| Campo | Tipo | Descrição |
+|---|---|---|
+| `pedido_id` | UUID (FK) | Referência ao pedido |
+| `usuario_id` | UUID (FK) | Referência ao usuário que clicou "Estou Orando" |
+| `criado_em` | TIMESTAMP | Data da intercessão |
+
+### Tabela: `historico_oracoes`
+| Campo | Tipo | Descrição |
+|---|---|---|
+| `id` | UUID (PK) | Identificador da sessão |
+| `usuario_1_id` | UUID (FK) | Primeiro participante |
+| `usuario_2_id` | UUID (FK) | Segundo participante |
+| `duracao_segundos` | INT | Tempo total da oração |
+| `pontos_gerados` | INT | Pontos atribuídos à sessão |
+| `finalizado_em` | TIMESTAMP | Data do "Amém" |
+
+### RLS (Row Level Security) — **Status Atual: PERMISSIVO DEMAIS**
+- Todas as tabelas têm RLS habilitado
+- Políticas atuais: `SELECT`, `INSERT`, `UPDATE`, `DELETE` públicos (`true`)
+- **Pendência Crítica**: Restringir políticas usando `auth.uid()` — usuários só podem alterar próprios registros
+
+## 6. Funcionalidades Implementadas
+
+### 6.1 Autenticação Real (Supabase Auth - Phone OTP)
+- **Login.tsx**: Entrada por telefone → `supabase.auth.signInWithOtp({ phone })`
+- **Register.tsx**: Cadastro nome + telefone + avatar → `insert` em `usuarios` + `device_id`
+- **VerifyOtp.tsx**: Código 6 dígitos → `verifyOtp({ phone, token, type: 'sms' })` → salva `user_id` no localStorage
+- Persistência: `localStorage.setItem(STORAGE_KEYS.USER_ID, user.id)`
+- Troca de dispositivo detectada via `device_id`
+
+### 6.2 Tema (Light/Dark) — Implementado
+- Script inline no `index.html` aplica tema **antes** do primeiro render (evita flash)
+- Variáveis CSS (`--txt-primary`, `--bg-surface`, `--glass-bg`, etc.) trocam por tema
+- `ThemeContext` gerencia estado runtime + persistência `localStorage`
+- `ThemeToggle` no canto superior direito (BaseLayout)
+
+### 6.3 Home (`Home.tsx`) — Dashboard Principal
+- Consome `getDashboardData()` (dados reais via Supabase)
+- `subscribeToDataChanges()` para realtime (usuarios, pedidos, intercessoes)
+- **Card "Sua Missão da Semana"**: quem o usuário deve orar (`missaoAtual` = `orando_por_id`)
+- **Card "Sustentado em Fé"**: quem intercede pelo usuário (`parceiroSustentador` = `sendo_orado_por_id`)
+- **Grid da Mocidade** (`MocidadeGrid`): anéis de status coloridos, tempo real
+- **Botão "Levantar a Mão" / "Sair da Disponibilidade"**: `toggleUserAvailability()` (toggle `disponivel` ↔ `offline`)
+- Estados: loading, erro, redirecionamento se não autenticado
+
+### 6.4 Mural (`Mural.tsx`)
+- Feed via `getMuralData()` (join `pedidos` + `usuarios` + count `intercessoes`)
+- Tipos: `em_clamor` (ícone Heart) e `testemunho` (ícone Sparkles + badge âmbar)
+- Botão "Estou Orando" → `intercederPorPedido()` (toggle insert/delete em `intercessoes`)
+- Modal criar pedido → `criarPedidoOracao(texto)` (tipo `em_clamor`)
+- Estado vazio: "Seja o primeiro a clamar!" + ícone MessageCircle
+
+### 6.5 Ranking (`Ranking.tsx`)
+- Dados via `getRankingData()` (order by `pontos_comunhao` desc)
+- Pódio visual (1º, 2º, 3º) com destaque de cor/tamanho para 1º
+- Lista geral a partir do 4º lugar
+- Realtime via `subscribeToDataChanges()`
+
+### 6.6 Painel do Professor (`Admin.tsx`) — **Implementado e Funcional**
+- **Autenticação separada**: senha hash em `localStorage` (`adminAuth.ts`)
+- **Algoritmo do Círculo de Oração (Produção)**:
+  1. Busca usuários ativos: `last_login >= now() - LIMITS.INACTIVE_DAYS` (15 dias)
+  2. Valida mínimo: `LIMITS.MIN_USERS_FOR_DRAW` (3)
+  3. Embaralha Fisher-Yates
+  4. Conexões circulares: `orando_por_id = (i+1)%total`, `sendo_orado_por_id = (i-1+total)%total`
+  5. `upsert` em lote na tabela `usuarios`
+- **Moderação do Mural** (`getAllPedidos` + `updatePedido` + `deletePedido`):
+  - Editar texto (inline)
+  - Excluir (com confirmação)
+  - Alternar tipo: `em_clamor` ↔ `testemunho`
+- **Notificação WhatsApp**: `notifyPrayerPartners()` (stub — loga aviso se `.env` vazio)
+- **Gestão Pastoral**: Placeholder textual para métricas de engajamento (a implementar)
+
+## 7. Algoritmo do Círculo de Oração (Já em Produção no Admin)
+
+```typescript
+// Em Admin.tsx:executarSorteio()
+const thresholdDate = new Date();
+thresholdDate.setDate(thresholdDate.getDate() - LIMITS.INACTIVE_DAYS); // 15 dias
+
+const { data: usuarios } = await supabase
+  .from('usuarios')
+  .select('id')
+  .gte('last_login', thresholdDate.toISOString())
+  .order('id');
+
+if (!usuarios || usuarios.length < LIMITS.MIN_USERS_FOR_DRAW) {
+  throw new Error('Jovens ativos insuficientes');
+}
+
+// Fisher-Yates shuffle
+const shuffled = [...usuarios];
+for (let i = shuffled.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+}
+
+// Permutação circular
+const updates = shuffled.map((u, i) => ({
+  id: u.id,
+  orando_por_id: shuffled[(i + 1) % total].id,
+  sendo_orado_por_id: shuffled[(i - 1 + total) % total].id,
+}));
+
+await supabase.from('usuarios').upsert(updates);
+await notifyPrayerPartners(); // WhatsApp (stub)
+```
+
+## 8. Serviços (Camada de Dados Centralizada)
+
+### `dataService.ts` — Funções Principais
+| Função | Descrição |
+|---|---|
+| `getDashboardData()` | Missão, sustentador, grid mocidade, usuário atual |
+| `getMuralData()` | Feed pedidos + contagem intercessores |
+| `toggleUserAvailability()` | Toggle `status_anel` (disponivel ↔ offline) |
+| `intercederPorPedido(pedidoId)` | Toggle intercessão (insert/delete) |
+| `criarPedidoOracao(texto)` | Insert em `pedidos` (tipo `em_clamor`) |
+| `getRankingData()` | Leaderboard por `pontos_comunhao` |
+| `getAllPedidos()` | Admin: todos pedidos com autor + contagem |
+| `updatePedido(id, updates)` | Admin: editar texto/tipo |
+| `deletePedido(id)` | Admin: excluir |
+| `uploadAvatar(file, userId)` | Storage `avatars` bucket + validação |
+| `loginByPhone(telefone)` | Busca usuário por telefone + device_id |
+| `sendOtp(telefone)` | Supabase Auth OTP SMS |
+| `verifyOtpAndLogin(telefone, token, userId)` | Verifica OTP + atualiza device_id |
+| `registerUser(nome, telefone)` | Insert `usuarios` + localStorage |
+| `subscribeToDataChanges(callback)` | Realtime channel (usuarios, pedidos, intercessoes) |
+
+### `constants.ts` — Configurações Centralizadas
+- `STORAGE_KEYS`: `USER_ID`, `DEVICE_ID`, `THEME`, `ADMIN_AUTH`
+- `LIMITS`: `INACTIVE_DAYS=15`, `MIN_USERS_FOR_DRAW=3`, `MAX_FILE_SIZE=5MB`
+- `ROUTES`: paths das páginas
+- `MESSAGES`: strings de UI (AWAITING_DRAW, ANONYMOUS, NOT_AUTHENTICATED, etc.)
+- `WHATSAPP`: config Evolution API (url, key, instance, template)
+
+### `whatsappService.ts` — Stub Pronto para Integração
+- `sendWhatsAppMessage(phone, message)`: POST para Evolution API
+- `notifyPrayerPartners()`: busca todos `usuarios` com `orando_por_id` e envia template
+- **Status**: Se `VITE_EVOLUTION_API_URL` vazio, loga warning e não falha
+
+### `adminAuth.ts` — Proteção Simples do Admin
+- `checkAdminAuth()`: verifica hash em `localStorage`
+- `loginAsAdmin(password)`: compara com hash fixo (definido no código)
+- `logoutAdmin()`: remove flag
+
+## 9. Integração WhatsApp (Evolution API) — Documentada, Pendente Implementação Real
+
+**Arquivo de referência**: `docs/whatsapp-evolution.md`
+
+### Configuração Necessária
+```bash
+# .env
+VITE_EVOLUTION_API_URL=http://IP-DA-MAQUINA:8080
+VITE_EVOLUTION_API_KEY=oracao-api-key-123
+VITE_EVOLUTION_INSTANCE=oracao
+```
+
+### Fluxo
+1. Admin executa sorteio no painel
+2. `notifyPrayerPartners()` busca pares (`orando_por_id`)
+3. Para cada par, envia: `"🙏 Olá [nome]! Sua missão da semana é orar por [parceiro]. Que Deus abençoe sua intercessão! 💒"`
+4. Evolution API entrega via WhatsApp conectado
+
+## 10. Roadmap — Status Real (Atualizado 19/07/2026)
+
+| Fase | Descrição | Status Real |
+|---|---|---|
+| **Fase 1** | Setup projeto, Tailwind v4, estrutura pastas | ✅ Concluído |
+| **Fase 2** | App Shell, Roteamento, Layout Base | ✅ Concluído |
+| **Fase 3** | Grid Mocidade + Anéis de Status | ✅ Concluído |
+| **Fase 4** | Mural Pedidos + Intercessão + Testemunhos | ✅ Concluído |
+| **Fase 5** | Camada Dados (`dataService`) + Reatividade | ✅ Concluído |
+| **Fase 6** | Modelagem BD + Algoritmo Cíclico | ✅ Concluído (BD + Admin) |
+| **Fase 7** | Integração Áudio (WebRTC) + Notificações WhatsApp | 🔄 Parcial (WhatsApp stub pronto, WebRTC não) |
+| **Fase 8** | Painel Admin + Métricas Pastorais | 🔄 Parcial (Admin pronto, métricas pendentes) |
+| **Fase 9** | Empacotamento Mobile via Capacitor | ⏳ Pendente |
+| **Fase 10** | Módulo EBD (Lições + Quiz Diário) | ⏳ Pendente |
+| **Fase 11** | Sistema Moeda Kesef (Ledger, Streaks, Ranking) | ⏳ Pendente |
+| **Fase 12** | Lojinha Resgate (Itens, Estoque, Pedidos) | ⏳ Pendente |
+| **Fase 13** | Métricas Pastorais Reais no Admin (Semáforo Engajamento) | ⏳ Pendente |
+
+## 11. Problemas Críticos Identificados (Plano de Ação - `docs/plano-de-acao.md`)
+
+### 🔴 Prioridade 1 — Segurança (Urgente)
+| # | Tarefa | Status |
+|---|---|---|
+| 1.1 | Remover `.env` do histórico git + adicionar ao `.gitignore` | ⏳ Pendente |
+| 1.2 | Criar `.env.example` documentado | ⏳ Pendente |
+| 1.3 | Proteger rota `/admin` (já tem senha, mas avaliar robustez) | ✅ Implementado (senha localStorage) |
+| 1.4 | **Implementar Supabase Auth corretamente** (já usa OTP, mas `dataService` ainda lê `localStorage` para `user_id` — migrar para `supabase.auth.getUser()`) | 🔄 Parcial |
+| 1.5 | **Apertar políticas RLS** (usar `auth.uid()`, remover DELETE/UPDATE públicos) | ⏳ Pendente |
+
+### 🟡 Prioridade 2 — Qualidade de Código
+| # | Tarefa | Status |
+|---|---|---|
+| 2.1 | TypeScript strict mode | ✅ Já configurado |
+| 2.2 | Constantes compartilhadas | ✅ `constants.ts` existe |
+| 2.3 | Loading states em botões de mutação | 🔄 Parcial (alguns têm, outros não) |
+| 2.4 | Error Boundaries | ✅ `ErrorBoundary.tsx` em `App.tsx` |
+| 2.5 | Substituir `console.error` por sistema de notificação | ⏳ Pendente |
+
+### 🟡 Prioridade 3 — Testes
+| # | Tarefa | Status |
+|---|---|---|
+| 3.1 | Vitest + Testing Library | ✅ Configurado |
+| 3.2 | Testar `dataService` (mock Supabase) | ⏳ Pendente |
+| 3.3 | Testar algoritmo sorteio círculo | ⏳ Pendente |
+| 3.4 | Testar fluxo registro/auth | ⏳ Pendente |
+
+### 🟢 Prioridade 4 — Documentação + DevX
+| # | Tarefa | Status |
+|---|---|---|
+| 4.1 | Customizar README | ⏳ Pendente |
+| 4.2 | Documentar setup/deploy | ⏳ Pendente |
+| 4.3 | Script lint no CI | ✅ `ci.yml` roda `oxlint` |
+
+### ⚪ Prioridade 5 — PWA + Offline
+| # | Tarefa | Status |
+|---|---|---|
+| 5.1 | Manifest.json + icons | ✅ Configurado (vite-plugin-pwa) |
+| 5.2 | Service Worker | ✅ Configurado |
+| 5.3 | Cache strategy assets | ✅ Configurado (pwa plugin defaults) |
+
+## 12. Convenções do Projeto
+
+- **Nomenclatura BD/Variáveis**: Português (`usuarios`, `pedidos`, `orando_por_id`, `status_anel`)
+- **Interface**: Português, tom acolhedor "da igreja" ("Amém" em vez de "Desligar", "Levantar a Mão" em vez de "Ficar disponível")
+- **Tema padrão**: Dark mode; Light mode via toggle (persiste)
+- **Arquitetura**: Camada de serviços (`services/`) — componentes **nunca** chamam Supabase diretamente
+- **Tipagem**: TypeScript strict — `types/index.ts` centraliza interfaces
+- **Reatividade**: `subscribeToDataChanges` (Realtime) + refetch manual após mutações
+- **Constantes**: `constants.ts` — sem magic strings/numbers nos componentes
+- **Estados**: Loading/Error/Empty states em todas as telas de dados
+
+## 13. Próximos Passos Imediatos (Sprint 1 - Segurança)
+
+1. **Remover `.env` do git** (`git filter-repo` ou `BFG Repo-Cleaner`) e rotacionar chaves Supabase
+2. **Criar `.env.example`** com todas as variáveis documentadas
+3. **Migrar `dataService.getCurrentUserId()`** para usar `supabase.auth.getUser()` + RLS em vez de `localStorage`
+4. **Reescrever políticas RLS** em `setup_db_migration.sql` usando `auth.uid()`
+5. **Aplicar migração** no Supabase Dashboard
+6. **Testar**: usuário só vê/edita próprios dados; admin via service role (se necessário)
+
+---
+
+## 14. Entrada: 19/07/2026 — Sprint S0 (Segurança Crítica)
+
+### Contexto
+Sessão com opencode para contextualização, planejamento estruturado e execução do Sprint S0 (Segurança Crítica). O projeto foi auditado e constatou-se que estava mais avançado que a documentação indicava (TypeScript, Supabase, PWA, Admin já implementados). Duas atividades foram realizadas:
+
+1. **Plano de Ação v2** (`docs/plano-de-acao-v2.md`): 8 fases (S0 a S7) com análise de requisitos, tarefas, critérios de aceitação, modelagem de dados, riscos e cronograma.
+2. **Sprint S0 executado**: migração completa de autenticação baseada em localStorage para Supabase Auth, com RLS policies, roles de admin e novo fluxo OTP.
+
+### O que mudou no código
+
+| Arquivo | Mudança |
+|---|---|
+| `src/services/dataService.ts` | `getCurrentUserId()` agora usa `supabase.auth.getUser()`. Novas funções: `checkPhoneExists`, `verifyOtp`, `registerUser` (com `id=auth.uid()`), `linkExistingUserToAuth`, `getCurrentUserProfile`. Removidas: `loginByPhone`, `verifyOtpAndLogin` |
+| `src/services/adminAuth.ts` | `checkAdminAuth()` agora é async e consulta `usuarios.papel` no banco. `loginAsAdmin` removido |
+| `src/pages/Admin.tsx` | Três estados: checking → spinner, não-admin → "Acesso Restrito", admin → painel |
+| `src/pages/Register.tsx` | Novo fluxo: sendOtp → redirect VerifyOtp |
+| `src/pages/Login.tsx` | Novo fluxo: checkPhoneExists → sendOtp → redirect VerifyOtp |
+| `src/pages/VerifyOtp.tsx` | Unificado para register e login. Async handling corrigido |
+| `src/App.tsx` | Rota `/verify-otp` adicionada |
+| `src/test/adminAuth.test.ts` | Reescrito com mocks do Supabase |
+| `tsconfig.json` | `"types": ["vitest/globals"]` |
+| `setup_db_migration_v2.sql` | **Novo**: Migration com `auth_user_id`, `papel`, RLS policies restritivas, RPC functions |
+| `docs/plano-de-acao-v2.md` | **Novo**: Plano estruturado com 8 fases |
+| `docs/sessao-2026-07-19-sprint-s0.md` | **Novo**: Log detalhado da sessão |
+
+### Estado atual da segurança
+- `getCurrentUserId()` usa `supabase.auth.getUser()` — ✅ impersonação via localStorage eliminada
+- Admin verifica `papel='admin'` no banco — ✅ senha localStorage substituída
+- Migration RLS criada (`setup_db_migration_v2.sql`) — ✅ pendente aplicar no Supabase
+- Chaves Supabase expostas — ⚠️ pendente rotacionar
+
+### Ações manuais necessárias
+1. Rotacionar chaves Supabase no dashboard
+2. Executar `setup_db_migration_v2.sql` no SQL Editor
+3. Definir `UPDATE usuarios SET papel = 'admin' WHERE telefone = '...'`
+
+### Git
+```
+84d984a chore: add .gitignore and .env.example template
+e2eeeac feat: initial commit - oracao-app
+8837515 fix: security sprint S0 - Supabase Auth + RLS + admin role
+cfc99f4 docs: update Genesis with S0 state + create session log
+```
+
+### Verificações
+| Comando | Resultado |
+|---|---|
+| `npx tsc --noEmit` | ✅ 0 errors |
+| `npm run lint` | ✅ 0 errors, 1 warning |
+| `npm test` | ✅ 13/13 passed |
+| `npm run build` | ✅ Build + PWA OK |
+
+### Próximos passos
+- Sprint S1: Capacitor (empacotamento mobile)
+- Sprint S2: WhatsApp Evolution API (implementar HTTP real)
+- Demais: EBD, Kesef, Loja, Métricas (ver `docs/plano-de-acao-v2.md`)
+
+---
+
+*Documento vivo — novas entradas são adicionadas como novos capítulos, nunca substituindo os anteriores.*
+
+---
+
+## 15. Entrada: 10/08/2026 — Auditoria EBD, RAG, Comunidade e aceite digital
+
+### Contexto
+
+Uma auditoria integral do Editorial EBD foi iniciada após regressões recorrentes
+no fluxo de geração e publicação. O responsável executou o fluxo no navegador e
+forneceu erros reais de CORS, HTTP 409, 413, 502 e 403. A sessão evoluiu para uma
+reestruturação responsiva do Estúdio, governança das fontes RAG, ordenação
+privada da comunidade e aceite legal versionado.
+
+### Marcos implementados
+
+1. CORS das Edge Functions passou a aceitar `idempotency-key` e origens locais
+   controladas.
+2. A indexação RAG ganhou separação de embedding, recuperação de erro e melhor
+   correlação operacional.
+3. A IA editorial passou a consultar somente fontes vinculadas à lição.
+4. O gestor passou a selecionar os tipos de bloco a gerar, entre dez opções.
+5. A IA gera título e subtítulo diários e respeita a progressão temática da
+   semana, informando inputs editoriais ausentes sem bloqueio rígido.
+6. A produção assistida foi definida de segunda a sábado; domingo ficou reservado
+   para atividade especial futura.
+7. IDs legados duplicados dos dias foram normalizados e a publicação passou a
+   operar pela posição canônica da semana.
+8. Dias futuros ainda bloqueados podem ser salvos mesmo após a publicação de um
+   dia anterior.
+9. O Estúdio EBD foi reorganizado em Contexto, Conteúdo semanal, Revisão e
+   Publicação, com layouts desktop e mobile.
+10. Imagens editoriais passaram a preservar a composição sem corte; controles de
+    fonte inoperantes foram removidos.
+11. A Mocidade passou a ser ordenada pelo último acesso autenticado. Login manual
+    e sessão automática contam uma vez; heartbeat e presença contínua foram
+    deliberadamente descartados.
+12. Foram implantados Termos de Uso, Diretrizes da Comunidade e Aviso de
+    Privacidade versionados, com gate para usuários novos e existentes e consulta
+    posterior no Perfil.
+
+### Banco e segurança
+
+As migrations `20260810191500`, `20260810211500`, `20260810213000`,
+`20260810220000`, `20260810223000`, `20260810224500` e `20260810233000` foram
+confirmadas no ambiente remoto. A migration de presença `20260810220000` é
+histórica e foi substituída no mesmo dia pela solução baseada em `last_login`.
+
+O aceite legal usa texto imutável com SHA-256, horário do servidor e RPCs com
+acesso direto às tabelas revogado. Não se adicionaram IP, fingerprint ou dado de
+crença como evidência.
+
+### Identidade institucional
+
+- Nome do produto: **Comunhão**.
+- Apresentação vigente: **Comunhão | Oração Constante**.
+- Natureza: iniciativa cristã, protestante e evangélica.
+- Controlador: Charles Thadeu Pereira de Aquino.
+- Contato de privacidade: `charlesaquino33@gmail.com`.
+
+### Releases do dia
+
+`1.4.0-dev.17` consolidou a nova estrutura editorial; `dev.18` levou correções
+de publicação e continuidade; `dev.19` implantou a ordenação por acesso;
+`dev.20` implantou o aceite e a central de privacidade. O manifesto remoto final
+usa `versionCode 14020` e SHA-256
+`550c7810138397f6fe3f578bdc1928c19052de2ad072296525915f89281a3b6e`.
+
+### Estado de qualidade
+
+- 34 arquivos de teste e 158 testes aprovados;
+- lint sem erros, com avisos preexistentes;
+- build Vite/PWA aprovado;
+- build Android development aprovado;
+- migrations locais/remotas alinhadas;
+- Edge Functions de geração e RAG confirmadas ativas.
+
+### Riscos que permanecem
+
+- vigência semanal da EBD ainda não é canônica;
+- estado da publicação continua global à lição, apesar das mitigações por
+  dia;
+- progresso privado e cobertura E2E editorial ainda precisam evoluir;
+- domingo especial ainda precisa de definição de produto;
+- documentos legais precisam de revisão jurídica, procedimentos de retenção,
+  direitos do titular, menores, incidentes e consentimentos sensíveis granulares;
+- QA visual autenticado em dispositivos reais continua necessário.
+
+### Referência detalhada
+
+Ver `docs/SESSAO_2026-08-10_REGISTRO_COMPLETO.md`.
+
+---
+
+*A regra append-only continua vigente: esta entrada complementa, sem apagar, o estado histórico anterior.*

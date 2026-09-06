@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="missionario-title missionario-desc">
+  <title id="missionario-title">Insígnia Missionário</title>
+  <desc id="missionario-desc">Escudo em verde musgo e dourado envelhecido com uma estrela direcional em marfim.</desc>
+  <defs>
+    <linearGradient id="missionario-depth" x1="12" y1="7" x2="50" y2="57" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#314C3B"/><stop offset=".58" stop-color="#1F382C"/><stop offset="1" stop-color="#172B22"/></linearGradient>
+    <linearGradient id="missionario-gold" x1="18" y1="8" x2="46" y2="55" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#C3A067"/><stop offset=".5" stop-color="#926B38"/><stop offset="1" stop-color="#684725"/></linearGradient>
+    <linearGradient id="missionario-symbol" x1="25" y1="21" x2="40" y2="43" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFF8E8"/><stop offset="1" stop-color="#CDBE9A"/></linearGradient>
+  </defs>
+  <path d="M32 4.5 53.5 11.5v17.3C53.5 42.2 45.3 52.5 32 60 18.7 52.5 10.5 42.2 10.5 28.8V11.5L32 4.5Z" fill="#0E1D17" opacity=".72" transform="translate(0 1.5)"/>
+  <path d="M32 4.5 53.5 11.5v17.3C53.5 42.2 45.3 52.5 32 60 18.7 52.5 10.5 42.2 10.5 28.8V11.5L32 4.5Z" fill="url(#missionario-gold)"/>
+  <path d="M32 8.1 49.9 13.95v14.7c0 11.55-6.75 20.45-17.9 27.15-11.15-6.7-17.9-15.6-17.9-27.15v-14.7L32 8.1Z" fill="url(#missionario-depth)" stroke="#D2B680" stroke-width="1.25"/>
+  <path d="M32 11.2 46.7 16v12.55c0 9.85-5.45 17.45-14.7 23.35-9.25-5.9-14.7-13.5-14.7-23.35V16L32 11.2Z" fill="none" stroke="#80613A" stroke-width="1"/>
+  <polygon points="32,19.5 35,29 44.5,32 35,35 32,44.5 29,35 19.5,32 29,29" fill="url(#missionario-symbol)" stroke="#C5964C" stroke-width="1.1" stroke-linejoin="round"/>
+  <circle cx="32" cy="32" r="2.2" fill="#926B38"/>
+</svg>

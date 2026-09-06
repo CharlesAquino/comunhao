@@ -1,0 +1,71 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Frontend builds and dependencies
+node_modules/
+dist/
+dist-ssr/
+coverage/
+playwright-report/
+test-results/
+*.local
+
+# Environment variables
+.env
+.env.*
+!.env.example
+!.env.testing
+!.env.development.example
+
+# Android local/generated/signing files
+android/.gradle/
+android/.kotlin/
+android/**/build/
+android/local.properties
+android/keystore.properties
+*.jks
+*.keystore
+*.apk
+*.aab
+
+# Backups and temporary files
+.backups/
+.backup-*/
+.sentinel-backup/
+*.save
+*.bak
+*.bak-*
+*.backup-*
+__pycache__/
+*.pyc
+
+# Editor files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Configurações locais do canal de testes
+.env.testing.local
+release/testing/*.apk
+release/testing/*.sha256
+release/testing/version.json
+
+# Artefatos locais de desenvolvimento
+release/development/*.apk
+release/development/*.sha256
+release/web-provisional/*.tar.gz*
+release/visual-validation/*.apk
+release/visual-validation/*.sha256
+

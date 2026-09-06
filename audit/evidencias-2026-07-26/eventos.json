@@ -1,0 +1,532 @@
+[
+  {
+    "kind": "input",
+    "text": "telefone=[REDACTED]",
+    "url": "http://127.0.0.1:5173/login"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=ultima_verificacao&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/login"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/login"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=*&id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=*&id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=*&id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=*&id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/ranking"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/ranking"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/ranking"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/ranking"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=*&id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/ranking"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/ranking"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=*&id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/ranking"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/ranking"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/ebd"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/ebd"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/ebd"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/ebd"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/loja"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/loja"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/loja"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/loja"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/carteira"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/carteira"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/carteira"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/carteira"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/comunidade"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/comunidade"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/comunidade"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/comunidade"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=*&id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/comunidade"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/comunidade"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=*&id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/comunidade"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/comunidade"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/perfil"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/perfil"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/perfil"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/perfil"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=*&id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/perfil"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/perfil"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=*&id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/perfil"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/perfil"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/guia"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/guia"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/guia"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/guia"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/admin"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/admin"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/admin"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/admin"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/admin"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/admin"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/admin"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/admin"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "response",
+    "text": "409 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/pedidos?select=*",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 409 ()",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/intercessoes?select=pedido_id&pedido_id=eq.d4ea0e99-e423-4313-9b91-c58c04ad2476&usuario_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "response",
+    "text": "409 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/intercessoes",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 409 ()",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "response",
+    "text": "409 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/rpc/creditar_kesef",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 409 ()",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "pageerror",
+    "text": "Object",
+    "url": "http://127.0.0.1:5173/mural"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/loja"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/loja"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/loja"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/loja"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/register"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/register"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/register"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/register"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/chat/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/chat/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/chat/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/chat/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/sala/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/sala/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/sala/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/sala/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "response",
+    "text": "404 https://csxrhvgfnkqmkehgmnkp.supabase.co/functions/v1/gerar-token-livekit",
+    "url": "http://127.0.0.1:5173/sala/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()",
+    "url": "http://127.0.0.1:5173/sala/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "response",
+    "text": "404 https://csxrhvgfnkqmkehgmnkp.supabase.co/functions/v1/gerar-token-livekit",
+    "url": "http://127.0.0.1:5173/sala/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 404 ()",
+    "url": "http://127.0.0.1:5173/sala/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "response",
+    "text": "400 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/rpc/finalizar_sala_oracao",
+    "url": "http://127.0.0.1:5173/sala/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 400 ()",
+    "url": "http://127.0.0.1:5173/sala/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/timer/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/timer/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "response",
+    "text": "406 https://csxrhvgfnkqmkehgmnkp.supabase.co/rest/v1/usuarios?select=papel&auth_user_id=eq.c0f49891-b3b0-406b-8164-0a7905285015",
+    "url": "http://127.0.0.1:5173/timer/00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "kind": "console:error",
+    "text": "Failed to load resource: the server responded with a status of 406 ()",
+    "url": "http://127.0.0.1:5173/timer/00000000-0000-0000-0000-000000000000"
+  }
+]

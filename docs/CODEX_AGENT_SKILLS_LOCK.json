@@ -1,0 +1,55 @@
+{
+  "generatedAt": "2026-08-23",
+  "hashAlgorithm": "sha256-of-sorted-file-sha256-list",
+  "groups": {
+    "addy-agent-skills": {
+      "source": "https://github.com/addyosmani/agent-skills",
+      "sourceCommit": "5a5ea45e806f82273549fd85e60adb95d55f510d",
+      "skillCount": 24,
+      "hash": "1d0043ff7c14c5d6d3ffa910412f9be00875d6c41b5b95f7f043339ab436d1ad"
+    },
+    "vercel-agent-skills": {
+      "source": "https://github.com/vercel-labs/agent-skills",
+      "skillCount": 3,
+      "hash": "564c1b64e3700ff58590d68021a543bdc57c91a990d982e8e7ec2ea3ab72445f"
+    },
+    "addy-web-quality-skills": {
+      "source": "https://github.com/addyosmani/web-quality-skills",
+      "skillCount": 6,
+      "hash": "5eb0443e6f1905fdc86d972044384d95bff1855850693a3f4e525cfe142adb66"
+    },
+    "interface-design": {
+      "source": "https://github.com/Dammyjay93/interface-design",
+      "skillCount": 1,
+      "hash": "26f42782531f5d15f30304e32f6a3da5fc15e1f36d4739a1d2ad12761b635852"
+    },
+    "optimize-web-animations": {
+      "source": "https://github.com/MengTo/Skills/tree/main/agent-skills/codex/optimize-web-animations",
+      "skillCount": 1,
+      "hash": "fa01085cd3134c5205bd0d0e83194ba9102f000107c895c39d6d7db96255c044"
+    },
+    "gsap-skills": {
+      "source": "https://github.com/greensock/gsap-skills",
+      "skillCount": 8,
+      "hash": "83c712e8648a3341d3a882f073d638ce21cd03c81588f5bd36ea68314de14e99"
+    },
+    "remotion-skills": {
+      "source": "https://github.com/remotion-dev/remotion/tree/main/packages/skills/skills",
+      "version": "4.0.515",
+      "skillCount": 12,
+      "hash": "379eedfbdeaa6bae70bdbb881efcc20a6204680dcd94bcbef6ddfb2d069c8d70"
+    },
+    "img2threejs": {
+      "source": "https://github.com/img2threejs/img2threejs",
+      "version": "1.5.1",
+      "skillCount": 1,
+      "hash": "96459a57c52cbdaaf2513a29e04582d1f59caf7f22915c656a252897ec5f0eb4"
+    },
+    "creative-development": {
+      "source": "local",
+      "skillCount": 1,
+      "hash": "f34757358bb8a6ed9656df555aab89c4997f698524205f66d25695f861c9485b"
+    }
+  },
+  "totalSkills": 57
+}

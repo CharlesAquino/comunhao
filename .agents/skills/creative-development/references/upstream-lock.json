@@ -1,0 +1,32 @@
+{
+  "installedAt": "2026-08-23",
+  "hashAlgorithm": "sha256-of-sorted-file-sha256-list",
+  "sources": {
+    "gsap": "https://github.com/greensock/gsap-skills",
+    "remotion": "https://github.com/remotion-dev/remotion/tree/main/packages/skills/skills",
+    "img2threejs": "https://github.com/img2threejs/img2threejs"
+  },
+  "skills": {
+    "gsap-core": { "version": null, "hash": "c18cf9df51db6a1e41ecbafd7fb8d9aea096cf88999da5b9167c746578fde894" },
+    "gsap-frameworks": { "version": null, "hash": "cc6588777c2c2c0cc3c072e96007a6dd5b4c1048dff91a28d5577eff8ad38ad8" },
+    "gsap-performance": { "version": null, "hash": "6382eb6e3c8a95e991a937f8600c942c403126ca53644539bcce9eaed6dc7198" },
+    "gsap-plugins": { "version": null, "hash": "2f5e20882f4c8eb65b577caa3c7ebe5aabc4e67b1845ecc2f85031888c477ab1" },
+    "gsap-react": { "version": null, "hash": "4b77c7d433395f16655b386042a33144b8ca862ab26ac24f6ca041221d0f5cd2" },
+    "gsap-scrolltrigger": { "version": null, "hash": "2b7670571c948bae764b2d768d629ff1c809810686589bdccf0a8c2f82f1916a" },
+    "gsap-timeline": { "version": null, "hash": "b00a38de2acf5820417fb4efc9b27f9d75dde0e1737416c4ff75f77ab4893816" },
+    "gsap-utils": { "version": null, "hash": "9f7a97bee25a3d1ade8b251b7324bd8a7a44cfbe5027df525a77be58c3cd5b51" },
+    "remotion-best-practices": { "version": "4.0.515", "hash": "bed7d76c813437d49dbcab5f66605b725719ce62c4a0a1aff25d078d545fba85", "note": "symlinks restaurados para módulos irmãos" },
+    "remotion-captions": { "version": "4.0.515", "hash": "a161df1e5d2a1c4958f2ee96401e8a0cf7afa37c1aa41bba31beab12873befb3" },
+    "remotion-create": { "version": "4.0.515", "hash": "3efc2123cc71397deed3112b601b10c572e1c0d0c7d72fde25ecd78e6c1f4734" },
+    "remotion-docs": { "version": "4.0.515", "hash": "5b41bed5ad75d821bea2867e7aa3c47aa6c87b61cdd65e59d7dcc63713ff8487" },
+    "remotion-interactivity": { "version": "4.0.515", "hash": "9447c36a82f8efab7178014ed51b608cdfdeaaca3b2592c6a7862cb2b330d3cd" },
+    "remotion-maps": { "version": "4.0.515", "hash": "bdf0dd50aebc225b24d38e8efffb250949be788337587bd660c3f66aea697c94" },
+    "remotion-markup": { "version": "4.0.515", "hash": "da8918ed7436e5140c3604875e251d5a6651d3c145886897332f6447b2687def" },
+    "remotion-multimedia": { "version": "4.0.515", "hash": "b469e02ef4ce6ba184f1e7fdac2945a8b87b9ba3e78df2f8ae4e34329a84199f" },
+    "remotion-render": { "version": "4.0.515", "hash": "a8c0b12a032f5bbc9e2355ccb361db1e0a98eeb635b7f78dfbe937c066387b9a" },
+    "remotion-saas": { "version": "4.0.515", "hash": "94770beab1ebb9563978e1284276872f8a46644ffe42f401bc9ff794cafd7478" },
+    "remotion-studio": { "version": "4.0.515", "hash": "8eb4b5bc303159ccc7d8c9f1e0b2336e8ffcc018e7cbb86313c6470ef9231343" },
+    "remotion-upgrade": { "version": "4.0.515", "hash": "7991383a07c6d0f04748e896a5f6a0fa194be9fb221dc9cb27cfcef668718ed9" },
+    "img2threejs": { "version": "1.5.1", "hash": "96459a57c52cbdaaf2513a29e04582d1f59caf7f22915c656a252897ec5f0eb4" }
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Revisão visual Sala de Oração"
+  short_description: "Valida identidade, hierarquia, materiais e acessibilidade."
+  default_prompt: "Use $design-review para revisar esta tela segundo a Constituição Visual do Sala de Oração."

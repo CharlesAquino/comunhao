@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Comunhão</string>
+    <string name="title_activity_main">Comunhão</string>
+    <string name="package_name">br.com.igreja.oracao</string>
+    <string name="custom_url_scheme">br.com.igreja.oracao</string>
+</resources>

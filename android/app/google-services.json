@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "521844852993",
+    "project_id": "br-com-igreja-oracao",
+    "storage_bucket": "br-com-igreja-oracao.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521844852993:android:af728a8fbf8083ef8d7300",
+        "android_client_info": {
+          "package_name": "br.com.igreja.oracao"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVtM8LQ_9sDx4xUCtmdq-jl7W5Btt_lQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:521844852993:android:6c0352dfbff9f3448d7300",
+        "android_client_info": {
+          "package_name": "br.com.igreja.oracao.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVtM8LQ_9sDx4xUCtmdq-jl7W5Btt_lQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
