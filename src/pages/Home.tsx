@@ -390,12 +390,12 @@ export default function Home() {
         >
           {isAvailable && (
             <>
-              {/* Efeito de Chama Verde (Giro Lento) */}
-              <div className="pointer-events-none absolute -inset-[12px] z-[-1] rounded-full bg-gradient-to-tr from-emerald-600 via-green-400 to-teal-300 blur-lg animate-[spin_4s_linear_infinite] opacity-50 mix-blend-screen" />
-              {/* Efeito de Calor Verde (Pulso Rápido) */}
-              <div className="pointer-events-none absolute -inset-[8px] z-[-1] rounded-full bg-gradient-to-bl from-green-400 via-emerald-500 to-teal-400 blur-md animate-pulse opacity-60 mix-blend-screen" />
-              {/* Anel Sólido Verde */}
-              <div className="pointer-events-none absolute -inset-0.5 z-[1] rounded-full border-[3px] border-emerald-400 shadow-[0_0_16px_rgba(52,211,153,0.7),inset_0_0_8px_rgba(52,211,153,0.5)]" />
+              {/* Efeito de Chama Verde Oliva (Giro Lento) */}
+              <div className="pointer-events-none absolute -inset-[12px] z-[-1] rounded-full bg-gradient-to-tr from-lime-600 via-lime-400 to-yellow-500 blur-lg animate-[spin_4s_linear_infinite] opacity-50 mix-blend-screen" />
+              {/* Efeito de Calor Verde Oliva (Pulso Rápido) */}
+              <div className="pointer-events-none absolute -inset-[8px] z-[-1] rounded-full bg-gradient-to-bl from-yellow-500 via-lime-500 to-lime-600 blur-md animate-pulse opacity-60 mix-blend-screen" />
+              {/* Anel Sólido Verde Oliva */}
+              <div className="pointer-events-none absolute -inset-0.5 z-[1] rounded-full border-[3px] border-lime-500 shadow-[0_0_16px_rgba(132,204,22,0.7),inset_0_0_8px_rgba(132,204,22,0.5)]" />
             </>
           )}
           {data.usuario.avatar ? (
