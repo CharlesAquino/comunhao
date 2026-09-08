@@ -1,4 +1,5 @@
-import { ArrowRight, Clock3 } from 'lucide-react';
+import { BookMarked, Clock3 } from 'lucide-react';
+import HomeEditorialAction from './HomeEditorialAction';
 
 interface ComunhaoEstudosCardProps {
   hasEstudosAccess?: boolean;
@@ -10,6 +11,7 @@ export default function ComunhaoEstudosCard({
   onAcessar,
 }: ComunhaoEstudosCardProps) {
   const statusId = hasEstudosAccess ? undefined : 'comunhao-estudos-status';
+  const actionLabel = hasEstudosAccess ? 'Acessar estudos' : 'Conhecer a proposta';
 
   return (
     <section className="home-studies" aria-labelledby="comunhao-estudos-title">
@@ -29,15 +31,12 @@ export default function ComunhaoEstudosCard({
           </p>
         )}
 
-        <button
-          type="button"
-          className={`home-formation__link${hasEstudosAccess ? '' : ' home-formation__link--secondary'}`}
+        <HomeEditorialAction
+          icon={<BookMarked size={18} />}
+          label={actionLabel}
           onClick={onAcessar}
           aria-describedby={statusId}
-        >
-          {hasEstudosAccess ? 'Acessar estudos' : 'Conhecer a proposta'}
-          <ArrowRight size={21} aria-hidden="true" />
-        </button>
+        />
       </div>
     </section>
   );

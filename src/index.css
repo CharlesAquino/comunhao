@@ -3341,7 +3341,8 @@ body {
   color: #67430f;
   box-shadow: inset 0 1px 0 #fffbea, inset 0 0 0 3px #fbe6a0, inset 0 0 0 4px #c99b36, inset 0 -3px 5px #b8872720, 0 3px 0 #c09640, 0 7px 12px #aa7e2926;
 }
-:root[data-theme='light'] .mission-week-card__invite::before {
+:root[data-theme='light'] .mission-week-card__invite::before,
+:root[data-theme='light'] .home-editorial-action::before {
   background: linear-gradient(180deg, #fffbee60, transparent 55%);
   opacity: 1;
 }

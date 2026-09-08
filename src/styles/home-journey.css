@@ -1,0 +1,157 @@
+/* A transição pertence à arte, compartilhada por todas as seções.
+   O início do pergaminho ancora o fundo à formação mesmo sem missão. */
+.home-journey {
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  overflow: clip;
+  width: 100%;
+  /* As extremidades transparentes da arte reencontram a textura do shell,
+     sem uma placa lisa atrás da missão ou da comunidade. */
+  background: transparent;
+}
+
+.home-journey__mission {
+  position: relative;
+  z-index: 1;
+  width: var(--home-rail-width);
+  margin-inline: auto;
+}
+
+.home-journey__mission .mission-week-card {
+  width: 100%;
+  max-width: none;
+  margin-bottom: 0;
+}
+
+.home-journey__body {
+  position: relative;
+}
+
+.home-journey__body::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: -78cqw;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 793 / 1983;
+  pointer-events: none;
+  background: url('../assets/estudos/home-journey-dark-v2.png') center / 100% 100% no-repeat;
+  /* Apenas o término externo encontra a cor do shell; as junções internas
+     de pergaminho, folhas e livros estão pintadas no próprio arquivo. */
+  mask-image: linear-gradient(transparent, #000 4% 94%, transparent 100%);
+}
+
+:root[data-theme='light'] .home-journey__body::before {
+  background-image: url('../assets/estudos/home-journey-light-v2.png');
+}
+
+/* Desliga a antiga montagem de três fundos e suas camadas ópticas. */
+.home-editorial:has(.home-journey)::before,
+.home-journey .home-community::before,
+.home-journey .home-formation::before,
+.home-journey .home-formation::after {
+  content: none;
+}
+
+:root .home-editorial .home-journey .home-formation {
+  display: grid;
+  grid-template-rows: minmax(87cqw, auto) minmax(82cqw, auto);
+  aspect-ratio: auto;
+  background: none;
+  box-shadow: none;
+  overflow: visible;
+  z-index: auto;
+}
+
+.home-journey .home-ebd,
+.home-journey .home-studies {
+  padding: 4cqw 7cqw 6cqw;
+}
+
+.home-journey .home-ebd {
+  padding-top: 18cqw;
+}
+
+.home-journey .home-formation__copy {
+  width: 64%;
+}
+
+.home-journey .home-formation h2 {
+  font-size: clamp(1.4rem, 6cqw, 2.2rem);
+  overflow-wrap: anywhere;
+}
+
+/* Relevo tipográfico curto: a tinta permanece nítida sobre a arte. */
+.home-journey .home-ebd h2 {
+  text-shadow:
+    0 1px 0 rgb(255 251 233 / 0.9),
+    0 2px 3px rgb(77 57 25 / 0.18),
+    0 0 14px rgb(255 246 213 / 0.32);
+}
+
+.home-journey .home-studies h2 {
+  text-shadow:
+    0 2px 2px rgb(0 0 0 / 0.7),
+    0 4px 9px rgb(0 0 0 / 0.32),
+    0 0 14px rgb(238 201 128 / 0.2);
+}
+
+.home-journey .home-studies__subtitle,
+.home-journey .home-studies__description {
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.72);
+}
+
+.home-journey .home-studies .home-formation__eyebrow {
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.7), 0 0 8px rgb(159 226 184 / 0.16);
+}
+
+:root[data-theme='light'] .home-journey .home-studies h2 {
+  text-shadow:
+    0 1px 0 rgb(255 253 240 / 0.95),
+    0 2px 3px rgb(45 63 39 / 0.18),
+    0 0 14px rgb(255 249 221 / 0.4);
+}
+
+:root[data-theme='light'] .home-journey .home-studies__subtitle,
+:root[data-theme='light'] .home-journey .home-studies__description,
+:root[data-theme='light'] .home-journey .home-studies .home-formation__eyebrow {
+  text-shadow: 0 1px 1px rgb(255 253 240 / 0.9);
+}
+
+.home-journey .home-community {
+  width: var(--home-rail-width);
+  margin-inline: auto;
+  padding-top: 0;
+}
+
+@media (max-width: 389px) {
+  .home-journey .home-ebd {
+    padding-top: 14cqw;
+  }
+
+  .home-journey .home-studies h2 {
+    width: 86cqw;
+    font-size: clamp(1.25rem, 6cqw, 1.45rem);
+  }
+
+  .home-journey .home-studies .home-formation__eyebrow {
+    width: 86cqw;
+    font-size: 0.625rem;
+    letter-spacing: 0.15em;
+  }
+
+  .home-journey .home-studies__subtitle,
+  .home-journey .home-studies__description {
+    max-width: 44cqw;
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 600px) {
+  /* Mantém a coluna editorial e reserva a área extra para a ilustração. */
+  .home-journey .home-formation__copy {
+    width: min(62%, 22rem);
+  }
+}

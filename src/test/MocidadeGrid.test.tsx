@@ -33,7 +33,7 @@ describe('MocidadeGrid', () => {
   it('should render the empty state without mock entries', () => {
     renderGrid([]);
     expect(screen.getByText('A Mocidade')).toBeInTheDocument();
-    expect(screen.getByText('Nenhum jovem disponível agora.')).toBeInTheDocument();
+    expect(screen.getByText('Nenhum membro para mostrar agora.')).toBeInTheDocument();
     expect(screen.queryByText('Servo Fiel')).not.toBeInTheDocument();
     expect(screen.queryAllByRole('link')).toHaveLength(0);
     expect(screen.queryAllByRole('button')).toHaveLength(0);

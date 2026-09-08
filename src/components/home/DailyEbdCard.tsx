@@ -1,4 +1,5 @@
-import { ArrowRight, BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
+import HomeEditorialAction from './HomeEditorialAction';
 import type { EbdEditorialLesson, EbdWeekday } from '../../types/ebdEditorial';
 
 interface Props {
@@ -55,14 +56,13 @@ export default function DailyEbdCard({ editorialLesson, onAbrir }: Props) {
           <BookOpen size={20} aria-hidden="true" />
           {minutes && minutes > 0 ? `${minutes} min de leitura` : 'Escola Bíblica Digital'}
         </p>
-        <button
-          type="button"
-          className="home-formation__link home-formation__link--primary"
+
+        <HomeEditorialAction
+          icon={<BookOpen size={18} />}
+          label="Abrir EBD"
           onClick={onAbrir}
           aria-label={`Abrir EBD: ${title}`}
-        >
-          Abrir EBD <ArrowRight size={21} aria-hidden="true" />
-        </button>
+        />
       </div>
     </section>
   );

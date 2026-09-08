@@ -28,7 +28,7 @@ import { readDashboardCache } from '../services/dashboardCache';
 import { useAdmin } from '../contexts/AdminContext';
 import ComunhaoEstudosCard from '../components/home/ComunhaoEstudosCard';
 import DailyEbdCard from '../components/home/DailyEbdCard';
-import formationArt from '../assets/estudos/home-formation-continuous-v1.png';
+import HomeJourneySurface from '../components/home/HomeJourneySurface';
 import '../styles/home-editorial.css';
 
 export default function Home() {
@@ -491,7 +491,7 @@ export default function Home() {
       )}
 
       {/* Missão da Semana: carro-chefe com intercessão e acesso à Sala de Oração */}
-      {data.missaoAtual && (
+      <HomeJourneySurface mission={data.missaoAtual && (
         <PrayerPartnerCard
           missaoAtual={data.missaoAtual}
           parceiroSustentador={data.parceiroSustentador}
@@ -506,10 +506,9 @@ export default function Home() {
           }}
           onCancelarConvite={handleCancelarConvite}
         />
-      )}
+      )}>
 
       <div className="home-formation">
-        <img className="home-formation__art" src={formationArt} alt="" aria-hidden="true" width="1200" height="1400" loading="lazy" decoding="async" />
         <DailyEbdCard editorialLesson={editorialLesson} onAbrir={() => navigate('/ebd')} />
         <ComunhaoEstudosCard hasEstudosAccess={hasEstudosAccess} onAcessar={() => navigate('/estudos')} />
       </div>
@@ -572,6 +571,8 @@ export default function Home() {
           />
         </div>
       </section>
+
+      </HomeJourneySurface>
 
       {/* Footer */}
       <div className="spatial-section spatial-section--quiet text-center pt-2 pb-4">

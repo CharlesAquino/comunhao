@@ -12,9 +12,9 @@
   --home-paper-muted: #647067;
   --home-gutter: clamp(1rem, 5.1vw, 1.25rem);
   --home-rail-width: calc(100% - (2 * var(--home-gutter)));
-  background:
-    radial-gradient(circle at 50% -8%, rgb(48 85 64 / 0.22), transparent 29rem),
-    linear-gradient(180deg, var(--home-canvas) 0%, var(--home-canvas-deep) 100%);
+  /* O ambiente clássico pertence ao shell inteiro, inclusive à saudação,
+     ajuda e navegação. A arte editorial se integra sobre este material. */
+  background: var(--home-canvas) var(--louvor-environment-image) center / 100% 100% no-repeat;
 }
 
 :root[data-theme='light'] .app-shell--home {
@@ -28,9 +28,7 @@
   --home-paper-deep: #eee7da;
   --home-paper-ink: #193f30;
   --home-paper-muted: #667168;
-  background:
-    radial-gradient(circle at 50% -10%, rgb(255 255 255 / 0.92), transparent 27rem),
-    linear-gradient(180deg, #f5f1e8 0%, #e7e2d6 100%);
+  background: var(--home-canvas) var(--louvor-environment-image) center / 100% 100% no-repeat;
 }
 
 /* A Home tem materialidade própria. As atmosferas globais são desligadas
@@ -851,3 +849,662 @@
   color: #455447;
   text-shadow: 0 1px 0 rgb(255 255 255 / 0.62);
 }
+
+/* ============================================================
+   V7 — TOPO AMBIENTAL INTEGRADO
+   Reaplica o ambiente clássico da Home somente atrás do cabeçalho
+   e da Missão da Semana. A arte não ocupa o viewport inteiro e
+   desaparece antes da formação EBD/Estudos.
+   ============================================================ */
+
+.home-editorial {
+  position: relative;
+  isolation: isolate;
+}
+
+/* O BaseLayout continua montando o ambiente compartilhado para as outras
+   rotas. Na Home ele fica oculto porque aqui o mesmo asset é reenquadrado
+   dentro do próprio eixo editorial. */
+.app-shell--home .shared-louvor-environment {
+  display: none !important;
+}
+
+/* Plano ambiental clássico: usa automaticamente
+   louvor-ambient-v1.webp / louvor-ambient-light-v1.webp por tema. */
+.home-editorial::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: clamp(35rem, 142vw, 49rem);
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      color-mix(in srgb, var(--home-canvas) 3%, transparent) 30%,
+      color-mix(in srgb, var(--home-canvas) 18%, transparent) 58%,
+      color-mix(in srgb, var(--home-canvas) 64%, transparent) 82%,
+      var(--home-canvas) 100%
+    ),
+    var(--louvor-environment-image);
+  background-repeat: no-repeat, no-repeat;
+  background-position: center top, center top;
+
+  /* O asset é paisagem. Em vez de cover, que destrói o enquadramento em
+     9:16, ele recebe um zoom controlado e o restante é completado por
+     material/gradiente. */
+  background-size: 100% 100%, 158% auto;
+
+  opacity: 0.98;
+  filter: brightness(0.88) saturate(0.92) contrast(0.98);
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 74%,
+    rgb(0 0 0 / 0.94) 82%,
+    rgb(0 0 0 / 0.58) 91%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 74%,
+    rgb(0 0 0 / 0.94) 82%,
+    rgb(0 0 0 / 0.58) 91%,
+    transparent 100%
+  );
+}
+
+:root[data-theme='light'] .home-editorial::before {
+  opacity: 0.96;
+  filter: brightness(1.01) saturate(0.78) contrast(0.94);
+}
+
+/* Em smartphones estreitos mostramos mais da ilustração original e evitamos
+   o crop vertical que background-size: cover provocava. */
+@media (max-width: 389px) {
+  .home-editorial::before {
+    height: clamp(34rem, 156vw, 39rem);
+    background-size: 100% 100%, 146% auto;
+    background-position: center top, 50% top;
+  }
+}
+
+@media (min-width: 390px) and (max-width: 599px) {
+  .home-editorial::before {
+    height: clamp(36rem, 148vw, 44rem);
+    background-size: 100% 100%, 150% auto;
+  }
+}
+
+/* Tablet: mantém a arte vinculada ao shell, não ao monitor. */
+@media (min-width: 600px) {
+  .home-editorial::before {
+    height: clamp(43rem, 108vw, 49rem);
+    background-size: 100% 100%, 132% auto;
+  }
+}
+
+/* A Missão fica acima do ambiente e continua sendo a joia visual da área. */
+.home-editorial > .mission-week-card {
+  position: relative;
+  z-index: 3;
+}
+
+/* A nova arte EBD/Estudos continua inteira e cobre naturalmente o final
+   da atmosfera antiga. Nenhum background antigo é aplicado dentro dela. */
+.home-formation {
+  position: relative;
+  z-index: 4;
+}
+
+/* ============================================================
+   BOTÕES DE ACESSO — compactos, discretos e legíveis no smartphone
+   ============================================================ */
+
+.home-ebd .home-formation__link,
+.home-studies .home-formation__link {
+  width: fit-content;
+  min-width: 0;
+  min-height: 2.75rem;
+  justify-content: flex-start;
+  gap: 0.52rem;
+  margin-top: 0.35rem;
+  padding: 0.56rem 0.88rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: clamp(0.76rem, 3.15vw, 0.86rem);
+  font-weight: 680;
+  line-height: 1;
+  letter-spacing: 0;
+  text-shadow: none;
+  backdrop-filter: blur(12px) saturate(1.08);
+  -webkit-backdrop-filter: blur(12px) saturate(1.08);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.18),
+    0 0.4rem 1rem rgb(0 0 0 / 0.08);
+}
+
+.home-ebd .home-formation__link {
+  border-color: rgb(31 86 64 / 0.30);
+  background: rgb(250 247 238 / 0.54);
+  color: #174936;
+}
+
+.home-studies .home-formation__link,
+.home-studies .home-formation__link--secondary {
+  border-color: rgb(165 224 187 / 0.28);
+  background: rgb(7 24 15 / 0.48);
+  color: #a9e8c0;
+}
+
+.home-ebd .home-formation__link svg,
+.home-studies .home-formation__link svg {
+  width: 1rem;
+  height: 1rem;
+  filter: none;
+}
+
+.home-ebd .home-formation__link:hover,
+.home-studies .home-formation__link:hover {
+  transform: translateY(-1px);
+}
+
+.home-ebd .home-formation__link:active,
+.home-studies .home-formation__link:active {
+  transform: translateY(0) scale(0.985);
+}
+
+:root[data-theme='light'] .home-ebd .home-formation__link {
+  border-color: rgb(42 101 75 / 0.26);
+  background: rgb(255 252 245 / 0.68);
+  color: #174936;
+}
+
+:root[data-theme='light'] .home-studies .home-formation__link,
+:root[data-theme='light'] .home-studies .home-formation__link--secondary {
+  border-color: rgb(43 108 79 / 0.24);
+  background: rgb(248 247 240 / 0.68);
+  color: #245f45;
+}
+
+@media (max-width: 389px) {
+  .home-ebd .home-formation__link,
+  .home-studies .home-formation__link {
+    min-height: 2.75rem;
+    padding-inline: 0.76rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Garante que uma correção experimental de tablet não volte a colocar
+   EBD e Estudos lado a lado. A narrativa permanece vertical em todo o shell. */
+@media (min-width: 768px) {
+  .home-editorial {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .home-formation {
+    display: grid !important;
+    width: 100% !important;
+  }
+}
+
+
+/* === COMUNHAO_HOME_V9_INTEGRATED_ENVIRONMENT:START =================
+   Continuidade ambiental:
+   ambiente clássico -> Missão -> formação EBD/Estudos -> ambiente clássico.
+   A formação nova permanece intacta entre os dois planos.
+   ================================================================== */
+
+.home-editorial {
+  position: relative;
+  isolation: isolate;
+}
+
+.app-shell--home .shared-louvor-environment {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------
+   1. AMBIENTE SUPERIOR — atrás do cabeçalho e da Missão
+   --------------------------------------------------------------- */
+
+.home-editorial::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: -2;
+  width: 100%;
+  height: clamp(38rem, 150vw, 50rem);
+  pointer-events: none;
+  transform: translateX(-50%);
+
+  background-image:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      color-mix(in srgb, var(--home-canvas) 3%, transparent) 48%,
+      color-mix(in srgb, var(--home-canvas) 22%, transparent) 70%,
+      color-mix(in srgb, var(--home-canvas) 72%, transparent) 88%,
+      var(--home-canvas) 100%
+    ),
+    var(--louvor-environment-image);
+  background-repeat: no-repeat, no-repeat;
+  background-position: center top, center top;
+  background-size: 100% 100%, 186% auto;
+
+  opacity: 0.98;
+  filter: brightness(0.87) saturate(0.94) contrast(0.99);
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 76%,
+    rgb(0 0 0 / 0.92) 84%,
+    rgb(0 0 0 / 0.48) 93%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 76%,
+    rgb(0 0 0 / 0.92) 84%,
+    rgb(0 0 0 / 0.48) 93%,
+    transparent 100%
+  );
+}
+
+/* Amanhecer usa o asset claro do próprio DS; não é o Santuário clareado. */
+:root[data-theme='light'] .home-editorial::before {
+  background-image:
+    radial-gradient(
+      ellipse at 50% 6%,
+      rgb(255 255 255 / 0.42),
+      transparent 55%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      color-mix(in srgb, var(--home-canvas) 7%, transparent) 44%,
+      color-mix(in srgb, var(--home-canvas) 30%, transparent) 69%,
+      color-mix(in srgb, var(--home-canvas) 78%, transparent) 88%,
+      var(--home-canvas) 100%
+    ),
+    var(--louvor-environment-image);
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: center top, center top, center top;
+  background-size: 100% 100%, 100% 100%, 180% auto;
+  opacity: 0.97;
+  filter: brightness(1.015) saturate(0.82) contrast(0.95);
+}
+
+/* ---------------------------------------------------------------
+   2. FORMAÇÃO NOVA — permanece no meio, acima das atmosferas
+   --------------------------------------------------------------- */
+
+.home-formation {
+  position: relative;
+  z-index: 4;
+}
+
+/* ---------------------------------------------------------------
+   3. AMBIENTE INFERIOR — reaparece depois de Estudos
+   --------------------------------------------------------------- */
+
+.home-community {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  z-index: 2;
+}
+
+/* O pseudo-elemento começa alguns rem acima da comunidade. Como a arte
+   EBD/Estudos é opaca e está em z-index superior, ele só se torna visível
+   após o final de Estudos, já em processo de fade-in. */
+.home-community::before {
+  content: '';
+  position: absolute;
+  top: -6.5rem;
+  left: 50%;
+  z-index: -1;
+  width: calc(100% + (2 * var(--home-gutter)));
+  max-width: 44rem;
+  height: calc(100% + 26rem);
+  pointer-events: none;
+  transform: translateX(-50%);
+
+  background-color: var(--home-canvas);
+  background-image:
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--home-canvas) 84%, transparent) 0%,
+      color-mix(in srgb, var(--home-canvas) 36%, transparent) 20%,
+      transparent 40%,
+      color-mix(in srgb, var(--home-canvas) 18%, transparent) 76%,
+      color-mix(in srgb, var(--home-canvas) 58%, transparent) 100%
+    ),
+    var(--louvor-environment-image);
+  background-repeat: no-repeat, no-repeat;
+  background-position: center top, center 58%;
+  background-size: 100% 100%, 164% auto;
+
+  opacity: 0.94;
+  filter: brightness(0.82) saturate(0.9) contrast(0.98);
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(0 0 0 / 0.08) 8%,
+    rgb(0 0 0 / 0.48) 15%,
+    #000 25%,
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(0 0 0 / 0.08) 8%,
+    rgb(0 0 0 / 0.48) 15%,
+    #000 25%,
+    #000 100%
+  );
+}
+
+:root[data-theme='light'] .home-community::before {
+  background-color: var(--home-canvas);
+  background-image:
+    radial-gradient(
+      ellipse at 50% 18%,
+      rgb(255 255 255 / 0.28),
+      transparent 48%
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--home-canvas) 88%, transparent) 0%,
+      color-mix(in srgb, var(--home-canvas) 42%, transparent) 22%,
+      transparent 44%,
+      color-mix(in srgb, var(--home-canvas) 16%, transparent) 76%,
+      color-mix(in srgb, var(--home-canvas) 52%, transparent) 100%
+    ),
+    var(--louvor-environment-image);
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: center top, center top, center 58%;
+  background-size: 100% 100%, 100% 100%, 158% auto;
+  opacity: 0.94;
+  filter: brightness(1.01) saturate(0.78) contrast(0.94);
+}
+
+/* Smartphone: o ambiente continua ligado ao shell, nunca ao monitor.
+   A imagem paisagem recebe zoom controlado em vez de background-size: cover. */
+@media (max-width: 389px) {
+  .home-editorial::before {
+    height: clamp(36rem, 158vw, 40rem);
+    background-size: 100% 100%, 176% auto;
+  }
+
+  :root[data-theme='light'] .home-editorial::before {
+    background-size: 100% 100%, 100% 100%, 170% auto;
+  }
+
+  .home-community::before {
+    top: -5.5rem;
+    width: calc(100% + (2 * var(--home-gutter)));
+    height: calc(100% + 23rem);
+    background-size: 100% 100%, 154% auto;
+  }
+
+  :root[data-theme='light'] .home-community::before {
+    background-size: 100% 100%, 100% 100%, 150% auto;
+  }
+}
+
+@media (min-width: 390px) and (max-width: 599px) {
+  .home-editorial::before {
+    height: clamp(38rem, 151vw, 45rem);
+    background-size: 100% 100%, 182% auto;
+  }
+
+  :root[data-theme='light'] .home-editorial::before {
+    background-size: 100% 100%, 100% 100%, 176% auto;
+  }
+
+  .home-community::before {
+    background-size: 100% 100%, 158% auto;
+  }
+
+  :root[data-theme='light'] .home-community::before {
+    background-size: 100% 100%, 100% 100%, 154% auto;
+  }
+}
+
+@media (min-width: 600px) {
+  .home-editorial::before {
+    height: clamp(44rem, 108vw, 50rem);
+    background-size: 100% 100%, 136% auto;
+  }
+
+  :root[data-theme='light'] .home-editorial::before {
+    background-size: 100% 100%, 100% 100%, 132% auto;
+  }
+
+  .home-community::before {
+    width: min(44rem, calc(100% + (2 * var(--home-gutter))));
+    background-size: 100% 100%, 132% auto;
+  }
+
+  :root[data-theme='light'] .home-community::before {
+    background-size: 100% 100%, 100% 100%, 128% auto;
+  }
+}
+
+/* ---------------------------------------------------------------
+   4. CTA EBD/ESTUDOS — cópia visual do "Orar com Sofia",
+      reduzida proporcionalmente
+   --------------------------------------------------------------- */
+
+.home-editorial-action.prayer-action {
+  position: relative;
+  width: fit-content;
+  min-width: 0;
+  min-height: 44px;
+  gap: 0.48rem;
+  margin-top: 0.4rem;
+  padding: 0.36rem 0.75rem 0.36rem 0.48rem;
+  border-radius: 999px;
+
+  border-color: #aa8a4c;
+  background:
+    radial-gradient(ellipse at 50% 0%, #52604780, transparent 65%),
+    linear-gradient(180deg, #2a4537, #10261d);
+  color: #ffe3a0;
+
+  box-shadow:
+    inset 0 1px 0 #ffe6a9b3,
+    inset 0 0 0 2px #162c23,
+    inset 0 0 0 3px #aa8a4c,
+    inset 0 -3px 7px #0005,
+    0 2px 0 #091b14,
+    0 4px 0 -1px #98783f,
+    0 8px 14px #0006,
+    0 -2px 10px #dfb75b16;
+
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    filter 160ms ease;
+}
+
+.home-editorial-action.prayer-action::after {
+  content: '';
+  position: absolute;
+  inset: 1px 16% auto;
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #fff0c2, transparent);
+  box-shadow: 0 1px 5px #ffd47766;
+  pointer-events: none;
+}
+
+.home-editorial-action .prayer-action__mark {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border: 1px solid #c69e5266;
+  border-radius: 50%;
+  background: transparent;
+  color: #ffe3a0;
+  box-shadow: none;
+}
+
+.home-editorial-action .prayer-action__mark svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 1.9;
+}
+
+.home-editorial-action .prayer-action__copy {
+  flex: 0 1 auto;
+  text-align: left;
+}
+
+.home-editorial-action .prayer-action__label {
+  font-family: var(--font-display);
+  font-size: clamp(0.76rem, 3.25vw, 0.9rem);
+  font-weight: 560;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  color: #ffe3a0;
+  text-shadow: 0 1px 1px #0009, 0 0 9px #e7b74b36;
+}
+
+@supports (background-clip: text) {
+  .home-editorial-action .prayer-action__label {
+    background: linear-gradient(180deg, #fff5d6 10%, #ffe4a0 42%, #d9ad54 72%, #ffe8ae);
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+    filter: drop-shadow(0 1px 1px #0007) drop-shadow(0 0 4px #e7b74b36);
+  }
+}
+
+.home-editorial-action:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.home-editorial-action:active:not(:disabled) {
+  transform: translateY(1px) scale(0.988);
+  box-shadow:
+    inset 0 2px 6px #0006,
+    inset 0 0 0 2px #162c23,
+    inset 0 0 0 3px #aa8a4c,
+    0 1px 3px #0005;
+}
+
+.home-editorial-action:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* Amanhecer copia a versão clara do CTA da Missão. */
+:root[data-theme='light'] .home-editorial-action.prayer-action {
+  border-radius: 0.875rem;
+  border-color: #b5882c;
+  background:
+    linear-gradient(115deg, transparent 20%, #fff5cb80 44%, transparent 65%),
+    linear-gradient(180deg, #fff0b1 0%, #f5d675 35%, #e5bb4f 65%, #f3d47a 100%);
+  color: #67430f;
+  box-shadow:
+    inset 0 1px 0 #fffbea,
+    inset 0 0 0 2px #fbe6a0,
+    inset 0 0 0 3px #c99b36,
+    inset 0 -2px 4px #b8872720,
+    0 2px 0 #c09640,
+    0 5px 9px #aa7e2926;
+}
+
+:root[data-theme='light'] .home-editorial-action .prayer-action__mark {
+  border-color: #a6752866;
+  background: #fff4cd50;
+  color: #67430f;
+}
+
+:root[data-theme='light'] .home-editorial-action .prayer-action__label {
+  background: none;
+  color: #67430f;
+  text-shadow: 0 1px 0 #fff5cb;
+  filter: none;
+}
+
+:root[data-theme='light'] .home-editorial-action:hover:not(:disabled) {
+  filter: brightness(1.035);
+}
+
+:root[data-theme='light'] .home-editorial-action:active:not(:disabled) {
+  box-shadow:
+    inset 0 2px 5px #b8872733,
+    inset 0 0 0 2px #fbe6a0,
+    inset 0 0 0 3px #c99b36,
+    0 1px 3px #aa7e2926;
+}
+
+/* ---------------------------------------------------------------
+   5. RESPONSIVIDADE DA IDENTIDADE DA DUPLA DA SEMANA
+   --------------------------------------------------------------- */
+
+/* A regra global antiga forçava white-space: nowrap com 4.05cqw,
+   permitindo que "Sua intercessão nesta semana" ultrapassasse a área.
+   Aqui a tipografia passa a responder ao container real da Missão. */
+.home-editorial .mission-week-card__identity {
+  max-width: 54%;
+  min-width: 0;
+}
+
+.home-editorial .mission-week-card__identity .mission-week-card__role {
+  max-width: 100%;
+  min-width: 0;
+  font-size: clamp(0.70rem, 3.25cqw, 1rem);
+  font-weight: 450;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  white-space: normal;
+  text-wrap: balance;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+@media (max-width: 359px) {
+  .home-editorial .mission-week-card__identity {
+    width: 52%;
+    max-width: 52%;
+  }
+
+  .home-editorial .mission-week-card__identity .mission-week-card__role {
+    font-size: clamp(0.66rem, 3.05cqw, 0.78rem);
+    line-height: 1.17;
+  }
+
+  .home-editorial-action.prayer-action {
+    min-height: 44px;
+    padding-inline: 0.42rem 0.66rem;
+  }
+
+  .home-editorial-action .prayer-action__mark {
+    width: 28px;
+    height: 28px;
+  }
+
+  .home-editorial-action .prayer-action__label {
+    font-size: 0.74rem;
+  }
+}
+
+/* === COMUNHAO_HOME_V9_INTEGRATED_ENVIRONMENT:END ================== */

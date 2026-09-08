@@ -1,0 +1,123 @@
+{
+  "mobile": [
+    {
+      "width": 320,
+      "height": 800,
+      "theme": "dark",
+      "metrics": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Script ran on page and returned:\n```json\n{\"overflow\":0,\"rows\":\"278.4px 262.4px\",\"buttons\":[{\"label\":\"Abrir EBD\",\"height\":44},{\"label\":\"Acessar estudos\",\"height\":44}],\"copy\":[{\"fits\":true},{\"fits\":true}]}\n```"
+          }
+        ]
+      }
+    },
+    {
+      "width": 320,
+      "height": 800,
+      "theme": "light",
+      "metrics": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Script ran on page and returned:\n```json\n{\"overflow\":0,\"rows\":\"278.4px 262.4px\",\"buttons\":[{\"label\":\"Abrir EBD\",\"height\":44},{\"label\":\"Acessar estudos\",\"height\":44}],\"copy\":[{\"fits\":true},{\"fits\":true}]}\n```"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "theme": "dark",
+      "metrics": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Script ran on page and returned:\n```json\n{\"overflow\":0,\"rows\":\"339.638px 320.112px\",\"buttons\":[{\"label\":\"Abrir EBD\",\"height\":44},{\"label\":\"Acessar estudos\",\"height\":44}],\"copy\":[{\"fits\":true},{\"fits\":true}]}\n```"
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "theme": "light",
+      "metrics": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Script ran on page and returned:\n```json\n{\"overflow\":0,\"rows\":\"339.638px 320.112px\",\"buttons\":[{\"label\":\"Abrir EBD\",\"height\":44},{\"label\":\"Acessar estudos\",\"height\":44}],\"copy\":[{\"fits\":true},{\"fits\":true}]}\n```"
+          }
+        ]
+      }
+    }
+  ],
+  "final": [
+    {
+      "width": 320,
+      "height": 800,
+      "theme": "light",
+      "metrics": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Script ran on page and returned:\n```json\n{\"overflow\":0,\"rows\":\"278.4px 262.4px\",\"copy\":[{\"fits\":true},{\"fits\":true}],\"buttons\":[{\"height\":44,\"background\":\"linear-gradient(rgba(255, 251, 238, 0.376), rgba(0, 0, 0, 0) 55%)\"},{\"height\":44,\"background\":\"linear-gradient(rgba(255, 251, 238, 0.376), rgba(0, 0, 0, 0) 55%)\"}]}\n```"
+          }
+        ]
+      }
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "theme": "dark",
+      "metrics": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Script ran on page and returned:\n```json\n{\"overflow\":0,\"rows\":\"612.475px 577.275px\",\"copy\":[{\"fits\":true},{\"fits\":true}],\"buttons\":[{\"height\":44,\"background\":\"linear-gradient(135deg, color(srgb 1 1 1 / 0.18), color(srgb 1 1 1 / 0.02)), url(\\\"http://localhost:5173/src/assets/brand/sanctuary-texture.webp\\\")\"},{\"height\":44,\"background\":\"linear-gradient(135deg, color(srgb 1 1 1 / 0.18), color(srgb 1 1 1 / 0.02)), url(\\\"http://localhost:5173/src/assets/brand/sanctuary-texture.webp\\\")\"}]}\n```"
+          }
+        ]
+      }
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "theme": "light",
+      "metrics": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Script ran on page and returned:\n```json\n{\"overflow\":0,\"rows\":\"612.475px 577.275px\",\"copy\":[{\"fits\":true},{\"fits\":true}],\"buttons\":[{\"height\":44,\"background\":\"linear-gradient(rgba(255, 251, 238, 0.376), rgba(0, 0, 0, 0) 55%)\"},{\"height\":44,\"background\":\"linear-gradient(rgba(255, 251, 238, 0.376), rgba(0, 0, 0, 0) 55%)\"}]}\n```"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "theme": "dark",
+      "metrics": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Script ran on page and returned:\n```json\n{\"overflow\":0,\"rows\":\"612.475px 577.275px\",\"copy\":[{\"fits\":true},{\"fits\":true}],\"buttons\":[{\"height\":44,\"background\":\"linear-gradient(135deg, color(srgb 1 1 1 / 0.18), color(srgb 1 1 1 / 0.02)), url(\\\"http://localhost:5173/src/assets/brand/sanctuary-texture.webp\\\")\"},{\"height\":44,\"background\":\"linear-gradient(135deg, color(srgb 1 1 1 / 0.18), color(srgb 1 1 1 / 0.02)), url(\\\"http://localhost:5173/src/assets/brand/sanctuary-texture.webp\\\")\"}]}\n```"
+          }
+        ]
+      }
+    },
+    {
+      "width": 1024,
+      "height": 768,
+      "theme": "light",
+      "metrics": {
+        "content": [
+          {
+            "type": "text",
+            "text": "Script ran on page and returned:\n```json\n{\"overflow\":0,\"rows\":\"612.475px 577.275px\",\"copy\":[{\"fits\":true},{\"fits\":true}],\"buttons\":[{\"height\":44,\"background\":\"linear-gradient(rgba(255, 251, 238, 0.376), rgba(0, 0, 0, 0) 55%)\"},{\"height\":44,\"background\":\"linear-gradient(rgba(255, 251, 238, 0.376), rgba(0, 0, 0, 0) 55%)\"}]}\n```"
+          }
+        ]
+      }
+    }
+  ]
+}
