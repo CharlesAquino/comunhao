@@ -3940,3 +3940,35 @@ body {
 @media (min-width: 1050px) {
   .studies-course-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+/* Theme-Aware Typography for Home */
+.home-greeting-illuminated {
+  color: #6b8e23;
+  filter: drop-shadow(0 0 8px rgba(107,142,35,0.2));
+}
+.home-subtitle-illuminated {
+  color: rgba(107, 142, 35, 0.9);
+  filter: drop-shadow(0 0 8px rgba(107,142,35,0.1));
+}
+.home-user-name {
+  color: transparent;
+  background: var(--bronze);
+  background-clip: text;
+  -webkit-background-clip: text;
+  filter: drop-shadow(0 2px 8px rgba(146,107,56,0.2));
+}
+
+:root[data-theme='dark'] .home-greeting-illuminated {
+  color: #BEC092;
+  filter: drop-shadow(0 0 8px rgba(190,192,146,0.5));
+}
+:root[data-theme='dark'] .home-subtitle-illuminated {
+  color: rgba(190, 192, 146, 0.8);
+  filter: drop-shadow(0 0 8px rgba(190,192,146,0.3));
+}
+:root[data-theme='dark'] .home-user-name {
+  background: linear-gradient(to right, #fde68a, #fbbf24, #d97706);
+  background-clip: text;
+  -webkit-background-clip: text;
+  filter: drop-shadow(0 2px 16px rgba(251,191,36,0.5));
+}

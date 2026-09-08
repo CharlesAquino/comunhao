@@ -419,17 +419,17 @@ export default function Home() {
           <p className="text-[10px] font-bold uppercase tracking-[0.15em] txt-green mb-1.5">Comunhão</p>
           <h1 className={`font-display text-lg font-medium leading-tight tracking-tight [overflow-wrap:anywhere] max-[360px]:text-base transition-colors duration-700 ${
             isAvailable 
-              ? 'text-[#6b8e23] dark:text-[#BEC092] drop-shadow-[0_0_8px_rgba(107,142,35,0.2)] dark:drop-shadow-[0_0_8px_rgba(190,192,146,0.5)]' 
+              ? 'home-greeting-illuminated' 
               : 'txt-secondary'
           }`}>
             A paz do Senhor,<br />
-            <span className="text-3xl font-bold max-[360px]:text-2xl mt-0.5 block bg-gradient-to-r from-[var(--bronze)] via-[var(--bronze)] to-[var(--bronze)] dark:from-amber-200 dark:via-amber-400 dark:to-amber-600 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(146,107,56,0.2)] dark:drop-shadow-[0_2px_16px_rgba(251,191,36,0.5)] transition-all duration-700">
+            <span className="text-3xl font-bold max-[360px]:text-2xl mt-0.5 block home-user-name transition-all duration-700">
               {data.usuario.nome?.split(' ')[0] || data.usuario.nome}
             </span>
           </h1>
           <p className={`mt-1 text-sm transition-colors duration-700 ${
             isAvailable 
-              ? 'text-[#6b8e23]/90 dark:text-[#BEC092]/80 drop-shadow-[0_0_8px_rgba(107,142,35,0.1)] dark:drop-shadow-[0_0_8px_rgba(190,192,146,0.3)]' 
+              ? 'home-subtitle-illuminated' 
               : 'txt-tertiary'
           }`}>
             Seu altar de comunhão e intercessão
