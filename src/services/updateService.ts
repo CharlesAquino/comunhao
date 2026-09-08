@@ -245,7 +245,7 @@ export async function downloadAndInstallUpdate(
       sha256: remote.sha256,
     });
 
-    if (remote.size > 0 && result.size !== remote.size) {
+    if (remote.size > 0 && Number(result.size) !== remote.size) {
       throw new Error('O tamanho do APK baixado não corresponde ao manifesto.');
     }
 

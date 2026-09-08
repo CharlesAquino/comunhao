@@ -6,7 +6,7 @@
   "mandatory": false,
   "apkUrl": "https://csxrhvgfnkqmkehgmnkp.supabase.co/storage/v1/object/public/app-updates/development/comunhao-1.4.0-dev.62.apk",
   "sha256": "85e3153b862ace90b1611e5391fe958eed4a00375b13e6de6bdcf992be35b597",
-  "size": 32950454,
+  "size": 0,
   "releaseDate": "2026-09-06",
   "releaseTitle": "Estudos em Preparação e Idempotência de Oração",
   "testerMessage": "Versão exclusiva do grupo piloto, entregue pelo canal interno de atualização.",
