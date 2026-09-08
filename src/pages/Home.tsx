@@ -397,26 +397,30 @@ export default function Home() {
             A paz do Senhor, {data.usuario.nome?.split(' ')[0] || data.usuario.nome}
           </h1>
           <p className="mt-1 text-sm txt-tertiary">Seu altar de comunhão e intercessão</p>
-          <button
-            type="button"
-            onClick={handleToggleAvailability}
-            disabled={alterandoDisponibilidade || data.usuario.status_anel === 'orando'}
-            aria-pressed={isAvailable}
-            className={`mt-3 inline-flex min-h-10 items-center gap-2 rounded-full border px-3.5 text-xs font-semibold transition-premium disabled:cursor-not-allowed disabled:opacity-55 ${
-              isAvailable
-                ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent-primary)]'
-                : 'border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)]'
-            }`}
-          >
-            {alterandoDisponibilidade
-              ? <LoaderCircle size={15} className="animate-spin" aria-hidden="true" />
-              : <span className={`size-2.5 rounded-full ${isAvailable ? 'bg-[var(--success)] shadow-[0_0_0_3px_var(--accent-soft)]' : 'bg-[var(--text-muted)]'}`} aria-hidden="true" />}
-            {alterandoDisponibilidade
-              ? 'Atualizando…'
-              : data.usuario.status_anel === 'orando'
-                ? 'Em oração'
-                : isAvailable ? 'Disponível para oração' : 'Ficar disponível'}
-          </button>
+          <div className="mt-2.5 flex items-center">
+            <button
+              type="button"
+              onClick={handleToggleAvailability}
+              disabled={alterandoDisponibilidade || data.usuario.status_anel === 'orando'}
+              aria-pressed={isAvailable}
+              className={`inline-flex h-7 items-center gap-1.5 rounded-full px-2.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-300 backdrop-blur-md disabled:opacity-50 ${
+                isAvailable
+                  ? 'bg-[var(--success)]/10 text-[var(--success)] ring-1 ring-inset ring-[var(--success)]/30'
+                  : 'bg-[var(--surface-elevated)]/40 text-[var(--text-tertiary)] ring-1 ring-inset ring-[var(--border)]'
+              }`}
+            >
+              {alterandoDisponibilidade
+                ? <LoaderCircle size={12} className="animate-spin" aria-hidden="true" />
+                : <span className={`size-1.5 rounded-full ${isAvailable ? 'bg-[var(--success)] shadow-[0_0_6px_var(--success)] animate-[pulse_2s_ease-in-out_infinite]' : 'bg-[var(--text-muted)]'}`} aria-hidden="true" />}
+              <span className="mt-[1px]">
+                {alterandoDisponibilidade
+                  ? 'Atualizando'
+                  : data.usuario.status_anel === 'orando'
+                    ? 'Em oração'
+                    : isAvailable ? 'Disponível' : 'Ficar disponível'}
+              </span>
+            </button>
+          </div>
         </div>
       </header>
 
