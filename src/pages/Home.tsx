@@ -386,8 +386,8 @@ export default function Home() {
         <Link
           to={ROUTES.PERFIL}
           aria-label="Abrir meu perfil"
-          className={`spatial-person relic-avatar relic-interaction group relative flex size-[7rem] shrink-0 items-center justify-center rounded-full border-[3px] border-[var(--surface-elevated)] bg-[var(--surface-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] max-[360px]:size-24 ${
-            isAvailable ? 'ring-4 ring-[var(--accent-primary)]/25 shadow-[0_0_24px_rgba(120,173,136,0.35)]' : ''
+          className={`spatial-person relic-avatar relic-interaction group relative flex size-[7rem] shrink-0 items-center justify-center rounded-full border-[3px] border-[var(--surface-elevated)] bg-[var(--surface-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] max-[360px]:size-24 transition-all duration-700 ${
+            isAvailable ? 'ring-4 ring-amber-400/60 shadow-[0_0_36px_rgba(251,191,36,0.5),inset_0_0_12px_rgba(251,191,36,0.3)]' : ''
           }`}
         >
           {data.usuario.avatar ? (
@@ -401,12 +401,6 @@ export default function Home() {
               {data.usuario.nome?.[0] || '?'}
             </span>
           )}
-          <span
-            aria-label={isAvailable ? 'Disponível para oração' : 'Perfil offline'}
-            className={`absolute bottom-0.5 right-0.5 size-5 rounded-full border-[3px] border-[var(--canvas)] ${
-              isAvailable ? 'bg-[var(--success)] shadow-[0_0_10px_var(--success)] animate-pulse' : 'bg-[var(--text-muted)]'
-            }`}
-          />
           {data.usuario.brasaoInstitucional && (
             <span className="absolute -bottom-2 -left-3 z-10">
               <InstitutionalCrest kind={data.usuario.brasaoInstitucional} size={30} />
