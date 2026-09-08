@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { Hand, Award, Heart, LoaderCircle } from 'lucide-react';
+import { LamparinaIcon } from '../components/icons/SanctuaryIcons';
 import MocidadeGrid from '../components/MocidadeGrid';
 import SessaoAbertaModal from '../components/SessaoAbertaModal';
 import { getCurrentUserId, getDashboardData, subscribeToDataChanges, toggleUserAvailability } from '../services/dataService';
@@ -361,7 +362,7 @@ export default function Home() {
   return (
     <div ref={homeSpatialRef} className="home-editorial relic-home relative z-10 flex min-h-full flex-col gap-[var(--relic-section-gap)] px-5 pb-4 pt-[calc(var(--safe-area-top)+4rem)] max-[360px]:px-4">
       {/* Botão Flutuante de Oração (Canto Esquerdo Paralelo à Dock Superior) */}
-      <div className="absolute z-[70] flex items-center justify-center" style={{ top: 'calc(var(--safe-area-top) + 0.75rem)', left: 'max(var(--app-page-gutter, 1.25rem), var(--safe-area-left, 0px))' }}>
+      <div className="fixed z-[70] flex items-center justify-center" style={{ top: 'calc(var(--safe-area-top) + 0.75rem)', left: 'max(var(--app-page-gutter, 1.25rem), var(--safe-area-left, 0px))' }}>
         <button
           type="button"
           onClick={handleToggleAvailability}
@@ -374,7 +375,7 @@ export default function Home() {
               : 'opacity-40 grayscale filter hover:grayscale-0 hover:opacity-80'
           }`}
         >
-          <span className="text-2xl leading-none" aria-hidden="true">🙏</span>
+          <LamparinaIcon size={26} strokeWidth={1.5} className="text-[var(--accent-primary)] drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]" aria-hidden="true" />
           {alterandoDisponibilidade && (
             <span className="absolute -inset-1 rounded-full border-2 border-dashed border-[var(--celebration)] animate-[spin_2s_linear_infinite]" />
           )}

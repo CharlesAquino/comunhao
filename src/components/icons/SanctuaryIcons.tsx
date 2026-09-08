@@ -68,3 +68,10 @@ export const MuralComposeIcon = createSanctuaryIcon('MuralComposeIcon', <>
   <path d="M9 8.1h6M9 11h3.8" />
   <path d="M16.8 2.2v4.2M14.7 4.3h4.2" />
 </>);
+
+export const LamparinaIcon = createSanctuaryIcon('LamparinaIcon', <>
+  <path d="M12 2c2 3 3 5 3 7a3 3 0 0 1-6 0c0-2 1-4 3-7Z" />
+  <path d="M12 5.5c1 1.5 1 2.5 1 3.5a1 1 0 0 1-2 0c0-1 0-2 1-3.5Z" fill="currentColor" fillOpacity=".4" stroke="none" />
+  <path d="M4 12a8 8 0 0 0 16 0H4Z" />
+  <path d="M10 20h4l1.5 2h-7L10 20Z" />
+</>);
