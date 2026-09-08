@@ -1,7 +1,7 @@
 {
   "name": "oracao-app",
   "private": true,
-  "version": "1.4.0-dev.72",
+  "version": "1.4.0-dev.73",
   "type": "module",
   "scripts": {
     "dev": "vite",
