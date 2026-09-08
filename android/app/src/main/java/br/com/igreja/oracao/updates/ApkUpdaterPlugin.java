@@ -81,7 +81,7 @@ public class ApkUpdaterPlugin extends Plugin {
         }
 
         bridge.execute(() -> {
-            File updatesDir = new File(getContext().getCacheDir(), "updates");
+            File updatesDir = new File(getContext().getExternalFilesDir(null), "updates");
             if (!updatesDir.exists() && !updatesDir.mkdirs()) {
                 call.reject("Não foi possível preparar a pasta de atualizações.");
                 return;
