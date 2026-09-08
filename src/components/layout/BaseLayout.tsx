@@ -151,11 +151,16 @@ export default function BaseLayout() {
                   }
                 }}
                 aria-current={active ? 'page' : undefined}
-                className={`sanctuary-nav__item min-w-0 min-h-14 flex flex-col items-center justify-center gap-1 transition-premium ${
-                  active ? 'sanctuary-nav__item--active txt-primary' : 'txt-tertiary hover:txt-primary'
+                className={`sanctuary-nav__item relative min-w-0 min-h-14 flex flex-col items-center justify-center gap-1 transition-all duration-500 ${
+                  active 
+                    ? 'text-[#BEC092] drop-shadow-[0_0_6px_rgba(190,192,146,0.4)]' 
+                    : 'txt-tertiary hover:txt-secondary'
                 }`}
               >
-                <SealIcon Icon={Icon} active={active} size="sm" />
+                {active && (
+                  <div className="pointer-events-none absolute inset-0.5 z-[-1] rounded-[1.15rem] bg-gradient-to-b from-[#BEC092]/15 to-transparent border-t border-[#BEC092]/30 shadow-[inset_0_1px_6px_rgba(190,192,146,0.1)]" />
+                )}
+                <SealIcon Icon={Icon} size="sm" />
                 <span className="text-[10px] font-semibold leading-none truncate max-w-full px-1">{label}</span>
               </Link>
             );
