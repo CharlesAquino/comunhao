@@ -419,11 +419,7 @@ export default function Home() {
           <p className="text-[10px] font-bold uppercase tracking-[0.15em] txt-green mb-1.5">Comunhão</p>
           <h1 className={`font-display text-lg font-medium leading-tight tracking-tight [overflow-wrap:anywhere] max-[360px]:text-base transition-colors duration-700 ${isAvailable ? 'text-[#BEC092] drop-shadow-[0_0_8px_rgba(190,192,146,0.5)]' : 'txt-secondary'}`}>
             A paz do Senhor,<br />
-            <span className={`text-3xl font-bold max-[360px]:text-2xl mt-0.5 block bg-gradient-to-r bg-clip-text text-transparent transition-all duration-700 ${
-              isAvailable 
-                ? 'from-[#e4e6c3] via-[#BEC092] to-[#9b9f67] drop-shadow-[0_0_16px_rgba(190,192,146,0.6)]'
-                : 'from-amber-200 via-amber-400 to-amber-600 drop-shadow-[0_2px_16px_rgba(251,191,36,0.5)]'
-            }`}>
+            <span className="text-3xl font-bold max-[360px]:text-2xl mt-0.5 block bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent drop-shadow-[0_2px_16px_rgba(251,191,36,0.5)] transition-all duration-700">
               {data.usuario.nome?.split(' ')[0] || data.usuario.nome}
             </span>
           </h1>
