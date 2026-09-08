@@ -8,6 +8,7 @@ import SealIcon from '../ui/SealIcon';
 import MessageInboxButton from '../MessageInboxButton';
 import NotificationCenterButton from '../NotificationCenterButton';
 import PageHelp from '../guides/PageHelp';
+import LamparinaDock from './LamparinaDock';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Início', Icon: Home },
@@ -120,6 +121,7 @@ export default function BaseLayout() {
       </main>
 
       {/* Alternador de Tema + Carteira (pílula unificada) */}
+      <LamparinaDock />
       <div className="app-shell__utility absolute z-[70]">
         <div className="flex items-center gap-1 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-1.5 py-1">
           {hasAdminAccess && (

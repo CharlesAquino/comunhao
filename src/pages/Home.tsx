@@ -361,27 +361,6 @@ export default function Home() {
 
   return (
     <div ref={homeSpatialRef} className="home-editorial relic-home relative z-10 flex min-h-full flex-col gap-[var(--relic-section-gap)] px-5 pb-4 pt-[calc(var(--safe-area-top)+4rem)] max-[360px]:px-4">
-      {/* Botão Flutuante de Oração (Canto Esquerdo Paralelo à Dock Superior) */}
-      <div className="fixed z-[70] flex items-center justify-center" style={{ top: 'calc(var(--safe-area-top) + 0.75rem)', left: 'max(var(--app-page-gutter, 1.25rem), var(--safe-area-left, 0px))' }}>
-        <button
-          type="button"
-          onClick={handleToggleAvailability}
-          disabled={alterandoDisponibilidade || data.usuario.status_anel === 'orando'}
-          aria-label={isAvailable ? 'Sair do modo de oração' : 'Ficar disponível para oração'}
-          title={isAvailable ? 'Você está disponível para interceder' : 'Toque para ficar disponível'}
-          className={`relative flex items-center justify-center rounded-full p-2 transition-all duration-500 hover:scale-110 active:scale-95 disabled:opacity-50 ${
-            isAvailable
-              ? 'drop-shadow-[0_0_16px_rgba(251,191,36,0.8)]'
-              : 'opacity-40 grayscale filter hover:grayscale-0 hover:opacity-80'
-          }`}
-        >
-          <LamparinaIcon size={28} strokeWidth={1.5} className="text-amber-400 drop-shadow-[0_0_12px_rgba(251,191,36,1)]" aria-hidden="true" />
-          {alterandoDisponibilidade && (
-            <span className="absolute -inset-1 rounded-full border-2 border-dashed border-[var(--celebration)] animate-[spin_2s_linear_infinite]" />
-          )}
-        </button>
-      </div>
-
       <header className="spatial-section spatial-section--quiet flex items-center gap-4 max-[360px]:gap-3">
         <Link
           to={ROUTES.PERFIL}
