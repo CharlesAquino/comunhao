@@ -48,7 +48,10 @@ export default function Home() {
   const [alterandoDisponibilidade, setAlterandoDisponibilidade] = useState(false);
   const ultimoDestinoConviteRef = useRef<string | null>(null);
   const statusConviteEnviadoRef = useRef<ConviteOracao['status'] | null>(null);
-  const homeSpatialRef = useSpatialSurface<HTMLDivElement>({ maxTilt: 0.9, pointerRange: 0.55 });
+  const conviteDialogRef = useRef<HTMLElement | null>(null);
+  const conviteTriggerRef = useRef<HTMLElement | null>(null);
+  const conviteDialogWasOpenRef = useRef(false);
+  const homeSpatialRef = useSpatialSurface<HTMLDivElement>({ maxTilt: 0, pointerRange: 0 });
 
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -56,6 +59,67 @@ export default function Home() {
   const { can: canAdmin, isAdmin, hasAdminAccess } = useAdmin();
   const hasEstudosAccess = isAdmin || canAdmin('estudos.manage') || canAdmin('estudos.review') || hasAdminAccess;
   const sessaoConviteId = searchParams.get('orar_com');
+
+  useEffect(() => {
+    if (!confirmandoConviteDupla) {
+      if (conviteDialogWasOpenRef.current) {
+        conviteDialogWasOpenRef.current = false;
+        const trigger = conviteTriggerRef.current;
+        window.requestAnimationFrame(() => trigger?.focus());
+      }
+      return;
+    }
+
+    conviteDialogWasOpenRef.current = true;
+    const frame = window.requestAnimationFrame(() => {
+      conviteDialogRef.current?.focus();
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [confirmandoConviteDupla]);
+
+  useEffect(() => {
+    if (!confirmandoConviteDupla) return;
+
+    const handleDialogKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (criandoSala) return;
+        event.preventDefault();
+        setConfirmandoConviteDupla(false);
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+
+      const dialog = conviteDialogRef.current;
+      if (!dialog) return;
+
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter(element => !element.hasAttribute('hidden'));
+
+      if (focusable.length === 0) {
+        event.preventDefault();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleDialogKeyDown);
+    return () => document.removeEventListener('keydown', handleDialogKeyDown);
+  }, [confirmandoConviteDupla, criandoSala]);
 
   const loadDashboardData = useCallback(async () => {
     try {
@@ -433,7 +497,13 @@ export default function Home() {
           parceiroSustentador={data.parceiroSustentador}
           conviteEnviado={conviteEnviado}
           criandoSala={criandoSala}
-          onConvidar={() => setConfirmandoConviteDupla(true)}
+          onConvidar={() => {
+            if (!data.missaoAtual.id) return;
+            conviteTriggerRef.current = document.activeElement instanceof HTMLElement
+              ? document.activeElement
+              : null;
+            setConfirmandoConviteDupla(true);
+          }}
           onCancelarConvite={handleCancelarConvite}
         />
       )}
@@ -445,14 +515,41 @@ export default function Home() {
       </div>
 
       {confirmandoConviteDupla && createPortal(
-        <div className="app-modal-layer fixed inset-0 flex items-end justify-center bg-black/70 p-4 backdrop-blur-sm sm:items-center" role="presentation" onClick={() => !criandoSala && setConfirmandoConviteDupla(false)}>
-          <section role="dialog" aria-modal="true" aria-labelledby="confirmar-dupla-title" className="w-full max-w-sm rounded-[1.75rem] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-2xl" onClick={event => event.stopPropagation()}>
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--celebration)]">Dupla da semana</p>
-            <h2 id="confirmar-dupla-title" className="mt-2 font-display text-2xl font-semibold txt-primary">Convidar {data.missaoAtual.nome}?</h2>
-            <p className="mt-2 text-sm leading-relaxed txt-tertiary">Este convite pertence ao compromisso semanal. Ele não é uma chamada da Sala de Oração.</p>
+        <div
+          className="app-modal-layer fixed inset-0 flex items-end justify-center bg-black/70 p-4 backdrop-blur-sm sm:items-center"
+          role="presentation"
+          onClick={() => !criandoSala && setConfirmandoConviteDupla(false)}
+        >
+          <section
+            ref={conviteDialogRef}
+            role="dialog"
+            tabIndex={-1}
+            aria-modal="true"
+            aria-labelledby="confirmar-dupla-title"
+            aria-describedby="confirmar-dupla-description"
+            className="w-full max-w-sm rounded-[1.75rem] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-2xl"
+            onClick={event => event.stopPropagation()}
+          >
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--celebration)]">
+              Dupla da semana
+            </p>
+            <h2 id="confirmar-dupla-title" className="mt-2 font-display text-2xl font-semibold txt-primary">
+              Convidar {data.missaoAtual.nome}?
+            </h2>
+            <p id="confirmar-dupla-description" className="mt-2 text-sm leading-relaxed txt-tertiary">
+              Este convite pertence ao compromisso semanal. Ele não é uma chamada da Sala de Oração.
+            </p>
             <div className="mt-5 grid grid-cols-2 gap-3">
-              <Button variant="ghost" onClick={() => setConfirmandoConviteDupla(false)} disabled={criandoSala}>Cancelar</Button>
-              <Button onClick={handleOrarAgora} disabled={criandoSala}>{criandoSala ? 'Enviando…' : 'Enviar convite'}</Button>
+              <Button
+                variant="ghost"
+                onClick={() => setConfirmandoConviteDupla(false)}
+                disabled={criandoSala}
+              >
+                Cancelar
+              </Button>
+              <Button onClick={handleOrarAgora} disabled={criandoSala}>
+                {criandoSala ? 'Enviando…' : 'Enviar convite'}
+              </Button>
             </div>
           </section>
         </div>,

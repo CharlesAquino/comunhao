@@ -1,73 +1,853 @@
-/* Home aprovada: a Missão é o único card ornamental; formação é uma superfície contínua. */
+/* Home 2050 V3 — eixo mestre, profundidade Ultra HD e temas Santuário/Amanhecer. */
 .app-shell--home {
-  --home-canvas: #0e1712;
-  --home-ink: #f0e9db;
-  --home-muted: #b7beb6;
-  --home-action: #91cbaa;
-  --home-paper-ink: #18382d;
-  --home-paper-muted: #626b61;
-  background: var(--home-canvas);
+  --home-canvas: #0b120e;
+  --home-canvas-deep: #07100b;
+  --home-ink: #f3ede2;
+  --home-muted: #b8c0b8;
+  --home-action: #8fd2aa;
+  --home-action-strong: #b4ecc7;
+  --home-paper: #f1eadc;
+  --home-paper-deep: #e6dece;
+  --home-paper-ink: #14382b;
+  --home-paper-muted: #647067;
+  --home-gutter: clamp(1rem, 5.1vw, 1.25rem);
+  --home-rail-width: calc(100% - (2 * var(--home-gutter)));
+  background:
+    radial-gradient(circle at 50% -8%, rgb(48 85 64 / 0.22), transparent 29rem),
+    linear-gradient(180deg, var(--home-canvas) 0%, var(--home-canvas-deep) 100%);
 }
+
 :root[data-theme='light'] .app-shell--home {
-  --home-canvas: #eeeade;
-  --home-ink: #243d2e;
-  --home-muted: #576355;
+  --home-canvas: #f0ece2;
+  --home-canvas-deep: #e7e2d6;
+  --home-ink: #203b2d;
+  --home-muted: #667267;
+  --home-action: #2f7153;
+  --home-action-strong: #245c43;
+  --home-paper: #fbf7ef;
+  --home-paper-deep: #eee7da;
+  --home-paper-ink: #193f30;
+  --home-paper-muted: #667168;
+  background:
+    radial-gradient(circle at 50% -10%, rgb(255 255 255 / 0.92), transparent 27rem),
+    linear-gradient(180deg, #f5f1e8 0%, #e7e2d6 100%);
 }
+
+/* A Home tem materialidade própria. As atmosferas globais são desligadas
+   para que o enquadramento não concorra com a composição editorial. */
 .app-shell--home .shared-louvor-environment,
-.app-shell--home .sanctuary-spiritual-aurora { display: none; }
-.home-editorial { gap: 0; padding: 12px 20px 0; color: var(--home-ink); }
-.home-editorial > header { margin-bottom: 20px; gap: 16px; }
-.home-editorial > header .relic-avatar { width: 60px; height: 60px; }
-.home-editorial > header h1 { font-size: 18px; line-height: 1.3; }
-.home-editorial > header .txt-green,
-.home-editorial > header h1 + p { display: none; }
-.home-editorial > header button { min-height: 44px; margin-top: 8px; font-size: 12px; }
-.home-editorial > .mission-week-card { z-index: 1; flex-shrink: 0; margin-bottom: -14px; }
-.home-formation { position: relative; isolation: isolate; margin-inline: -20px; flex-shrink: 0; overflow: hidden; background: #0e1712; }
-.home-formation__art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; z-index: -1; pointer-events: none; }
-.home-ebd, .home-studies { position: relative; padding: 40px 26px 28px; min-height: 260px; display: flex; align-items: center; }
-.home-ebd { color: var(--home-paper-ink); }
-.home-studies { color: #f0e9db; padding-top: 28px; padding-bottom: 34px; min-height: 290px; }
-.home-formation__copy { width: 66%; min-width: 0; }
-.home-formation__eyebrow { margin: 0 0 16px; font: 600 10px/1.5 var(--font-sans); letter-spacing: .19em; text-transform: uppercase; }
-.home-formation__eyebrow::before { content: ''; display: block; width: 22px; height: 1px; background: currentColor; margin-bottom: 12px; }
-.home-ebd .home-formation__eyebrow { color: #396d58; }
-.home-ebd__day { margin: 0 0 10px; color: var(--home-paper-muted); font-size: 12px; font-weight: 550; }
-.home-formation h2 { margin: 0; font: 550 25px/1.13 var(--font-display); letter-spacing: -.035em; text-wrap: pretty; }
-.home-ebd__duration { display: flex; align-items: center; gap: 8px; margin: 20px 0 8px; font-size: 13px; color: var(--home-paper-muted); }
-.home-ebd__duration svg { flex-shrink: 0; color: var(--home-paper-ink); }
-.home-formation__link { display: inline-flex; gap: 10px; align-items: center; min-height: 44px; padding: 4px 0; font: 600 14px/1.4 var(--font-sans); text-align: left; color: inherit; cursor: pointer; transition: opacity 160ms ease; }
-.home-formation__link svg { flex-shrink: 0; transition: transform 160ms ease; }
-.home-formation__link:hover svg { transform: translateX(3px); }
-.home-formation__link:active { opacity: .75; }
-.home-formation__link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 4px; }
-.home-studies .home-formation__eyebrow, .home-studies .home-formation__link { color: var(--home-action); }
-.home-studies__subtitle { margin: 10px 0 14px; color: #c2c9bf; font-size: 13px; line-height: 1.5; }
-.home-studies__description { margin: 0 0 10px; color: #c2c9bf; font-size: 13px; line-height: 1.6; }
-.home-studies__status { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 8px; padding: 5px 9px; border: 1px solid #8da59455; border-radius: 999px; color: #ccd4cc; background: #0e1712; font-size: 11px; }
-.home-studies .home-formation__link { display: flex; }
-.home-community { padding-top: 28px; border-top: 1px solid color-mix(in srgb, var(--home-muted) 25%, transparent); }
-.home-community h2 { color: var(--home-ink); font-size: 22px; }
-.home-community a { min-height: 44px; display: inline-flex; align-items: center; }
-.home-community .community-presence-card { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
-.home-community .community-presence-card::before,
-.home-community .community-presence__rail::before { display: none; }
-.home-community .community-presence__rail { padding: 8px 0 16px; gap: 10px; grid-auto-columns: 74px; }
-.home-community .community-presence__person { width: 74px; }
-.home-community .community-presence__profile { padding-inline: 0; }
-.home-community .community-presence__profile > span { color: var(--home-muted); }
-.app-shell--home .app-shell__utility > div { background: var(--home-canvas); border-color: transparent; box-shadow: none; }
-.app-shell--home .app-shell__utility button, .app-shell--home .app-shell__utility a { min-width: 44px; min-height: 44px; }
-.home-editorial > div:last-child { margin-top: 16px; }
-@media (min-width: 600px) {
-  .home-editorial { max-width: 580px; }
-  .home-ebd, .home-studies { padding-left: 36px; padding-right: 36px; min-height: 330px; }
-  .home-studies { min-height: 370px; }
-  .home-formation h2 { font-size: 32px; }
-  .home-formation__eyebrow { font-size: 11px; }
-  .home-ebd__day, .home-studies__subtitle, .home-studies__description, .home-ebd__duration { font-size: 15px; }
+.app-shell--home .sanctuary-spiritual-aurora {
+  display: none;
 }
+
+.home-editorial {
+  width: min(100%, 36.25rem);
+  max-width: 36.25rem;
+  margin-inline: auto;
+  padding: 0 0 1rem;
+  gap: 0;
+  color: var(--home-ink);
+  letter-spacing: -0.008em;
+
+  /* A Home não inclina sua geometria. Profundidade acontece dentro dos
+     materiais, nunca deslocando o eixo do layout. */
+  --spatial-rotate-x: 0deg !important;
+  --spatial-rotate-y: 0deg !important;
+  --spatial-far-x: 0px !important;
+  --spatial-far-y: 0px !important;
+  --spatial-mid-x: 0px !important;
+  --spatial-mid-y: 0px !important;
+  --spatial-near-x: 0px !important;
+  --spatial-near-y: 0px !important;
+}
+
+/* Eixo mestre. Header, estados, Missão, Comunidade e footer usam exatamente
+   a mesma largura e o mesmo centro. */
+.home-editorial > header,
+.home-editorial > .mission-week-card,
+.home-editorial > .home-community,
+.home-editorial > .spatial-section:not(.home-community) {
+  width: var(--home-rail-width);
+  max-width: none;
+  margin-inline: auto;
+}
+
+.home-editorial > header {
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+}
+
+.home-editorial > header .relic-avatar {
+  width: 3.75rem;
+  height: 3.75rem;
+}
+
+.home-editorial > header h1 {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 560;
+  line-height: 1.25;
+  letter-spacing: -0.028em;
+  font-optical-sizing: auto;
+  text-rendering: geometricPrecision;
+}
+
+.home-editorial > header .txt-green,
+.home-editorial > header h1 + p {
+  display: none;
+}
+
+.home-editorial > header button {
+  min-height: 2.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  backdrop-filter: blur(16px) saturate(1.15);
+}
+
+.home-editorial > .mission-week-card {
+  z-index: 3;
+  flex-shrink: 0;
+  margin-bottom: -0.85rem;
+
+  /* A arte é a joia da página. O contorno ganha profundidade, sem mover
+     fisicamente o card. */
+  filter:
+    drop-shadow(0 1px 0 rgb(255 233 174 / 0.14))
+    drop-shadow(0 0.55rem 1rem rgb(0 0 0 / 0.22))
+    drop-shadow(0 1.45rem 2.3rem rgb(0 0 0 / 0.26));
+}
+
+:root[data-theme='light'] .home-editorial > .mission-week-card {
+  filter:
+    drop-shadow(0 1px 0 rgb(255 255 255 / 0.8))
+    drop-shadow(0 0.8rem 1.7rem rgb(91 69 33 / 0.13));
+}
+
+/* A formação é a única superfície full-bleed. Não usa margem negativa:
+   o centro geométrico é o mesmo do shell. */
+.home-formation {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: 46.5% 53.5%;
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 6 / 7;
+  margin: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      to bottom,
+      var(--home-paper) 0%,
+      var(--home-paper) 46.5%,
+      #0b1510 46.5%,
+      #07100b 100%
+    );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.35),
+    inset 0 -1px 0 rgb(255 255 255 / 0.04);
+}
+
+/* Camada óptica: dá volume sem blur na tipografia. */
+.home-formation::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 86% 30%, rgb(255 249 230 / 0.30), transparent 22%),
+    radial-gradient(ellipse at 82% 76%, rgb(136 224 173 / 0.17), transparent 26%),
+    linear-gradient(104deg, transparent 0 52%, rgb(255 255 255 / 0.055) 65%, transparent 78%),
+    linear-gradient(180deg, transparent 41%, rgb(0 0 0 / 0.07) 49%, transparent 57%);
+  mix-blend-mode: screen;
+}
+
+/* Vinheta física + microcontraste de borda. */
+.home-formation::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 0.04), transparent 13% 85%, rgb(0 0 0 / 0.11)),
+    linear-gradient(180deg, transparent 0 42%, rgb(2 13 8 / 0.08) 52%, rgb(0 0 0 / 0.15) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.025),
+    inset 0 -2.5rem 4.5rem rgb(0 0 0 / 0.08);
+}
+
+.home-formation__art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  pointer-events: none;
+  user-select: none;
+  image-rendering: auto;
+  transform: translateZ(0);
+  transform-origin: center top;
+  filter:
+    contrast(1.075)
+    saturate(1.075)
+    brightness(1.015);
+}
+
+/* A arte original mede 1200×1400 (6:7). O container usa a mesma razão e
+   a imagem usa contain sem scale; portanto nenhum pixel da composição é
+   recortado em mobile, desktop ou tablet. */
+.home-formation > .home-formation__art {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Ultra não significa "mais glow": significa mais separação tonal e
+   especular controlado. */
+:root[data-graphics='ultra'] .home-formation__art {
+  filter:
+    contrast(1.105)
+    saturate(1.105)
+    brightness(1.025);
+}
+
+.home-ebd,
+.home-studies {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  min-height: 0;
+  align-items: flex-start;
+}
+
+.home-ebd {
+  padding: clamp(1.85rem, 7vw, 2.6rem) clamp(1.35rem, 6.6vw, 2.25rem) 1rem;
+  color: var(--home-paper-ink);
+}
+
+.home-studies {
+  padding: clamp(1.5rem, 6vw, 2.15rem) clamp(1.35rem, 6.6vw, 2.25rem) 1.4rem;
+  color: #f4eee4;
+}
+
+.home-formation__copy {
+  width: min(65%, 19rem);
+  min-width: 0;
+  position: relative;
+  z-index: 4;
+}
+
+.home-formation__eyebrow {
+  margin: 0 0 0.7rem;
+  font-family: var(--font-sans);
+  font-size: clamp(0.625rem, 2.55vw, 0.72rem);
+  font-weight: 680;
+  line-height: 1.45;
+  letter-spacing: 0.205em;
+  text-transform: uppercase;
+  text-rendering: geometricPrecision;
+}
+
+.home-formation__eyebrow::before {
+  content: '';
+  display: block;
+  width: 1.45rem;
+  height: 1px;
+  margin-bottom: 0.65rem;
+  background: currentColor;
+  box-shadow: 0 0 0.55rem currentColor;
+  opacity: 0.88;
+}
+
+.home-ebd .home-formation__eyebrow {
+  color: #39705a;
+}
+
+.home-ebd__day {
+  margin: 0 0 0.45rem;
+  color: var(--home-paper-muted);
+  font-size: clamp(0.72rem, 3vw, 0.82rem);
+  font-weight: 560;
+  letter-spacing: 0.035em;
+}
+
+.home-formation h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.52rem, 6.45vw, 2.05rem);
+  font-weight: 560;
+  line-height: 1.075;
+  letter-spacing: -0.044em;
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  text-wrap: pretty;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+
+.home-ebd h2 {
+  color: #12392b;
+  text-shadow:
+    0 1px 0 rgb(255 255 255 / 0.48),
+    0 0.55rem 1.4rem rgb(40 65 51 / 0.08);
+}
+
+.home-studies h2 {
+  color: #f4eee4;
+  text-shadow:
+    0 1px 0 rgb(255 255 255 / 0.06),
+    0 0.45rem 1.3rem rgb(0 0 0 / 0.34);
+}
+
+.home-ebd__duration {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.85rem 0 0.2rem;
+  color: var(--home-paper-muted);
+  font-size: clamp(0.76rem, 3.1vw, 0.86rem);
+}
+
+.home-ebd__duration svg {
+  flex-shrink: 0;
+  color: var(--home-paper-ink);
+  filter: drop-shadow(0 1px 0 rgb(255 255 255 / 0.35));
+}
+
+.home-formation__link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.62rem;
+  padding: 0.25rem 0;
+  border-radius: 0.35rem;
+  color: inherit;
+  font-family: var(--font-sans);
+  font-size: clamp(0.8rem, 3.35vw, 0.93rem);
+  font-weight: 640;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  text-rendering: geometricPrecision;
+  transition:
+    opacity 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.home-formation__link svg {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 0.35rem currentColor);
+  transition: transform 160ms ease;
+}
+
+.home-formation__link:hover {
+  transform: translateY(-1px);
+}
+
+.home-formation__link:hover svg {
+  transform: translateX(0.22rem);
+}
+
+.home-formation__link:active {
+  opacity: 0.72;
+  transform: translateY(0);
+}
+
+.home-formation__link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 0.25rem;
+}
+
+.home-studies .home-formation__eyebrow,
+.home-studies .home-formation__link {
+  color: var(--home-action-strong);
+}
+
+.home-studies .home-formation__link--secondary {
+  color: color-mix(in srgb, var(--home-action-strong) 82%, #e9eee9);
+  font-weight: 580;
+}
+
+.home-studies__subtitle {
+  margin: 0.42rem 0 0.55rem;
+  color: #c5cec6;
+  font-size: clamp(0.76rem, 3vw, 0.86rem);
+  line-height: 1.42;
+}
+
+.home-studies__description {
+  margin: 0 0 0.45rem;
+  color: #c4ccc5;
+  font-size: clamp(0.76rem, 3vw, 0.86rem);
+  line-height: 1.48;
+}
+
+.home-studies__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  margin: 0 0 0.12rem;
+  padding: 0.32rem 0.58rem;
+  border: 1px solid rgb(156 186 167 / 0.29);
+  border-radius: 999px;
+  color: #d3ddd5;
+  background: rgb(8 24 15 / 0.62);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 0.45rem 1.2rem rgb(0 0 0 / 0.16);
+  font-size: 0.69rem;
+  backdrop-filter: blur(12px) saturate(1.08);
+}
+
+/* Tema Amanhecer: não é simples inversão. A mesma escultura é reinterpretada
+   como porcelana, papel e vidro sage sob luz natural. */
+:root[data-theme='light'] .home-formation {
+  background:
+    linear-gradient(
+      to bottom,
+      #fbf7ef 0%,
+      #f6efe4 46.5%,
+      #e6ece4 46.5%,
+      #d8e2d7 100%
+    );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    inset 0 -1px 0 rgb(70 92 76 / 0.10);
+}
+
+:root[data-theme='light'] .home-formation__art {
+  opacity: 0.84;
+  filter:
+    sepia(0.055)
+    saturate(0.72)
+    brightness(1.46)
+    contrast(0.78);
+}
+
+:root[data-theme='light'] .home-formation::before {
+  background:
+    radial-gradient(ellipse at 86% 30%, rgb(255 255 255 / 0.82), transparent 22%),
+    radial-gradient(ellipse at 81% 77%, rgb(113 165 132 / 0.19), transparent 29%),
+    linear-gradient(102deg, transparent 0 51%, rgb(255 255 255 / 0.31) 64%, transparent 79%),
+    linear-gradient(180deg, transparent 37%, rgb(255 255 255 / 0.16) 54%, transparent 67%);
+  mix-blend-mode: screen;
+}
+
+:root[data-theme='light'] .home-formation::after {
+  background:
+    linear-gradient(90deg, rgb(63 83 67 / 0.035), transparent 13% 85%, rgb(63 83 67 / 0.08)),
+    linear-gradient(180deg, transparent 0 43%, rgb(255 255 255 / 0.09) 51%, rgb(56 89 69 / 0.075) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.55),
+    inset 0 -2.2rem 4rem rgb(72 102 83 / 0.08);
+}
+
+:root[data-theme='light'] .home-studies {
+  color: #254334;
+}
+
+:root[data-theme='light'] .home-studies h2 {
+  color: #244333;
+  text-shadow:
+    0 1px 0 rgb(255 255 255 / 0.65),
+    0 0.55rem 1.4rem rgb(61 85 68 / 0.09);
+}
+
+:root[data-theme='light'] .home-studies .home-formation__eyebrow,
+:root[data-theme='light'] .home-studies .home-formation__link {
+  color: #2d7554;
+}
+
+:root[data-theme='light'] .home-studies__subtitle,
+:root[data-theme='light'] .home-studies__description {
+  color: #5d6c61;
+}
+
+:root[data-theme='light'] .home-studies__status {
+  border-color: rgb(64 103 78 / 0.18);
+  color: #4f6255;
+  background: rgb(250 248 241 / 0.72);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.72),
+    0 0.45rem 1rem rgb(57 78 64 / 0.07);
+}
+
+/* Comunidade retorna ao mesmo rail da Missão. */
+.home-community {
+  padding-top: 1.55rem;
+  padding-bottom: 1.05rem;
+  border-top: 1px solid color-mix(in srgb, var(--home-muted) 24%, transparent);
+}
+
+.home-community h2 {
+  color: var(--home-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 5.6vw, 1.55rem);
+  font-weight: 560;
+  letter-spacing: -0.035em;
+  font-optical-sizing: auto;
+  text-rendering: geometricPrecision;
+}
+
+.home-community a {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+}
+
+.home-community .community-presence-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0.9rem 0.55rem 0.65rem;
+  border: 1px solid rgb(213 174 88 / 0.20);
+  border-radius: 1.45rem;
+  background:
+    linear-gradient(180deg, rgb(5 12 8 / 0.14), rgb(5 12 8 / 0.32)),
+    url('../assets/community-presence-santuario-v1.png') center / cover no-repeat,
+    #0b120e;
+  box-shadow:
+    inset 0 1px 0 rgb(255 239 198 / 0.07),
+    0 0.8rem 2rem rgb(0 0 0 / 0.14);
+}
+
+.home-community .community-presence-card::before {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: '';
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgb(3 9 6 / 0.16), transparent 30% 72%, rgb(3 9 6 / 0.14)),
+    radial-gradient(circle at 50% 0%, rgb(213 174 88 / 0.05), transparent 44%);
+}
+
+.home-community .community-presence__rail::before {
+  display: none;
+}
+
+:root[data-theme='light'] .home-community .community-presence-card {
+  border-color: rgb(145 110 46 / 0.20);
+  background:
+    linear-gradient(180deg, rgb(255 252 242 / 0.10), rgb(240 237 220 / 0.22)),
+    url('../assets/community-presence-amanhecer-v1.png') center / cover no-repeat,
+    #f3efe2;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.78),
+    0 0.8rem 2rem rgb(92 74 42 / 0.09);
+}
+
+:root[data-theme='light'] .home-community .community-presence-card::before {
+  background:
+    linear-gradient(90deg, rgb(255 255 255 / 0.10), transparent 28% 72%, rgb(255 255 255 / 0.08)),
+    radial-gradient(circle at 50% 0%, rgb(255 255 255 / 0.16), transparent 48%);
+}
+
+.home-community .community-presence__rail {
+  gap: 0.62rem;
+  grid-auto-columns: 4.65rem;
+  padding: 0.45rem 0 0.75rem;
+}
+
+.home-community .community-presence__person {
+  width: 4.65rem;
+}
+
+.home-community .community-presence__profile {
+  padding-inline: 0;
+}
+
+.home-community .community-presence__profile > span {
+  color: var(--home-muted);
+}
+
+.app-shell--home .app-shell__utility > div {
+  border-color: color-mix(in srgb, var(--home-muted) 12%, transparent);
+  background: color-mix(in srgb, var(--home-canvas) 88%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.035),
+    0 0.55rem 1.45rem rgb(0 0 0 / 0.12);
+  backdrop-filter: blur(20px) saturate(1.12);
+}
+
+:root[data-theme='light'] .app-shell--home .app-shell__utility > div {
+  border-color: rgb(62 86 70 / 0.10);
+  background: rgb(246 242 233 / 0.84);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.8),
+    0 0.55rem 1.45rem rgb(70 62 46 / 0.08);
+}
+
+.app-shell--home .app-shell__utility button,
+.app-shell--home .app-shell__utility a {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+
+/* Dock premium: profundidade concentrada no plano do vidro, sem deslocar o eixo. */
+.app-shell--home .sanctuary-floating-dock {
+  border-color: color-mix(in srgb, var(--home-muted) 18%, transparent);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--home-canvas) 86%, transparent),
+      color-mix(in srgb, var(--home-canvas-deep) 93%, transparent)
+    );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    inset 0 -1px 0 rgb(0 0 0 / 0.22),
+    0 -0.75rem 2.2rem rgb(0 0 0 / 0.16);
+  backdrop-filter: blur(24px) saturate(1.18);
+}
+
+:root[data-theme='light'] .app-shell--home .sanctuary-floating-dock {
+  border-color: rgb(61 91 71 / 0.12);
+  background:
+    linear-gradient(180deg, rgb(250 247 239 / 0.90), rgb(231 226 214 / 0.92));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.86),
+    0 -0.65rem 1.9rem rgb(85 73 53 / 0.08);
+}
+
+.app-shell--home .sanctuary-nav__item {
+  border-radius: 1.1rem;
+}
+
+.app-shell--home .sanctuary-nav__item--active {
+  background: color-mix(in srgb, var(--home-action) 13%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--home-action) 22%, transparent),
+    inset 0 1px 0 rgb(255 255 255 / 0.055),
+    0 0 1.7rem color-mix(in srgb, var(--home-action) 8%, transparent);
+}
+
+/* Nenhuma seção da Home pode herdar translação espacial. */
+.home-editorial .spatial-section {
+  transform: none !important;
+}
+
+/* Footer também segue o rail. */
+.home-editorial > div.spatial-section:last-of-type {
+  width: var(--home-rail-width);
+  margin: 0.85rem auto 0;
+}
+
+@media (max-width: 359px) {
+  .home-editorial {
+    --home-gutter: 1rem;
+  }
+
+  .home-formation__copy {
+    width: 67%;
+  }
+
+  .home-formation h2 {
+    font-size: 1.42rem;
+  }
+}
+
+@media (min-width: 430px) and (max-width: 599px) {
+  .home-formation__copy {
+    width: 62%;
+  }
+
+}
+
+@media (min-width: 600px) {
+  .home-editorial {
+    width: min(100%, 44rem);
+    max-width: 44rem;
+    --home-gutter: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .home-formation__copy {
+    width: min(58%, 22rem);
+  }
+
+  .home-ebd {
+    padding: 3.3rem 3rem 1.5rem;
+  }
+
+  .home-studies {
+    padding: 2.7rem 3rem 2rem;
+  }
+
+  .home-formation h2 {
+    font-size: clamp(1.95rem, 4vw, 2.35rem);
+  }
+
+  .home-formation__eyebrow {
+    font-size: 0.72rem;
+  }
+
+  .home-ebd__day,
+  .home-studies__subtitle,
+  .home-studies__description,
+  .home-ebd__duration {
+    font-size: 0.9rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .home-formation__link, .home-formation__link svg { transition: none; }
-  .home-formation__link:hover svg { transform: none; }
+  .home-formation__link,
+  .home-formation__link svg {
+    transition: none;
+  }
+
+  .home-formation__link:hover,
+  .home-formation__link:hover svg {
+    transform: none;
+  }
+}
+
+
+/* ============================================================
+   V5 — CONTRASTE SEM MÁSCARA SOBRE A ARTE
+   Nenhum pseudo-elemento é colocado sobre EBD/Estudos.
+   A legibilidade vem de cor, peso e sombra tipográfica local.
+   ============================================================ */
+
+/* Garantia explícita: não permitir que regras anteriores de V4 criem
+   máscaras/sombras locais que cortem a arte de formação. */
+.home-ebd::before,
+.home-studies::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Mantém a arte inteira e livre de overlays locais. */
+.home-formation__art {
+  opacity: 1;
+}
+
+.home-ebd,
+.home-studies {
+  overflow: visible;
+}
+
+/* EBD: tinta escura, nítida, sem faixa artificial por trás. */
+.home-ebd .home-formation__eyebrow {
+  color: #2f6952;
+  font-weight: 720;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.34);
+}
+
+.home-ebd__day,
+.home-ebd__duration {
+  color: #53675b;
+  font-weight: 560;
+}
+
+.home-ebd h2 {
+  color: #0f3528;
+  font-weight: 600;
+  text-shadow:
+    0 1px 0 rgb(255 255 255 / 0.64),
+    0 4px 10px rgb(25 48 37 / 0.055);
+}
+
+.home-ebd .home-formation__link {
+  color: #174936;
+  font-weight: 690;
+}
+
+/* Estudos: deslocamento mínimo apenas para ficar abaixo da crista do papel.
+   Não alteramos a altura da arte nem criamos sombra de seção. */
+.home-studies {
+  padding-top: clamp(1.75rem, 6.8vw, 2.45rem);
+}
+
+.home-studies .home-formation__eyebrow {
+  color: #9fe2b8;
+  font-weight: 720;
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / 0.75),
+    0 0 8px rgb(0 0 0 / 0.30);
+}
+
+.home-studies h2 {
+  color: #faf4ea;
+  font-weight: 610;
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / 0.86),
+    0 3px 9px rgb(0 0 0 / 0.44);
+}
+
+.home-studies__subtitle,
+.home-studies__description {
+  color: #e3e9e4;
+  font-weight: 500;
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / 0.82),
+    0 2px 6px rgb(0 0 0 / 0.28);
+}
+
+.home-studies__status {
+  color: #e0e8e2;
+  border-color: rgb(169 213 186 / 0.34);
+  background: rgb(8 24 15 / 0.64);
+}
+
+.home-studies .home-formation__link,
+.home-studies .home-formation__link--secondary {
+  color: #a9e8c0;
+  font-weight: 680;
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / 0.80),
+    0 0 7px rgb(0 0 0 / 0.22);
+}
+
+/* Amanhecer: contraste por tinta mineral, sem sombras pesadas. */
+:root[data-theme='light'] .home-studies {
+  color: #223e30;
+}
+
+:root[data-theme='light'] .home-studies .home-formation__eyebrow {
+  color: #2b6c4f;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.52);
+}
+
+:root[data-theme='light'] .home-studies h2 {
+  color: #173c2d;
+  font-weight: 620;
+  text-shadow:
+    0 1px 0 rgb(255 255 255 / 0.72),
+    0 3px 9px rgb(55 82 65 / 0.08);
+}
+
+:root[data-theme='light'] .home-studies__subtitle,
+:root[data-theme='light'] .home-studies__description {
+  color: #43594b;
+  font-weight: 520;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.40);
+}
+
+:root[data-theme='light'] .home-studies__status {
+  color: #405649;
+  border-color: rgb(47 102 75 / 0.22);
+  background: rgb(255 253 247 / 0.68);
+}
+
+:root[data-theme='light'] .home-studies .home-formation__link,
+:root[data-theme='light'] .home-studies .home-formation__link--secondary {
+  color: #245f45;
+  font-weight: 700;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.42);
+}
+
+/* A arte da Mocidade volta a ser protagonista, mas sem competir com os nomes. */
+.home-community .community-presence__profile > span {
+  color: #e5dfd4;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 0.62);
+}
+
+:root[data-theme='light'] .home-community .community-presence__profile > span {
+  color: #455447;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.62);
 }

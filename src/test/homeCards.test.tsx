@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from 'vitest';
 import PrayerPartnerCard from '../components/home/PrayerPartnerCard';
 import LivePrayerRoomCard from '../components/home/LivePrayerRoomCard';
 import DailyEbdCard from '../components/home/DailyEbdCard';
+import ComunhaoEstudosCard from '../components/home/ComunhaoEstudosCard';
 import type { EbdEditorialLesson } from '../types/ebdEditorial';
 import { createEmptyEditorialDocument } from '../types/ebdEditorial';
 
@@ -20,7 +21,7 @@ describe('Home Redesign Components', () => {
             onConvidar={vi.fn()}
             onCancelarConvite={vi.fn()}
           />
-        </BrowserRouter>
+        </BrowserRouter>,
       );
 
       expect(screen.getByText('Sua intercessão nesta semana')).toBeInTheDocument();
@@ -49,13 +50,35 @@ describe('Home Redesign Components', () => {
             onConvidar={vi.fn()}
             onCancelarConvite={onCancelar}
           />
-        </BrowserRouter>
+        </BrowserRouter>,
       );
 
       expect(screen.getByText(/Aguardando Marcos aceitar o convite/)).toBeInTheDocument();
       const cancelarBtn = screen.getByRole('button', { name: /Cancelar/ });
       fireEvent.click(cancelarBtn);
       expect(onCancelar).toHaveBeenCalledTimes(1);
+    });
+
+    it('não transforma a ausência de dupla em uma pessoa fictícia ou CTA ativo', () => {
+      render(
+        <BrowserRouter>
+          <PrayerPartnerCard
+            missaoAtual={{ id: '', nome: 'Aguardando sorteio' }}
+            parceiroSustentador={null}
+            conviteEnviado={null}
+            criandoSala={false}
+            onConvidar={vi.fn()}
+            onCancelarConvite={vi.fn()}
+          />
+        </BrowserRouter>,
+      );
+
+      expect(screen.getByText('Sua dupla será revelada aqui')).toBeInTheDocument();
+      expect(
+        screen.getByText(/Assim que o sorteio for concluído/),
+      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Aguardando sorteio' })).toBeDisabled();
+      expect(screen.queryByRole('link', { name: /Abrir perfil de Aguardando/ })).not.toBeInTheDocument();
     });
   });
 
@@ -67,7 +90,7 @@ describe('Home Redesign Components', () => {
           sessoesAbertasCount={2}
           mocidadeOnlineCount={14}
           onEntrar={onEntrar}
-        />
+        />,
       );
 
       expect(screen.getByText('Sala de Oração')).toBeInTheDocument();
@@ -81,7 +104,7 @@ describe('Home Redesign Components', () => {
   });
 
   describe('DailyEbdCard', () => {
-    it('renderiza o estudo bíblico da EBD do dia', () => {
+    it('não promete conteúdo diário quando o dia atual ainda não está liberado', () => {
       const onAbrir = vi.fn();
       const mockLesson: EbdEditorialLesson = {
         id: 'ebd-11',
@@ -91,21 +114,39 @@ describe('Home Redesign Components', () => {
         status: 'published',
         version: 1,
         document: createEmptyEditorialDocument(),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
 
       render(
         <DailyEbdCard
           editorialLesson={mockLesson}
           onAbrir={onAbrir}
-        />
+        />,
       );
 
-      expect(screen.getByText(/EBD Hoje/)).toBeInTheDocument();
-      const cardBtn = screen.getByRole('button');
+      expect(screen.getByText('EBD · Lição da semana')).toBeInTheDocument();
+      expect(screen.getByText('Crise Espiritual')).toBeInTheDocument();
+      const cardBtn = screen.getByRole('button', { name: /Abrir EBD/ });
       fireEvent.click(cardBtn);
       expect(onAbrir).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('ComunhaoEstudosCard', () => {
+    it('mantém cursos indisponíveis explicitamente em preparação', () => {
+      const onAcessar = vi.fn();
+      render(
+        <ComunhaoEstudosCard
+          hasEstudosAccess={false}
+          onAcessar={onAcessar}
+        />,
+      );
+
+      expect(screen.getByText('Em preparação')).toBeInTheDocument();
+      const button = screen.getByRole('button', { name: /Conhecer a proposta/ });
+      fireEvent.click(button);
+      expect(onAcessar).toHaveBeenCalledTimes(1);
     });
   });
 });

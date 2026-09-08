@@ -16,7 +16,11 @@ interface MissaoUsuario {
 
 interface Props {
   missaoAtual: MissaoUsuario;
-  parceiroSustentador?: { nome: string; avatar?: string; brasaoInstitucional?: string } | null;
+  parceiroSustentador?: {
+    nome: string;
+    avatar?: string;
+    brasaoInstitucional?: string;
+  } | null;
   conviteEnviado: ConviteOracao | null;
   criandoSala: boolean;
   onConvidar: () => void;
@@ -31,7 +35,16 @@ export default function PrayerPartnerCard({
   onConvidar,
   onCancelarConvite,
 }: Props) {
-  const primeiroNome = missaoAtual.nome ? missaoAtual.nome.split(' ')[0] : 'Sua dupla';
+  const hasPartner = Boolean(missaoAtual.id?.trim());
+  const primeiroNome = hasPartner && missaoAtual.nome
+    ? missaoAtual.nome.split(' ')[0]
+    : 'sua dupla';
+
+  const avatarContent = missaoAtual.avatar && hasPartner ? (
+    <img src={missaoAtual.avatar} alt={`Foto de ${missaoAtual.nome}`} />
+  ) : (
+    <span>{hasPartner && missaoAtual.nome ? missaoAtual.nome[0] : '?'}</span>
+  );
 
   return (
     <section
@@ -40,7 +53,6 @@ export default function PrayerPartnerCard({
     >
       <h2 id="missao-semana" className="sr-only">Missão da semana</h2>
 
-      {/* Arte oficial com alternância automática de tema claro/escuro */}
       <img
         src={missionWeekAmanhecer}
         alt=""
@@ -54,35 +66,56 @@ export default function PrayerPartnerCard({
         className="mission-week-card__art mission-week-card__art--dark"
       />
 
-      {/* Avatar do parceiro */}
-      <Link
-        to={missaoAtual.id ? ROUTES.PERFIL_USUARIO(missaoAtual.id) : ROUTES.COMUNIDADE}
-        aria-label={`Abrir perfil de ${missaoAtual.nome}`}
-        className="mission-week-card__avatar focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
-      >
-        {missaoAtual.avatar ? (
-          <img src={missaoAtual.avatar} alt={`Foto de ${missaoAtual.nome}`} />
-        ) : (
-          <span>{missaoAtual.nome ? missaoAtual.nome[0] : '?'}</span>
-        )}
-      </Link>
+      {hasPartner ? (
+        <Link
+          to={ROUTES.PERFIL_USUARIO(missaoAtual.id)}
+          aria-label={`Abrir perfil de ${missaoAtual.nome}`}
+          className="mission-week-card__avatar focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+        >
+          {avatarContent}
+        </Link>
+      ) : (
+        <div
+          className="mission-week-card__avatar mission-week-card__avatar--waiting"
+          aria-hidden="true"
+        >
+          {avatarContent}
+        </div>
+      )}
 
-      {/* Identidade e Brasão */}
       <div className="mission-week-card__identity">
-        <p className="mission-week-card__name">{missaoAtual.nome}</p>
-        <p className="mission-week-card__role">
-          Sua intercessão nesta semana
+        <p className="mission-week-card__name">
+          {hasPartner ? missaoAtual.nome : 'Aguardando sorteio'}
         </p>
-        {missaoAtual.brasaoInstitucional && (
+        <p className="mission-week-card__role">
+          {hasPartner
+            ? 'Sua intercessão nesta semana'
+            : 'Sua dupla será revelada aqui'}
+        </p>
+        {hasPartner && missaoAtual.brasaoInstitucional && (
           <InstitutionalCrest kind={missaoAtual.brasaoInstitucional} size={22} />
         )}
       </div>
 
-      {/* Mensagem e Estado da Intercessão */}
-      <div className={`mission-week-card__message${parceiroSustentador && !conviteEnviado ? ' mission-week-card__message--supporter' : ''}`} aria-live="polite">
-        {conviteEnviado ? (
+      <div
+        className={`mission-week-card__message${
+          hasPartner && parceiroSustentador && !conviteEnviado
+            ? ' mission-week-card__message--supporter'
+            : ''
+        }`}
+        aria-live="polite"
+      >
+        {!hasPartner ? (
+          <p>
+            Assim que o sorteio for concluído, sua missão da semana aparecerá aqui.
+          </p>
+        ) : conviteEnviado ? (
           <>
-            <Clock size={22} className="mission-week-card__message-icon animate-pulse" />
+            <Clock
+              size={22}
+              className="mission-week-card__message-icon animate-pulse"
+              aria-hidden="true"
+            />
             <div>
               <strong>Aguardando {primeiroNome} aceitar o convite...</strong>
               <p>O convite foi enviado para o app.</p>
@@ -92,26 +125,40 @@ export default function PrayerPartnerCard({
               onClick={onCancelarConvite}
               className="mission-week-card__cancel"
             >
-              <X size={14} /> Cancelar
+              <X size={14} aria-hidden="true" /> Cancelar
             </button>
           </>
         ) : parceiroSustentador ? (
           <>
             <p className="mission-week-card__supporter">
-                <span className="mission-week-card__supporter-avatar" aria-hidden="true">
-                  <span>{parceiroSustentador.nome.trim().charAt(0) || '?'}</span>
-                  {parceiroSustentador.avatar && <img
+              <span
+                className="mission-week-card__supporter-avatar"
+                aria-hidden="true"
+              >
+                <span>{parceiroSustentador.nome.trim().charAt(0) || '?'}</span>
+                {parceiroSustentador.avatar && (
+                  <img
                     key={parceiroSustentador.avatar}
                     src={parceiroSustentador.avatar}
                     alt=""
-                    onError={event => { event.currentTarget.style.display = 'none'; }}
-                  />}
-                </span>
-              <strong className="mission-week-card__supporter-identity">{parceiroSustentador.nome}</strong>
-              <span className="mission-week-card__supporter-copy">está orando por você nesta semana.</span>
+                    onError={event => {
+                      event.currentTarget.style.display = 'none';
+                    }}
+                  />
+                )}
+              </span>
+              <strong className="mission-week-card__supporter-identity">
+                {parceiroSustentador.nome}
+              </strong>
+              <span className="mission-week-card__supporter-copy">
+                está orando por você nesta semana.
+              </span>
             </p>
             {parceiroSustentador.brasaoInstitucional && (
-              <InstitutionalCrest kind={parceiroSustentador.brasaoInstitucional} size={19} />
+              <InstitutionalCrest
+                kind={parceiroSustentador.brasaoInstitucional}
+                size={19}
+              />
             )}
           </>
         ) : (
@@ -119,17 +166,23 @@ export default function PrayerPartnerCard({
         )}
       </div>
 
-      {/* A arte deixa esta área livre; o convite é um controle real. */}
       <div className="mission-week-card__invitation">
         <PrayerActionButton
           onClick={onConvidar}
-          disabled={criandoSala || Boolean(conviteEnviado)}
+          disabled={!hasPartner || criandoSala || Boolean(conviteEnviado)}
           busy={criandoSala}
           className="mission-week-card__invite"
-          label={criandoSala ? 'Enviando…' : conviteEnviado ? 'Convite enviado' : `Orar com ${primeiroNome}`}
+          label={
+            !hasPartner
+              ? 'Aguardando sorteio'
+              : criandoSala
+                ? 'Enviando…'
+                : conviteEnviado
+                  ? 'Convite enviado'
+                  : `Orar com ${primeiroNome}`
+          }
         />
       </div>
-
     </section>
   );
 }
