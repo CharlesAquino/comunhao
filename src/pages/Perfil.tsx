@@ -8,7 +8,7 @@ import Card from '../components/ui/Card';
 import ProgressBar from '../components/ui/ProgressBar';
 import { ErrorState, LoadingState } from '../components/ui/FeedbackState';
 import { useToast } from '../contexts/ToastContext';
-import { getCurrentUserProfile, updateCurrentUserAvatar, updateCurrentUserProfile } from '../services/dataService';
+import { getCurrentUserProfile, updateCurrentUserAvatar, updateCurrentUserProfile, toggleUserAvailability } from '../services/dataService';
 import { calcularProgressoProximoNivel, formatarDivisao } from '../services/patente';
 import { ROUTES } from '../services/constants';
 import type { Usuario } from '../types';
@@ -68,6 +68,23 @@ export default function Perfil() {
       toast.error(error instanceof Error ? error.message : 'Não foi possível atualizar o perfil.');
     } finally {
       setSalvando(false);
+    }
+  };
+
+  const [alterandoDisponibilidade, setAlterandoDisponibilidade] = useState(false);
+
+  const handleToggleAvailability = async () => {
+    if (!perfil || alterandoDisponibilidade || perfil.status_anel === 'orando') return;
+    const novoEstado = perfil.status_anel !== 'disponivel';
+    setAlterandoDisponibilidade(true);
+    try {
+      await toggleUserAvailability(novoEstado);
+      setPerfil(current => current ? { ...current, status_anel: novoEstado ? 'disponivel' : 'offline' } : null);
+      toast.success(novoEstado ? 'Você está disponível para oração.' : 'Sua disponibilidade foi encerrada.');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Não foi possível alterar sua disponibilidade.');
+    } finally {
+      setAlterandoDisponibilidade(false);
     }
   };
 
@@ -149,10 +166,24 @@ export default function Perfil() {
             <p className="profile-cover-card__secondary mt-1 text-sm text-[var(--text-secondary)]">
               {patente.nome}{progresso.divisao ? ` · ${formatarDivisao(progresso.divisao)}` : ''}
             </p>
-            <span className="mt-3 inline-flex items-center gap-2 rounded-full border border-[var(--accent-border)] bg-[var(--accent-soft)] px-3 py-1.5 text-xs font-semibold text-[var(--accent-primary)]">
-              <span className="size-2 rounded-full bg-[var(--success)]" />
-              {perfil.status_anel === 'disponivel' ? 'Disponível para oração' : perfil.status_anel === 'orando' ? 'Em oração' : 'Em recolhimento'}
-            </span>
+            <button
+              onClick={handleToggleAvailability}
+              disabled={alterandoDisponibilidade || perfil.status_anel === 'orando'}
+              className={`mt-3 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
+                perfil.status_anel === 'disponivel'
+                  ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent-primary)]'
+                  : 'border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--text-secondary)]'
+              }`}
+            >
+              <span className={`size-2 rounded-full ${perfil.status_anel === 'disponivel' ? 'bg-[var(--success)] shadow-[0_0_8px_var(--success)] animate-[pulse_2s_ease-in-out_infinite]' : perfil.status_anel === 'orando' ? 'bg-[var(--celebration)]' : 'bg-[var(--text-muted)]'}`} />
+              {alterandoDisponibilidade
+                ? 'Atualizando...'
+                : perfil.status_anel === 'disponivel'
+                  ? 'Disponível para oração'
+                  : perfil.status_anel === 'orando'
+                    ? 'Em oração'
+                    : 'Ficar disponível para oração'}
+            </button>
           </>
         )}
       </section>

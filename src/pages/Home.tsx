@@ -364,7 +364,7 @@ export default function Home() {
         <Link
           to={ROUTES.PERFIL}
           aria-label="Abrir meu perfil"
-          className={`spatial-person relic-avatar relic-interaction group relative flex size-[5.5rem] shrink-0 items-center justify-center rounded-full border-[3px] border-[var(--surface-elevated)] bg-[var(--surface-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] max-[360px]:size-20 ${
+          className={`spatial-person relic-avatar relic-interaction group relative flex size-[7rem] shrink-0 items-center justify-center rounded-full border-[3px] border-[var(--surface-elevated)] bg-[var(--surface-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] max-[360px]:size-24 ${
             isAvailable ? 'ring-4 ring-[var(--accent-primary)]/25 shadow-[0_0_24px_rgba(120,173,136,0.35)]' : ''
           }`}
         >
@@ -392,36 +392,31 @@ export default function Home() {
           )}
         </Link>
         <div className="min-w-0 flex-1 py-1">
-          <p className="text-[10px] font-bold uppercase tracking-[0.15em] txt-green mb-1.5">Comunhão</p>
+          <div className="mb-1.5 flex items-center justify-between">
+            <p className="text-[10px] font-bold uppercase tracking-[0.15em] txt-green">Comunhão</p>
+            <button
+              type="button"
+              onClick={handleToggleAvailability}
+              disabled={alterandoDisponibilidade || data.usuario.status_anel === 'orando'}
+              aria-label={isAvailable ? 'Sair do modo de oração' : 'Ficar disponível para oração'}
+              title={isAvailable ? 'Você está disponível para interceder' : 'Toque para ficar disponível'}
+              className={`relative flex items-center justify-center rounded-full p-1 transition-all duration-500 hover:scale-110 active:scale-95 disabled:opacity-50 ${
+                isAvailable
+                  ? 'drop-shadow-[0_0_12px_rgba(251,191,36,0.6)]'
+                  : 'opacity-40 grayscale filter hover:grayscale-0 hover:opacity-80'
+              }`}
+            >
+              <span className="text-xl leading-none" aria-hidden="true">🙏</span>
+              {alterandoDisponibilidade && (
+                <span className="absolute -inset-0.5 rounded-full border border-dashed border-[var(--celebration)] animate-[spin_2s_linear_infinite]" />
+              )}
+            </button>
+          </div>
           <h1 className="font-display text-lg font-medium leading-tight tracking-tight txt-secondary [overflow-wrap:anywhere] max-[360px]:text-base">
             A paz do Senhor,<br />
             <span className="text-3xl font-bold txt-primary max-[360px]:text-2xl mt-0.5 block">{data.usuario.nome?.split(' ')[0] || data.usuario.nome}</span>
           </h1>
           <p className="mt-1 text-sm txt-tertiary">Seu altar de comunhão e intercessão</p>
-          <div className="mt-2.5 flex items-center">
-            <button
-              type="button"
-              onClick={handleToggleAvailability}
-              disabled={alterandoDisponibilidade || data.usuario.status_anel === 'orando'}
-              aria-pressed={isAvailable}
-              className={`inline-flex h-7 items-center gap-1.5 rounded-full px-2.5 text-[10px] font-bold uppercase tracking-wider transition-all duration-300 backdrop-blur-md disabled:opacity-50 ${
-                isAvailable
-                  ? 'bg-[var(--success)]/10 text-[var(--success)] ring-1 ring-inset ring-[var(--success)]/30'
-                  : 'bg-[var(--surface-elevated)]/40 text-[var(--text-tertiary)] ring-1 ring-inset ring-[var(--border)]'
-              }`}
-            >
-              {alterandoDisponibilidade
-                ? <LoaderCircle size={12} className="animate-spin" aria-hidden="true" />
-                : <span className={`size-1.5 rounded-full ${isAvailable ? 'bg-[var(--success)] shadow-[0_0_6px_var(--success)] animate-[pulse_2s_ease-in-out_infinite]' : 'bg-[var(--text-muted)]'}`} aria-hidden="true" />}
-              <span className="mt-[1px]">
-                {alterandoDisponibilidade
-                  ? 'Atualizando'
-                  : data.usuario.status_anel === 'orando'
-                    ? 'Em oração'
-                    : isAvailable ? 'Disponível' : 'Ficar disponível'}
-              </span>
-            </button>
-          </div>
         </div>
       </header>
 
