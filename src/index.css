@@ -2477,10 +2477,43 @@ body {
   max-width: calc(100% - var(--app-page-gutter) * 2 - var(--safe-area-left) - var(--safe-area-right));
 }
 
+.app-shell__utility::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 250%;
+  height: 350%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--celebration) 30%, transparent), transparent 70%);
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: -1;
+  border-radius: 50%;
+  animation: spiritual-aurora-breathe 10s ease-in-out infinite alternate;
+}
+
 .app-shell__bottom-nav {
   padding-inline: max(var(--app-page-gutter), var(--safe-area-left)) max(var(--app-page-gutter), var(--safe-area-right));
   padding-top: 0.5rem;
   padding-bottom: max(0.5rem, var(--safe-area-bottom));
+}
+
+.app-shell__bottom-nav::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120vw;
+  max-width: 48rem;
+  height: 250%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent-primary) 28%, transparent), transparent 70%);
+  filter: blur(48px);
+  pointer-events: none;
+  z-index: -1;
+  border-radius: 50%;
+  animation: spiritual-aurora-breathe 14s ease-in-out infinite alternate-reverse;
 }
 
 /* Ações flutuantes globais respeitam a zona ocupada pela navegação. */
