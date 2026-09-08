@@ -1,0 +1,13 @@
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {MemoryRouter,Routes,Route} from 'react-router-dom';
+import Home from '/src/pages/Home';
+import BaseLayout from '/src/components/layout/BaseLayout';
+import EstudosRouteGuard from '/src/components/estudos/EstudosRouteGuard';
+import {ThemeProvider} from '/src/contexts/ThemeContext';
+import {GraphicsProvider} from '/src/contexts/GraphicsContext';
+import {ToastProvider} from '/src/contexts/ToastContext';
+import '/src/index.css';
+const theme = new URLSearchParams(location.search).get('theme') || 'dark';
+localStorage.setItem('app-theme', theme);
+createRoot(document.getElementById('root')!).render(<ThemeProvider><GraphicsProvider><ToastProvider><MemoryRouter><Routes><Route element={<BaseLayout/>}><Route path="/" element={<Home/>}/><Route element={<EstudosRouteGuard/>}><Route path="/estudos" element={<p>Catálogo administrativo — fora do escopo desta captura</p>}/></Route><Route path="*" element={<p>Destino fora da auditoria visual da Home.</p>}/></Route></Routes></MemoryRouter></ToastProvider></GraphicsProvider></ThemeProvider>);

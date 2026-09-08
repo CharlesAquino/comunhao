@@ -1,0 +1,73 @@
+/* Home aprovada: a Missão é o único card ornamental; formação é uma superfície contínua. */
+.app-shell--home {
+  --home-canvas: #0e1712;
+  --home-ink: #f0e9db;
+  --home-muted: #b7beb6;
+  --home-action: #91cbaa;
+  --home-paper-ink: #18382d;
+  --home-paper-muted: #626b61;
+  background: var(--home-canvas);
+}
+:root[data-theme='light'] .app-shell--home {
+  --home-canvas: #eeeade;
+  --home-ink: #243d2e;
+  --home-muted: #576355;
+}
+.app-shell--home .shared-louvor-environment,
+.app-shell--home .sanctuary-spiritual-aurora { display: none; }
+.home-editorial { gap: 0; padding: 12px 20px 0; color: var(--home-ink); }
+.home-editorial > header { margin-bottom: 20px; gap: 16px; }
+.home-editorial > header .relic-avatar { width: 60px; height: 60px; }
+.home-editorial > header h1 { font-size: 18px; line-height: 1.3; }
+.home-editorial > header .txt-green,
+.home-editorial > header h1 + p { display: none; }
+.home-editorial > header button { min-height: 44px; margin-top: 8px; font-size: 12px; }
+.home-editorial > .mission-week-card { z-index: 1; flex-shrink: 0; margin-bottom: -14px; }
+.home-formation { position: relative; isolation: isolate; margin-inline: -20px; flex-shrink: 0; overflow: hidden; background: #0e1712; }
+.home-formation__art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; z-index: -1; pointer-events: none; }
+.home-ebd, .home-studies { position: relative; padding: 40px 26px 28px; min-height: 260px; display: flex; align-items: center; }
+.home-ebd { color: var(--home-paper-ink); }
+.home-studies { color: #f0e9db; padding-top: 28px; padding-bottom: 34px; min-height: 290px; }
+.home-formation__copy { width: 66%; min-width: 0; }
+.home-formation__eyebrow { margin: 0 0 16px; font: 600 10px/1.5 var(--font-sans); letter-spacing: .19em; text-transform: uppercase; }
+.home-formation__eyebrow::before { content: ''; display: block; width: 22px; height: 1px; background: currentColor; margin-bottom: 12px; }
+.home-ebd .home-formation__eyebrow { color: #396d58; }
+.home-ebd__day { margin: 0 0 10px; color: var(--home-paper-muted); font-size: 12px; font-weight: 550; }
+.home-formation h2 { margin: 0; font: 550 25px/1.13 var(--font-display); letter-spacing: -.035em; text-wrap: pretty; }
+.home-ebd__duration { display: flex; align-items: center; gap: 8px; margin: 20px 0 8px; font-size: 13px; color: var(--home-paper-muted); }
+.home-ebd__duration svg { flex-shrink: 0; color: var(--home-paper-ink); }
+.home-formation__link { display: inline-flex; gap: 10px; align-items: center; min-height: 44px; padding: 4px 0; font: 600 14px/1.4 var(--font-sans); text-align: left; color: inherit; cursor: pointer; transition: opacity 160ms ease; }
+.home-formation__link svg { flex-shrink: 0; transition: transform 160ms ease; }
+.home-formation__link:hover svg { transform: translateX(3px); }
+.home-formation__link:active { opacity: .75; }
+.home-formation__link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 4px; }
+.home-studies .home-formation__eyebrow, .home-studies .home-formation__link { color: var(--home-action); }
+.home-studies__subtitle { margin: 10px 0 14px; color: #c2c9bf; font-size: 13px; line-height: 1.5; }
+.home-studies__description { margin: 0 0 10px; color: #c2c9bf; font-size: 13px; line-height: 1.6; }
+.home-studies__status { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 8px; padding: 5px 9px; border: 1px solid #8da59455; border-radius: 999px; color: #ccd4cc; background: #0e1712; font-size: 11px; }
+.home-studies .home-formation__link { display: flex; }
+.home-community { padding-top: 28px; border-top: 1px solid color-mix(in srgb, var(--home-muted) 25%, transparent); }
+.home-community h2 { color: var(--home-ink); font-size: 22px; }
+.home-community a { min-height: 44px; display: inline-flex; align-items: center; }
+.home-community .community-presence-card { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.home-community .community-presence-card::before,
+.home-community .community-presence__rail::before { display: none; }
+.home-community .community-presence__rail { padding: 8px 0 16px; gap: 10px; grid-auto-columns: 74px; }
+.home-community .community-presence__person { width: 74px; }
+.home-community .community-presence__profile { padding-inline: 0; }
+.home-community .community-presence__profile > span { color: var(--home-muted); }
+.app-shell--home .app-shell__utility > div { background: var(--home-canvas); border-color: transparent; box-shadow: none; }
+.app-shell--home .app-shell__utility button, .app-shell--home .app-shell__utility a { min-width: 44px; min-height: 44px; }
+.home-editorial > div:last-child { margin-top: 16px; }
+@media (min-width: 600px) {
+  .home-editorial { max-width: 580px; }
+  .home-ebd, .home-studies { padding-left: 36px; padding-right: 36px; min-height: 330px; }
+  .home-studies { min-height: 370px; }
+  .home-formation h2 { font-size: 32px; }
+  .home-formation__eyebrow { font-size: 11px; }
+  .home-ebd__day, .home-studies__subtitle, .home-studies__description, .home-ebd__duration { font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-formation__link, .home-formation__link svg { transition: none; }
+  .home-formation__link:hover svg { transform: none; }
+}

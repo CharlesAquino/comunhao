@@ -122,13 +122,25 @@ export const getDashboardData = async (): Promise<DashboardData> => {
 export const getMuralData = async (): Promise<PedidoMural[]> => {
   const userId = await getCurrentUserId();
 
-  const { data: minhasIntercessoes, error: minhasError } = await supabase
-    .from('intercessoes')
-    .select('pedido_id')
-    .eq('usuario_id', userId);
+  const [minhasIntercessoesRes, minhasRecompensasRes] = await Promise.all([
+    supabase
+      .from('intercessoes')
+      .select('pedido_id')
+      .eq('usuario_id', userId),
+    supabase
+      .from('kesef_ledger')
+      .select('referencia_id')
+      .eq('usuario_id', userId)
+      .eq('tipo', 'oracao'),
+  ]);
 
-  if (minhasError) throw minhasError;
-  const intercedendoIds = new Set((minhasIntercessoes ?? []).map(item => item.pedido_id as string));
+  if (minhasIntercessoesRes.error) throw minhasIntercessoesRes.error;
+  const intercedendoIds = new Set((minhasIntercessoesRes.data ?? []).map(item => item.pedido_id as string));
+  const recompensadosIds = new Set(
+    (minhasRecompensasRes.data ?? [])
+      .map(item => item.referencia_id as string)
+      .filter(Boolean),
+  );
 
   if (!MURAL_SOCIAL_SCHEMA_ENABLED) {
     const { data, error } = await supabase
@@ -156,6 +168,7 @@ export const getMuralData = async (): Promise<PedidoMural[]> => {
       contagem: ((p.intercessoes as { count: number }[])?.[0]?.count) || 0,
       comentarios_contagem: 0,
       intercedendo: intercedendoIds.has(p.id as string),
+      recompensado: recompensadosIds.has(p.id as string) || intercedendoIds.has(p.id as string),
       tipo: p.tipo as TipoPublicacaoMural,
       status: 'publicado' as StatusPublicacaoMural,
       permite_comentarios: false,
@@ -223,6 +236,7 @@ export const getMuralData = async (): Promise<PedidoMural[]> => {
       contagem: ((p.intercessoes as { count: number }[])?.[0]?.count) || 0,
       comentarios_contagem: ((p.mural_comentarios as { count: number }[])?.[0]?.count) || 0,
       intercedendo: intercedendoIds.has(p.id as string),
+      recompensado: recompensadosIds.has(p.id as string) || intercedendoIds.has(p.id as string),
       tipo: p.tipo as TipoPublicacaoMural,
       status: (p.status ?? 'publicado') as StatusPublicacaoMural,
       permite_comentarios: p.permite_comentarios !== false,

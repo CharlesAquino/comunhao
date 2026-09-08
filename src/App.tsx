@@ -15,6 +15,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { GraphicsProvider } from './contexts/GraphicsContext';
 import AdminRoute from './components/admin/AdminRoute';
 import AdminShell from './components/admin/AdminShell';
+import EstudosRouteGuard from './components/estudos/EstudosRouteGuard';
 import UsageTracker from './components/UsageTracker';
 
 const Login = lazy(() => import('./pages/Login'));
@@ -151,10 +152,12 @@ function App(): React.ReactElement {
                       <Route path="/mural" element={<Mural />} />
                       <Route path="/ranking" element={<Ranking />} />
                       <Route path="/ebd" element={<EBD />} />
-                      <Route path="/estudos" element={<ComunhaoEstudos />} />
-                      <Route path="/estudos/curso/:courseId" element={<EstudosCurso />} />
-                      <Route path="/estudos/aula/:lessonId" element={<EstudosAula />} />
-                      <Route path="/estudos/estudo/:studyId" element={<Navigate to="/estudos" replace />} />
+                      <Route element={<EstudosRouteGuard />}>
+                        <Route path="/estudos" element={<ComunhaoEstudos />} />
+                        <Route path="/estudos/curso/:courseId" element={<EstudosCurso />} />
+                        <Route path="/estudos/aula/:lessonId" element={<EstudosAula />} />
+                        <Route path="/estudos/estudo/:studyId" element={<Navigate to="/estudos" replace />} />
+                      </Route>
                       <Route path="/loja" element={<Loja />} />
                       <Route path="/carteira" element={<Carteira />} />
                       <Route path="/guia" element={<GuiaPatentes />} />

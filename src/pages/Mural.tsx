@@ -9,7 +9,7 @@ import {
   deletePedido,
   subscribeToDataChanges,
 } from '../services/dataService';
-import { creditarKesef, creditarXp } from '../services/kesefService';
+import { creditarKesef, creditarXp, jaRecebeuRecompensaOracao } from '../services/kesefService';
 import { KESEF_VALORES } from '../services/kesefConstants';
 import { XP_ACOES } from '../services/patente';
 import type { PedidoMural, TipoPublicacaoMural } from '../types';
@@ -119,10 +119,17 @@ export default function Mural() {
     try {
       const isNowInterceding = await intercederPorPedido(pedidoId);
       if (isNowInterceding) {
-        await Promise.all([
-          creditarKesef('oracao', KESEF_VALORES.INTERCEDER, pedidoId),
-          creditarXp(XP_ACOES.INTERCEDER, pedidoId),
-        ]);
+        const jaRecompensado = Boolean(current.recompensado) || await jaRecebeuRecompensaOracao(pedidoId);
+        if (!jaRecompensado) {
+          await Promise.all([
+            creditarKesef('oracao', KESEF_VALORES.INTERCEDER, pedidoId),
+            creditarXp(XP_ACOES.INTERCEDER, pedidoId),
+          ]);
+          setPedidos(previous => previous.map(item => item.id === pedidoId ? {
+            ...item,
+            recompensado: true,
+          } : item));
+        }
       }
 
       if (isNowInterceding !== optimisticState) await loadMural();

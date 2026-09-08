@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
-import { Hand, Award, X, Clock, Heart, LoaderCircle, BookOpen } from 'lucide-react';
+import { Hand, Award, Heart, LoaderCircle } from 'lucide-react';
 import MocidadeGrid from '../components/MocidadeGrid';
 import SessaoAbertaModal from '../components/SessaoAbertaModal';
 import { getCurrentUserId, getDashboardData, subscribeToDataChanges, toggleUserAvailability } from '../services/dataService';
@@ -19,15 +19,17 @@ import { deveEncaminharAceiteNovo, obterDestinoConviteAceito, obterModoConviteAc
 import { getResumablePrayerJourney, type PrayerJourney } from '../services/prayerJourneyService';
 import InstitutionalCrest from '../components/InstitutionalCrest';
 import { useSpatialSurface } from '../hooks/useSpatialSurface';
-import { PrayerCareIcon } from '../components/icons/SanctuaryIcons';
 import IncomingPrayerCall from '../components/oracao/IncomingPrayerCall';
-import missionWeekAmanhecer from '../assets/mission-week-amanhecer-v1.png';
-import missionWeekSantuario from '../assets/mission-week-santuario-v1.png';
-import estudosBannerLight from '../assets/estudos/comunhao-estudos-banner-light-v2.png';
-import estudosBannerDark from '../assets/estudos/comunhao-estudos-banner-dark-v2.png';
+import PrayerPartnerCard from '../components/home/PrayerPartnerCard';
+import { getPublishedEditorialLesson } from '../services/ebdEditorialService';
+import { getCachedEditorialLesson, cacheEditorialLesson } from '../services/ebdProgressService';
+import type { EbdEditorialLesson } from '../types/ebdEditorial';
 import { readDashboardCache } from '../services/dashboardCache';
 import { useAdmin } from '../contexts/AdminContext';
-import InstitutionalAction from '../components/ui/InstitutionalAction';
+import ComunhaoEstudosCard from '../components/home/ComunhaoEstudosCard';
+import DailyEbdCard from '../components/home/DailyEbdCard';
+import formationArt from '../assets/estudos/home-formation-continuous-v1.png';
+import '../styles/home-editorial.css';
 
 export default function Home() {
   const [data, setData] = useState<DashboardData | null>(() => readDashboardCache());
@@ -42,6 +44,7 @@ export default function Home() {
   const [sessaoAtiva, setSessaoAtiva] = useState<{ sessaoId: string; anfitriaoId: string } | null>(null);
   const [entrandoSessaoId, setEntrandoSessaoId] = useState<string | null>(null);
   const [jornadaRetomavel, setJornadaRetomavel] = useState<PrayerJourney | null>(null);
+  const [editorialLesson, setEditorialLesson] = useState<EbdEditorialLesson | null>(() => getCachedEditorialLesson());
   const [alterandoDisponibilidade, setAlterandoDisponibilidade] = useState(false);
   const ultimoDestinoConviteRef = useRef<string | null>(null);
   const statusConviteEnviadoRef = useRef<ConviteOracao['status'] | null>(null);
@@ -50,7 +53,8 @@ export default function Home() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const toast = useToast();
-  const { can: canAdmin } = useAdmin();
+  const { can: canAdmin, isAdmin, hasAdminAccess } = useAdmin();
+  const hasEstudosAccess = isAdmin || canAdmin('estudos.manage') || canAdmin('estudos.review') || hasAdminAccess;
   const sessaoConviteId = searchParams.get('orar_com');
 
   const loadDashboardData = useCallback(async () => {
@@ -71,6 +75,12 @@ export default function Home() {
   useEffect(() => {
     loadDashboardData();
     getResumablePrayerJourney().then(setJornadaRetomavel).catch(() => undefined);
+    getPublishedEditorialLesson()
+      .then(lesson => {
+        setEditorialLesson(lesson);
+        if (lesson) cacheEditorialLesson(lesson);
+      })
+      .catch(() => undefined);
     const unsubData = subscribeToDataChanges(() => loadDashboardData());
     return () => { unsubData(); };
   }, [loadDashboardData]);
@@ -285,8 +295,8 @@ export default function Home() {
   const isAvailable = data.usuario.status_anel === "disponivel";
 
   return (
-    <div ref={homeSpatialRef} className="spatial-field relic-home relative z-10 flex min-h-full flex-col gap-[var(--relic-section-gap)] px-5 pb-4 pt-6 max-[360px]:px-4">
-      <header className="spatial-section spatial-section--quiet order-1 flex items-center gap-4 max-[360px]:gap-3">
+    <div ref={homeSpatialRef} className="home-editorial relic-home relative z-10 flex min-h-full flex-col gap-[var(--relic-section-gap)] px-5 pb-4 pt-6 max-[360px]:px-4">
+      <header className="spatial-section spatial-section--quiet flex items-center gap-4 max-[360px]:gap-3">
         <Link
           to={ROUTES.PERFIL}
           aria-label="Abrir meu perfil"
@@ -320,9 +330,9 @@ export default function Home() {
         <div className="min-w-0 flex-1">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] txt-green mb-1">Comunhão</p>
           <h1 className="font-display text-2xl font-semibold leading-tight tracking-tight txt-primary [overflow-wrap:anywhere] max-[360px]:text-xl">
-            Olá, {data.usuario.nome}
+            A paz do Senhor, {data.usuario.nome?.split(' ')[0] || data.usuario.nome}
           </h1>
-          <p className="mt-1 text-sm txt-tertiary">Seu espaço de cuidado e comunhão</p>
+          <p className="mt-1 text-sm txt-tertiary">Seu altar de comunhão e intercessão</p>
           <button
             type="button"
             onClick={handleToggleAvailability}
@@ -347,7 +357,7 @@ export default function Home() {
       </header>
 
       {jornadaRetomavel && (
-        <section className="spatial-section spatial-section--raised relic-surface order-2 rounded-2xl border border-[var(--celebration-border)] bg-[var(--surface-highlighted)] p-5 card-enter">
+        <section className="spatial-section spatial-section--raised relic-surface rounded-2xl border border-[var(--celebration-border)] bg-[var(--surface-highlighted)] p-5 card-enter">
           <div className="flex items-start gap-3">
             <SealIcon Icon={Heart} size="lg" active />
             <div className="min-w-0 flex-1">
@@ -368,43 +378,23 @@ export default function Home() {
         </section>
       )}
 
-      <section className="editorial-journey-card comunhao-estudos-card spatial-section spatial-section--raised order-3 card-enter" aria-labelledby="comunhao-estudos-title">
-        <h2 id="comunhao-estudos-title" className="sr-only">Comunhão Estudos</h2>
-        <Link to="/estudos" aria-label="Abrir Comunhão Estudos" className="comunhao-estudos-card__art focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus)]">
-          <img src={estudosBannerLight} alt="Estudos Bíblicos — Conheça a Palavra. Entenda o contexto. Viva a verdade." className="comunhao-estudos-banner comunhao-estudos-banner--light" />
-          <img src={estudosBannerDark} alt="Estudos Bíblicos — Conheça a Palavra. Entenda o contexto. Viva a verdade." className="comunhao-estudos-banner comunhao-estudos-banner--dark" />
-        </Link>
-        <div className="comunhao-estudos-card__actions space-y-2.5">
-          {/* Widget Continuar Aprendendo */}
-          <div className="flex items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs">
-            <div className="flex items-center gap-2">
-              <span className="grid size-6 place-items-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent-primary)] font-bold">
-                📖
-              </span>
-              <div>
-                <p className="font-semibold txt-primary">Quem é Jesus?</p>
-                <p className="text-[11px] text-[var(--text-muted)]">Evangelho de João · Módulo 1</p>
-              </div>
-            </div>
-            <span className="rounded-full border border-[var(--accent-border)] bg-[var(--accent-soft)] px-2 py-0.5 text-[10px] font-semibold text-[var(--accent-primary)]">
-              Continuar
-            </span>
-          </div>
+      {/* Chamada Recebida em Tempo Real */}
+      {convitesPendentes[0] && (
+        <IncomingPrayerCall
+          nome={convitesPendentes[0].remetente_nome}
+          fotoUrl={convitesPendentes[0].remetente_foto}
+          origem={convitesPendentes[0].origem === 'sala_oracao' ? 'SALA DE ORAÇÃO' : 'DUPLA DA SEMANA'}
+          tipoConexao={convitesPendentes[0].tipo_conexao_remetente}
+          processando={respondendo === convitesPendentes[0].id}
+          onAcceptVideo={() => handleResponderConvite(convitesPendentes[0].id, 'aceito', 'video')}
+          onAcceptAudio={() => handleResponderConvite(convitesPendentes[0].id, 'aceito', 'voz')}
+          onDecline={() => handleResponderConvite(convitesPendentes[0].id, 'recusado', 'aceite')}
+        />
+      )}
 
-          <InstitutionalAction to="/estudos" icon={<BookOpen size={17} />}>
-            Acessar estudos
-          </InstitutionalAction>
-          {(canAdmin('estudos.review') || canAdmin('estudos.manage')) && (
-            <div className="flex flex-wrap gap-2 border-t border-[var(--border)] pt-3">
-                {canAdmin('estudos.review') && <Button variant="ghost" onClick={() => navigate('/estudos/revisao/curso-quem-e-jesus')} className="flex-1 text-xs">Revisar curso</Button>}
-                {canAdmin('estudos.manage') && <Button variant="ghost" onClick={() => navigate('/estudos/studio')} className="flex-1 text-xs">Gerenciar estudos</Button>}
-            </div>
-          )}
-        </div>
-      </section>
-
+      {/* Alguém levantou a mão */}
       {sessaoConviteId && !sessaoAtiva && (
-        <section className="spatial-section spatial-section--raised relic-surface order-2 rounded-2xl border border-[var(--care-border)] bg-[var(--surface)] p-5 card-enter">
+        <section className="spatial-section spatial-section--raised relic-surface rounded-2xl border border-[var(--care-border)] bg-[var(--surface)] p-5 card-enter">
           <div className="flex items-start gap-3">
             <SealIcon Icon={Hand} size="lg" active />
             <div className="min-w-0 flex-1">
@@ -436,66 +426,23 @@ export default function Home() {
         </section>
       )}
 
-      {convitesPendentes[0] && (
-        <IncomingPrayerCall
-          nome={convitesPendentes[0].remetente_nome}
-          fotoUrl={convitesPendentes[0].remetente_foto}
-          origem={convitesPendentes[0].origem === 'sala_oracao' ? 'SALA DE ORAÇÃO' : 'DUPLA DA SEMANA'}
-          tipoConexao={convitesPendentes[0].tipo_conexao_remetente}
-          processando={respondendo === convitesPendentes[0].id}
-          onAcceptVideo={() => handleResponderConvite(convitesPendentes[0].id, 'aceito', 'video')}
-          onAcceptAudio={() => handleResponderConvite(convitesPendentes[0].id, 'aceito', 'voz')}
-          onDecline={() => handleResponderConvite(convitesPendentes[0].id, 'recusado', 'aceite')}
+      {/* Missão da Semana: carro-chefe com intercessão e acesso à Sala de Oração */}
+      {data.missaoAtual && (
+        <PrayerPartnerCard
+          missaoAtual={data.missaoAtual}
+          parceiroSustentador={data.parceiroSustentador}
+          conviteEnviado={conviteEnviado}
+          criandoSala={criandoSala}
+          onConvidar={() => setConfirmandoConviteDupla(true)}
+          onCancelarConvite={handleCancelarConvite}
         />
       )}
 
-      {/* Missão da Semana */}
-      <section className="editorial-journey-card mission-week-card order-2 card-enter" aria-labelledby="missao-semana">
-        <h2 id="missao-semana" className="sr-only">Missão da semana</h2>
-        <img src={missionWeekAmanhecer} alt="" aria-hidden="true" className="mission-week-card__art mission-week-card__art--light" />
-        <img src={missionWeekSantuario} alt="" aria-hidden="true" className="mission-week-card__art mission-week-card__art--dark" />
-
-        <Link
-          to={data.missaoAtual.id ? ROUTES.PERFIL_USUARIO(data.missaoAtual.id) : ROUTES.COMUNIDADE}
-          aria-label={data.missaoAtual.id ? `Abrir perfil de ${data.missaoAtual.nome}` : 'Abrir comunidade'}
-          className="mission-week-card__avatar focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
-        >
-          {data.missaoAtual.avatar
-            ? <img src={data.missaoAtual.avatar} alt={`Foto de ${data.missaoAtual.nome}`} />
-            : <span>{data.missaoAtual.nome ? data.missaoAtual.nome[0] : '?'}</span>}
-        </Link>
-
-        <div className="mission-week-card__identity">
-          <p className="mission-week-card__name">{data.missaoAtual.nome}</p>
-          <p className="mission-week-card__role"><span aria-hidden="true" /> Parceiro de oração</p>
-          {data.missaoAtual.brasaoInstitucional && <InstitutionalCrest kind={data.missaoAtual.brasaoInstitucional} size={22} />}
-        </div>
-
-        <div className="mission-week-card__message" aria-live="polite">
-          {conviteEnviado ? (
-            <>
-              <Clock size={22} className="mission-week-card__message-icon animate-pulse" />
-              <div><strong>Aguardando {data.missaoAtual.nome.split(' ')[0]}</strong><p>O convite foi enviado para o app.</p></div>
-              <button type="button" onClick={handleCancelarConvite} className="mission-week-card__cancel"><X size={14} /> Cancelar</button>
-            </>
-          ) : data.parceiroSustentador ? (
-            <>
-              <PrayerCareIcon aria-hidden="true" className="mission-week-card__message-icon" size={24} strokeWidth={1.55} />
-              <p><strong>{data.parceiroSustentador.nome}</strong> está orando por você nesta semana.</p>
-              {data.parceiroSustentador.brasaoInstitucional && <InstitutionalCrest kind={data.parceiroSustentador.brasaoInstitucional} size={19} />}
-            </>
-          ) : <p>Uma semana para fortalecer vínculos através da oração.</p>}
-        </div>
-
-        <button type="button" onClick={() => setConfirmandoConviteDupla(true)} disabled={criandoSala || Boolean(conviteEnviado)} className="mission-week-card__action mission-week-card__action--invite">
-          <strong>{criandoSala ? 'Enviando…' : `Convidar ${data.missaoAtual.nome.split(' ')[0]}`}</strong>
-          <span>Oração com sua dupla</span>
-        </button>
-        <button type="button" onClick={() => navigate('/oracao')} className="mission-week-card__action mission-week-card__action--room">
-          <strong>Sala de Oração</strong>
-          <span>Encontre a comunidade</span>
-        </button>
-      </section>
+      <div className="home-formation">
+        <img className="home-formation__art" src={formationArt} alt="" aria-hidden="true" width="1200" height="1400" loading="lazy" decoding="async" />
+        <DailyEbdCard editorialLesson={editorialLesson} onAbrir={() => navigate('/ebd')} />
+        <ComunhaoEstudosCard hasEstudosAccess={hasEstudosAccess} onAcessar={() => navigate('/estudos')} />
+      </div>
 
       {confirmandoConviteDupla && createPortal(
         <div className="app-modal-layer fixed inset-0 flex items-end justify-center bg-black/70 p-4 backdrop-blur-sm sm:items-center" role="presentation" onClick={() => !criandoSala && setConfirmandoConviteDupla(false)}>
@@ -513,14 +460,15 @@ export default function Home() {
       )}
 
       {/* Mocidade */}
-      <section className="spatial-section spatial-section--quiet order-3 space-y-3">
+      <section className="home-community spatial-section spatial-section--quiet space-y-3">
         <SectionHeader
-          title="Pessoas disponíveis agora"
-          eyebrow="Comunidade"
+          title="Nossa comunidade"
+          eyebrow=""
           action={<Link to="/comunidade" className="text-xs font-semibold text-[var(--accent-primary)] hover:underline">Ver todos</Link>}
         />
         <div className="community-presence-card card-enter">
           <MocidadeGrid
+            compact
             jovens={data.mocidade}
             sessoesAbertas={sessoesAbertas}
             onJuntarSessao={handleJuntarSessao}
@@ -529,7 +477,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <div className="spatial-section spatial-section--quiet order-6 text-center pt-2 pb-4">
+      <div className="spatial-section spatial-section--quiet text-center pt-2 pb-4">
         <Link to="/guia" className="inline-flex items-center gap-2 txt-tertiary hover:txt-primary text-xs font-medium transition px-4 py-2 rounded-full">
           <Award size={13} />
           Jornada de Serviço — como funciona

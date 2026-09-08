@@ -39,12 +39,59 @@ export async function getHistoricoKesef(
   return (data ?? []) as KesefTransacao[];
 }
 
+export async function jaRecebeuRecompensaOracao(
+  pedidoId: string,
+  usuarioId?: string,
+): Promise<boolean> {
+  try {
+    const id = usuarioId ?? await getUserId();
+    const { data, error } = await supabase
+      .from('kesef_ledger')
+      .select('id')
+      .eq('usuario_id', id)
+      .eq('tipo', 'oracao')
+      .eq('referencia_id', pedidoId)
+      .limit(1);
+
+    if (error) return false;
+    return Boolean(data && data.length > 0);
+  } catch {
+    return false;
+  }
+}
+
 export async function creditarKesef(
   tipo: KesefTipo,
   quantidade: number,
   referenciaId?: string,
 ): Promise<KesefTransacao> {
   const usuarioId = await getUserId();
+
+  if (tipo === 'oracao' && referenciaId) {
+    const jaTem = await jaRecebeuRecompensaOracao(referenciaId, usuarioId);
+    if (jaTem) {
+      const { data } = await supabase
+        .from('kesef_ledger')
+        .select('*')
+        .eq('usuario_id', usuarioId)
+        .eq('tipo', 'oracao')
+        .eq('referencia_id', referenciaId)
+        .order('criado_em', { ascending: true })
+        .limit(1)
+        .maybeSingle();
+
+      if (data) return data as KesefTransacao;
+      return {
+        id: 'idempotent-oracao',
+        usuario_id: usuarioId,
+        tipo,
+        quantidade: 0,
+        referencia_id: referenciaId,
+        criado_em: new Date().toISOString(),
+      };
+    }
+  }
+
   const { data, error } = await supabase.rpc('creditar_kesef', {
     p_usuario_id: usuarioId,
     p_tipo: tipo,
@@ -61,6 +108,19 @@ export async function creditarXp(
   referenciaId?: string,
 ): Promise<number> {
   const usuarioId = await getUserId();
+
+  if (referenciaId) {
+    const jaTem = await jaRecebeuRecompensaOracao(referenciaId, usuarioId);
+    if (jaTem) {
+      const { data } = await supabase
+        .from('usuarios')
+        .select('xp')
+        .eq('id', usuarioId)
+        .maybeSingle();
+      return (data as { xp: number } | null)?.xp ?? 0;
+    }
+  }
+
   const { data, error } = await supabase.rpc('creditar_xp', {
     p_usuario_id: usuarioId,
     p_quantidade: quantidade,

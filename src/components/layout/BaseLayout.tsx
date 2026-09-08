@@ -90,7 +90,7 @@ export default function BaseLayout() {
   const isActive = (path: string): boolean => location.pathname === path;
 
   return (
-    <div className={`app-shell premium-viewport relative mx-auto flex flex-col overflow-hidden font-sans ${hasSharedEnvironment ? 'bg-transparent' : 'material-app-canvas'}`}>
+    <div className={`app-shell ${location.pathname === '/' ? 'app-shell--home' : ''} premium-viewport relative mx-auto flex flex-col overflow-hidden font-sans ${hasSharedEnvironment ? 'bg-transparent' : 'material-app-canvas'}`}>
       
       {/* Atmosfera visual compartilhada pelos dois temas */}
       {!hasSharedEnvironment && (

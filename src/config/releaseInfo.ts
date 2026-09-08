@@ -1,15 +1,14 @@
 export const CURRENT_RELEASE = {
-  versionCode: 14052,
-  versionName: '1.4.0-dev.52',
-  title: 'Estudos com identidade editorial ilustrada',
-  summary: 'O curso Quem é Jesus? recebeu capas ilustradas próprias e um Hero cinematográfico no catálogo de Estudos.',
+  versionCode: 14056,
+  versionName: '1.4.0-dev.56',
+  title: 'Estudos em Preparação e Idempotência de Oração',
+  summary: 'Correção na intercessão com pontuação segura de Kesef/XP e preparação editorial dos Estudos Bíblicos.',
   notes: [
-    'Hero ilustrado e imersivo para o curso em destaque.',
-    'Banners Amanhecer e Santuário específicos para Quem é Jesus?.',
-    'Capas 16:9 próprias para os cards do catálogo.',
-    'Assets organizados por curso em um diretório editorial único.',
-    'Modelo de curso diferencia capa, banner interno e Hero.',
-    'Layout responsivo de tablet preservado em todas as telas.',
+    'Mural: correção no fluxo de intercessão com pontuação única e segura de Kesef e XP.',
+    'Estudos: catálogo e lições mantidos em preparação com acesso livre a gestores e revisores.',
+    'Home: card de estudos com indicação "Em breve" para os membros do grupo de testes.',
+    'Barra Superior: halo pulsante nas notificações e shimmer dinâmico no saldo Kesef.',
+    'Tesouro: vitrine interativa com moeda Kesef 3D e Passaporte/Ticket Dourado de resgate.',
   ],
 } as const;
 

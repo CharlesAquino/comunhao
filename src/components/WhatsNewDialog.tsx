@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Check, Sparkles, X } from 'lucide-react';
 import { CURRENT_RELEASE, OPEN_WHATS_NEW_EVENT } from '../config/releaseInfo';
 import { isNativeAndroid } from '../services/updateService';
+import { useAdmin } from '../contexts/AdminContext';
 import Button from './ui/Button';
 import Card from './ui/Card';
 
@@ -9,18 +10,20 @@ const STORAGE_KEY = 'comunhao:last-seen-release';
 
 export default function WhatsNewDialog() {
   const [open, setOpen] = useState(false);
+  const { isAdmin, can, hasAdminAccess } = useAdmin();
+  const hasEstudosAccess = isAdmin || can('estudos.manage') || can('estudos.review') || hasAdminAccess;
 
   useEffect(() => {
     const openManually = () => setOpen(true);
     window.addEventListener(OPEN_WHATS_NEW_EVENT, openManually);
 
-    if (isNativeAndroid()) {
+    if (isNativeAndroid() && hasEstudosAccess) {
       const lastSeen = Number(window.localStorage.getItem(STORAGE_KEY) ?? 0);
       if (lastSeen < CURRENT_RELEASE.versionCode) setOpen(true);
     }
 
     return () => window.removeEventListener(OPEN_WHATS_NEW_EVENT, openManually);
-  }, []);
+  }, [hasEstudosAccess]);
 
   const close = () => {
     window.localStorage.setItem(STORAGE_KEY, String(CURRENT_RELEASE.versionCode));

@@ -73,6 +73,9 @@ import {
   getEditorialReleaseModeLabel as releaseModeLabel,
 } from '../services/ebdStudioRules';
 import EditorialPreview from '../components/ebd/EditorialPreview';
+import EditorialSourceImport from '../components/ebd/EditorialSourceImport';
+import EditorialPreflight from '../components/ebd/EditorialPreflight';
+import { extractEditorialSourceDay, type EditorialSourceDay } from '../services/ebdSourcePackage';
 
 const AGENT_PREPARE_BLOCK_TYPES: EbdBlockType[] = BLOCK_OPTIONS
   .filter(option => option.type !== 'video')
@@ -269,6 +272,106 @@ export default function EbdStudio() {
 
   const patchQuizSettings = (block: EbdEditorialBlock, questions: EbdQuizQuestion[]) => {
     patchBlock(block.id, { settings: { ...block.settings, questions } });
+  };
+
+  const isDayImmutable = Boolean(
+    selected?.status === 'published' &&
+    day?.unlocksAt &&
+    !isNaN(new Date(day.unlocksAt).getTime()) &&
+    new Date(day.unlocksAt).getTime() <= Date.now()
+  );
+
+  const canEditSelectedDay = Boolean(
+    canManage &&
+    selected &&
+    (selected.status === 'draft' || (selected.status === 'published' && !isDayImmutable))
+  );
+
+  const disabledImportReason = !canManage
+    ? 'Você não possui permissão para gerenciar lições da EBD.'
+    : isDayImmutable
+    ? `${day?.label ?? 'Este dia'} já foi liberado e publicado, portanto permanece imutável.`
+    : undefined;
+
+  const applyImportedDay = async (imported: EbdEditorialDay) => {
+    if (!selected || !day) return;
+    if (selected.status === 'published') {
+      if (isDayImmutable) {
+        toast.error('Este dia já foi liberado publicamente e permanece imutável.');
+        return;
+      }
+      setSaving(true);
+      try {
+        await saveUnreleasedEditorialDay(selected.id, imported);
+        const days = selected.document.days.map((item, index) => index === selectedDay ? imported : item);
+        const updatedLesson = { ...selected, document: { ...selected.document, days } };
+        setSelected(updatedLesson);
+        setLessons(current => current.map(item => item.id === updatedLesson.id ? updatedLesson : item));
+        setSaveState('saved');
+        toast.success(`${imported.label} aplicado e salvo com sucesso.`);
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : 'Não foi possível salvar o dia importado.');
+        throw error;
+      } finally {
+        setSaving(false);
+      }
+    } else {
+      patchDay(imported);
+    }
+  };
+
+  const applyImportedWeek = async (sourcesMap: Record<string, EditorialSourceDay>, types: EbdBlockType[]) => {
+    if (!selected) return;
+    setSaving(true);
+    try {
+      const updatedDays = [...selected.document.days];
+      const modifiedDays: EbdEditorialDay[] = [];
+
+      for (let i = 0; i < updatedDays.length; i++) {
+        const targetDay = updatedDays[i];
+        if (targetDay.day === 'sunday') continue;
+        const source = sourcesMap[targetDay.day];
+        if (!source) continue;
+
+        const isReleased = Boolean(
+          selected.status === 'published' &&
+          targetDay.unlocksAt &&
+          !isNaN(new Date(targetDay.unlocksAt).getTime()) &&
+          new Date(targetDay.unlocksAt).getTime() <= Date.now()
+        );
+        if (isReleased) continue;
+
+        const extracted = extractEditorialSourceDay(source, targetDay, types);
+        updatedDays[i] = extracted;
+        modifiedDays.push(extracted);
+      }
+
+      if (modifiedDays.length === 0) {
+        toast.error('Nenhum dia disponível pôde ser modificado (todos já estão liberados ou sem fonte).');
+        return;
+      }
+
+      if (selected.status === 'published') {
+        for (const modDay of modifiedDays) {
+          await saveUnreleasedEditorialDay(selected.id, modDay);
+        }
+        const updatedLesson = { ...selected, document: { ...selected.document, days: updatedDays } };
+        setSelected(updatedLesson);
+        setLessons(current => current.map(item => item.id === updatedLesson.id ? updatedLesson : item));
+        setSaveState('saved');
+        toast.success(`Pacote semanal aplicado: ${modifiedDays.length} dia(s) salvos com sucesso.`);
+      } else {
+        const updatedLesson = { ...selected, document: { ...selected.document, days: updatedDays } };
+        setSelected(updatedLesson);
+        markDirty();
+        toast.success(`Pacote semanal aplicado: ${modifiedDays.length} dia(s) atualizados.`);
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Falha ao aplicar pacote semanal.');
+      throw error;
+    } finally {
+      setSaving(false);
+    }
   };
 
   const createLesson = async () => {
@@ -1061,6 +1164,12 @@ export default function EbdStudio() {
           const editorialDay = selected.document.days[index];
           const isSunday = editorialDay.day === 'sunday';
           const ready = !isSunday && editorialDay.blocks.length > 0;
+          const isDayReleased = Boolean(
+            selected.status === 'published' &&
+            editorialDay.unlocksAt &&
+            !isNaN(new Date(editorialDay.unlocksAt).getTime()) &&
+            new Date(editorialDay.unlocksAt).getTime() <= Date.now()
+          );
           return (
           <button
             key={item.day}
@@ -1074,8 +1183,19 @@ export default function EbdStudio() {
           >
             <span className="block">{item.label}</span>
             <span className="mt-2 flex items-center justify-center gap-1.5 text-[10px] font-normal opacity-80">
-              {ready ? <CheckCircle2 size={13} className="text-[var(--accent-primary)]" /> : <Circle size={12} />}
-              {isSunday ? 'Atividade especial' : `${editorialDay.blocks.length} bloco(s)`}
+              {isDayReleased ? (
+                <span className="inline-flex items-center gap-1 text-[var(--accent-primary)] font-semibold">
+                  <CheckCircle2 size={12} /> Liberado
+                </span>
+              ) : ready ? (
+                <span className="inline-flex items-center gap-1 text-[var(--text-primary)]">
+                  <CheckCircle2 size={12} className="text-[var(--accent-primary)]" /> {editorialDay.blocks.length} blocos
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 text-[var(--text-muted)]">
+                  <Circle size={11} /> {isSunday ? 'Especial' : 'Vazio'}
+                </span>
+              )}
             </span>
           </button>
         );})}
@@ -1109,6 +1229,18 @@ export default function EbdStudio() {
               </div>
             </div>
 
+            {canManage && day.day !== 'sunday' && <EditorialSourceImport
+              key={`${selected.id}/${day.id}`}
+              lessonId={selected.id}
+              lessonNumber={selected.number}
+              day={day}
+              disabled={!canEditSelectedDay || saving || aiGenerating}
+              disabledReason={disabledImportReason}
+              onApply={applyImportedDay}
+              onApplyWeek={applyImportedWeek}
+            />}
+
+            {day.day !== 'sunday' && <EditorialPreflight day={day} />}
             <details className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)]">
               <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-4 text-sm font-semibold text-[var(--text-primary)]">
                 <span>Configurações de {day.label}</span>

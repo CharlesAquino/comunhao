@@ -2847,7 +2847,7 @@ body {
   max-width: 100%;
   font-size: clamp(2.65rem, 14vw, 4.1rem);
   font-weight: 500;
-  line-height: 0.98;
+  line-height: 1.12;
   letter-spacing: -0.035em;
   overflow-wrap: anywhere;
 }
@@ -3042,6 +3042,9 @@ body {
 .mission-week-card {
   aspect-ratio: 1145 / 1373;
   color: #f1eadc;
+  border: 0;
+  border-radius: 10% / 8.34%;
+  background: transparent;
 }
 
 .mission-week-card__art {
@@ -3050,7 +3053,8 @@ body {
   z-index: -1;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-position: center;
+  object-fit: fill;
   pointer-events: none;
   user-select: none;
 }
@@ -3152,6 +3156,10 @@ body {
 .mission-week-card__action:active > * { transform: translateY(1px) scale(0.98); }
 .mission-week-card__action:focus-visible { outline: 2px solid var(--focus); outline-offset: -5px; }
 .mission-week-card__action:disabled { cursor: not-allowed; opacity: 0.52; }
+.mission-week-card__name { font-family: var(--font-display); font-weight: 650; letter-spacing: -.02em; }
+.mission-week-card__role { font-family: var(--font-sans); font-weight: 600; letter-spacing: .015em; }
+.mission-week-card__message { font-family: var(--font-sans); font-weight: 500; letter-spacing: 0; }
+:root[data-theme='light'] .mission-week-card__footer { color: rgb(61 72 47 / .72); }
 
 :root[data-theme='light'] .editorial-journey-card { filter: drop-shadow(0 16px 30px rgb(98 74 28 / 0.17)); }
 :root[data-theme='light'] .mission-week-card { color: #34442a; }
@@ -3169,12 +3177,190 @@ body {
 :root[data-theme='light'] .mission-week-card__action:hover strong { color: #2f553d; text-shadow: none; }
 :root[data-theme='light'] .mission-week-card__action:hover span { color: #526048; }
 
+/* Arte v2 sem botões pintados. Coordenadas acompanham as molduras autorais. */
+.mission-week-card__message {
+  flex-direction: column;
+  gap: 2cqw;
+  padding: 2cqw 4cqw;
+  top: 45%;
+  height: 24%;
+  font-size: clamp(0.8125rem, 3.2cqw, 1.125rem);
+  line-height: 1.5;
+}
+.mission-week-card__supporter strong {
+  display: block;
+  margin-bottom: 1.6cqw;
+  font-family: var(--font-display);
+  font-size: clamp(1.0625rem, 4.6cqw, 1.65rem);
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.2;
+}
+.mission-week-card__message--supporter {
+  align-items: flex-start;
+  padding-inline: 4cqw 12cqw;
+  text-align: left;
+  transform: translateY(-3cqw);
+}
+.mission-week-card__supporter {
+  display: grid;
+  grid-template-columns: clamp(1.625rem, 7cqw, 2.5rem) minmax(0, 1fr);
+  column-gap: 2cqw;
+  align-items: start;
+  width: 100%;
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  letter-spacing: -0.015em;
+}
+.mission-week-card__supporter-copy {
+  grid-column: 2;
+  display: block;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #d9cbb0;
+}
+.mission-week-card__supporter .mission-week-card__supporter-identity {
+  grid-column: 2;
+  align-self: center;
+  overflow-wrap: anywhere;
+}
+.mission-week-card__supporter-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: clamp(1.625rem, 7cqw, 2.5rem);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid #b9985380;
+  border-radius: 50%;
+  background: #203c30;
+  color: #f1dcaa;
+  font-family: var(--font-sans);
+  font-size: clamp(0.75rem, 3cqw, 1rem);
+  font-weight: 500;
+}
+.mission-week-card__supporter-avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+:root[data-theme='light'] .mission-week-card__supporter-avatar { background: #e1e4cb; color: #34442a; }
+:root[data-theme='light'] .mission-week-card__supporter-copy { color: #566046; }
+.mission-week-card__supporter-copy { font-size: clamp(0.9375rem, 4.05cqw, 1.45rem); }
+.mission-week-card__identity .mission-week-card__role {
+  font-size: clamp(0.9375rem, 4.05cqw, 1.45rem);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+.mission-week-card__identity .mission-week-card__role,
+.mission-week-card__supporter-copy {
+  background: linear-gradient(180deg, #fff5d6 10%, #ffe4a0 42%, #d9ad54 72%, #ffe8ae);
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 1px #0008) drop-shadow(0 0 5px #e7b74b40);
+}
+:root[data-theme='light'] .mission-week-card__identity .mission-week-card__role,
+:root[data-theme='light'] .mission-week-card__supporter-copy {
+  background: none;
+  color: #67430f;
+  filter: none;
+  text-shadow: 0 1px 0 #fff5cb;
+}
+.mission-week-card__cancel { min-height: 44px; }
+.mission-week-card__invitation {
+  position: absolute;
+  inset: 75% 12% auto;
+}
+.mission-week-card .mission-week-card__invite {
+  width: 100%;
+  min-height: clamp(3.5rem, 15cqw, 5.75rem);
+  padding: 2cqw 3cqw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3cqw;
+  border: 1px solid #b99853;
+  border-radius: 5cqw;
+  background: radial-gradient(ellipse at 50% 0%, #52604780, transparent 65%), linear-gradient(180deg, #2a4537, #10261d);
+  color: #ffe3a0;
+  box-shadow: inset 0 1px 0 #ffe6a9b3, inset 0 0 0 3px #162c23, inset 0 0 0 4px #aa8a4c, inset 0 -5px 9px #0005, 0 4px 0 #091b14, 0 7px 0 -2px #98783f, 0 12px 20px #0007, 0 -2px 14px #dfb75b1a;
+  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+}
+.mission-week-card__invite::after {
+  content: '';
+  position: absolute;
+  inset: 1px 14% auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #fff0c2, transparent);
+  box-shadow: 0 1px 7px #ffd47780;
+  pointer-events: none;
+}
+.mission-week-card__invite .prayer-action__mark {
+  flex: 0 0 auto;
+  width: clamp(2rem, 8cqw, 3rem);
+  height: clamp(2rem, 8cqw, 3rem);
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+}
+.mission-week-card__invite .prayer-action__label {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 4.5cqw, 1.7rem);
+  font-weight: 550;
+  line-height: 1.2;
+  color: #ffe3a0;
+  text-shadow: 0 1px 1px #0009, 0 0 12px #e7b74b45;
+}
+@supports (background-clip: text) {
+  .mission-week-card__invite .prayer-action__label {
+    background: linear-gradient(180deg, #fff5d6 10%, #ffe4a0 42%, #d9ad54 72%, #ffe8ae);
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+    filter: drop-shadow(0 1px 1px #0008) drop-shadow(0 0 5px #e7b74b40);
+  }
+}
+.mission-week-card .mission-week-card__invite:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-2px); }
+.mission-week-card .mission-week-card__invite:active:not(:disabled) {
+  transform: translateY(2px) scale(0.99);
+  box-shadow: inset 0 2px 7px #0006, inset 0 0 0 3px #162c23, inset 0 0 0 4px #aa8a4c, 0 2px 4px #0005;
+}
+.mission-week-card .mission-week-card__invite:disabled { box-shadow: none; transform: none; }
+.mission-week-card__invite .prayer-action__copy { flex: 0 1 auto; text-align: left; }
+.mission-week-card__invite:focus-visible { outline-offset: 4px; }
+:root[data-theme='light'] .mission-week-card__message { top: 45%; height: 29%; }
+:root[data-theme='light'] .mission-week-card__invitation { top: 81%; }
+:root[data-theme='light'] .mission-week-card .mission-week-card__invite {
+  background: linear-gradient(115deg, transparent 20%, #fff5cb80 44%, transparent 65%), linear-gradient(180deg, #fff0b1 0%, #f5d675 35%, #e5bb4f 65%, #f3d47a 100%);
+  border-color: #b5882c;
+  color: #67430f;
+  box-shadow: inset 0 1px 0 #fffbea, inset 0 0 0 3px #fbe6a0, inset 0 0 0 4px #c99b36, inset 0 -3px 5px #b8872720, 0 3px 0 #c09640, 0 7px 12px #aa7e2926;
+}
+:root[data-theme='light'] .mission-week-card__invite::before {
+  background: linear-gradient(180deg, #fffbee60, transparent 55%);
+  opacity: 1;
+}
+:root[data-theme='light'] .mission-week-card__invite .prayer-action__mark { border-color: #a6752866; background: #fff4cd50; }
+:root[data-theme='light'] .mission-week-card__invite .prayer-action__label {
+  background: none;
+  color: #67430f;
+  text-shadow: 0 1px 0 #fff5cb;
+  filter: none;
+}
+:root[data-theme='light'] .mission-week-card .mission-week-card__invite:hover:not(:disabled) { filter: brightness(1.035); }
+:root[data-theme='light'] .mission-week-card .mission-week-card__invite:active:not(:disabled) { box-shadow: inset 0 2px 5px #b8872733, inset 0 0 0 3px #fbe6a0, inset 0 0 0 4px #c99b36, 0 1px 3px #aa7e2926; }
+
 @media (min-width: 760px) {
   .editorial-journey-card { width: min(66vw, 40rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mission-week-card__action { transition: none; }
+  .mission-week-card__action, .mission-week-card .mission-week-card__invite { transition: none; }
 }
 
 /* Saguão vivo da comunidade */
@@ -3433,34 +3619,110 @@ body {
 }
 /* Comunhão Estudos — banner e ações formam uma única peça editorial. */
 .comunhao-estudos-card {
-  border: 1px solid var(--accent-border);
-  background: var(--surface-highlighted);
-}
-.comunhao-estudos-card__art {
-  position: relative;
-  display: block;
-  width: 100%;
-  aspect-ratio: 3 / 1;
+  aspect-ratio: 1145 / 1373;
+  isolation: isolate;
   overflow: hidden;
-  background: var(--surface-elevated);
+  border: 1px solid color-mix(in srgb, var(--accent-border) 65%, transparent);
+  border-radius: 10% / 8.34%;
+  background: var(--surface);
 }
-.comunhao-estudos-banner {
+.comunhao-estudos-background { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: fill; object-position: center; pointer-events: none; }
+.comunhao-estudos-background--light { display: none; }
+:root[data-theme='light'] .comunhao-estudos-background--light { display: block; }
+:root[data-theme='light'] .comunhao-estudos-background--dark { display: none; }
+.comunhao-estudos-card__masthead {
+  position: absolute;
+  z-index: 2;
+  top: 5.7%;
+  left: 16%;
+  display: flex;
+  align-items: center;
+  gap: 2.6cqw;
+  font-family: var(--font-sans);
+  font-size: clamp(0.68rem, 3.1cqw, 1.06rem);
+  font-weight: 650;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  color: #e5be6d;
+  text-shadow: 0 1px 2px #000b, 0 0 9px #e4b65040;
+}
+.comunhao-estudos-card__masthead .seal-icon { flex: 0 0 auto; width: clamp(1.8rem, 7cqw, 2.8rem); height: clamp(2.1rem, 8cqw, 3.2rem); }
+:root[data-theme='light'] .comunhao-estudos-card__masthead {
+  color: #34442a;
+  text-shadow: 0 1px 0 #fff8df;
+}
+.comunhao-estudos-heading {
+  position: absolute;
+  z-index: 1;
+  top: 16.5%;
+  left: 38.5%;
+  width: 54%;
+  min-height: 20%;
+  padding: 0;
+}
+.comunhao-estudos-card__avatar {
+  left: 8.3%; top: 17.2%; width: 26.5%; height: 23.2%; display: grid; place-items: center;
+  border: 1px solid #b99853; background: linear-gradient(145deg, #203a2d, #0f2119);
+  box-shadow: inset 0 0 0 3px #162c23, inset 0 0 0 4px #887042, 0 8px 16px #0006;
+}
+.comunhao-estudos-card__book-mark { display: grid; width: 48%; aspect-ratio: 1; place-items: center; border: 1px solid #d1aa5a99; border-radius: 50%; color: #e9c56e; background: #10271c99; box-shadow: inset 0 0 14px #d3a74422, 0 0 14px #e2b85122; }
+:root[data-theme='light'] .comunhao-estudos-card__avatar { background: linear-gradient(145deg, #f7edcf, #dfe2c9); border-color: #ad8336; box-shadow: inset 0 0 0 3px #f4ead2, inset 0 0 0 4px #b9a16c, 0 8px 16px #66512626; }
+:root[data-theme='light'] .comunhao-estudos-card__book-mark { color: #89631f; background: #f8efcf99; }
+.comunhao-estudos-card::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgb(5 12 8 / 0.08), rgb(5 12 8 / 0.74) 62%, rgb(5 12 8 / 0.88)); content: ''; pointer-events: none; }
+.comunhao-estudos-card__art {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  pointer-events: none;
 }
-.comunhao-estudos-banner--dark { display: none; }
-:root[data-theme='dark'] .comunhao-estudos-banner--light { display: none; }
-:root[data-theme='dark'] .comunhao-estudos-banner--dark { display: block; }
 .comunhao-estudos-card__actions {
+  position: relative;
+  z-index: 1;
   display: grid;
-  gap: 0.75rem;
-  padding: 0.85rem 1rem 1rem;
-  border-top: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  gap: 0;
+  position: absolute;
+  inset: 75% 8% auto;
+  padding: 0;
+  background: transparent;
 }
+.comunhao-estudos-card__message { position: absolute; z-index: 1; inset: 45.2% 8% auto; height: 22%; display: flex; align-items: center; justify-content: center; padding: 4cqw 6cqw; border: 1px solid #c19a4c; border-radius: 2.4cqw; background: color-mix(in srgb, #101d16 84%, transparent); box-shadow: inset 0 1px 0 #fff0b333, 0 8px 18px #0005; }
+.comunhao-estudos-card__message-copy { max-width: 30rem; margin: 0; color: #e9dfcd; text-align: center; text-wrap: balance; }
+.comunhao-estudos-card__message .comunhao-estudos-card__item { border: 0; }
+.comunhao-estudos-card__item {
+  display: flex;
+  width: 100%;
+  min-height: 3.6rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+  padding: 0.65rem 0.25rem;
+  text-align: left;
+  color: var(--text-primary);
+  transition: background 160ms ease, padding 160ms ease;
+}
+.comunhao-estudos-card__item:hover { background: color-mix(in srgb, var(--accent-soft) 45%, transparent); padding-inline: 0.5rem; }
+.comunhao-estudos-card__item-copy { display: flex; min-width: 0; align-items: center; gap: 0.65rem; }
+.comunhao-estudos-card__item-icon { display: grid; width: 2rem; height: 2rem; flex: 0 0 auto; place-items: center; border: 1px solid var(--accent-border); border-radius: 0.7rem; color: var(--celebration); background: var(--accent-soft); }
+.comunhao-estudos-card__item-title { margin: 0; font-size: 0.78rem; font-weight: 700; line-height: 1.2; }
+.comunhao-estudos-card__item-detail { margin: 0.15rem 0 0; overflow: hidden; color: var(--text-muted); font-size: 0.68rem; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+.comunhao-estudos-card__item-status { flex: 0 0 auto; border: 1px solid var(--accent-border); border-radius: 999px; padding: 0.22rem 0.55rem; color: var(--accent-primary); background: var(--accent-soft); font-size: 0.62rem; font-weight: 700; }
+.comunhao-estudos-card__item--quiet { color: var(--text-secondary); }
+.comunhao-estudos-card__item:disabled { cursor: default; opacity: 0.82; }
+.comunhao-estudos-card__item--quiet .comunhao-estudos-card__item-status { color: var(--text-muted); border-color: var(--border); background: transparent; }
+.comunhao-estudos-card .comunhao-estudos-card__invite { width: 84%; min-height: clamp(3.5rem, 15cqw, 5.75rem); margin: 0 auto; border: 1px solid #b99853; border-radius: 5cqw; background: linear-gradient(180deg, #2a4537, #10261d); color: #ffe3a0; box-shadow: inset 0 1px 0 #ffe6a9b3, inset 0 0 0 3px #162c23, inset 0 0 0 4px #aa8a4c, 0 4px 0 #091b14, 0 10px 18px #0007; }
+.comunhao-estudos-card .comunhao-estudos-card__invite:hover { filter: brightness(1.1); transform: translateY(-2px); }
+.comunhao-estudos-card .comunhao-estudos-card__invite:active { transform: translateY(2px) scale(0.99); }
+.comunhao-estudos-card .comunhao-estudos-card__invite .prayer-action__label { font-family: var(--font-display); font-size: clamp(1.125rem, 4.5cqw, 1.7rem); font-weight: 550; color: #ffe3a0; text-shadow: 0 1px 1px #0009, 0 0 12px #e7b74b45; }
+.comunhao-estudos-card__admin { display: flex; justify-content: center; gap: 1.25rem; border-top: 1px solid var(--border); margin-top: 0.75rem; padding-top: 0.55rem; }
+.comunhao-estudos-card__admin .button { min-height: 2rem; padding: 0.25rem 0.5rem; font-size: 0.68rem; }
+:root[data-theme='light'] .comunhao-estudos-card::before { background: linear-gradient(180deg, rgb(255 255 255 / 0.04), rgb(245 239 216 / 0.72) 62%, rgb(245 239 216 / 0.9)); }
+:root[data-theme='light'] .comunhao-estudos-card__message { border-color: #ba913b; background: rgb(251 246 231 / 0.78); box-shadow: inset 0 1px 0 #fff, 0 8px 18px rgb(100 77 28 / 0.15); }
+:root[data-theme='light'] .comunhao-estudos-card__message-copy { color: #4e5b42; }
+:root[data-theme='light'] .comunhao-estudos-card { color: #34442a; }
+:root[data-theme='light'] .comunhao-estudos-card .comunhao-estudos-card__invite { background: linear-gradient(180deg, #fff0b1 0%, #f5d675 35%, #e5bb4f 65%, #f3d47a 100%); border-color: #b5882c; color: #67430f; box-shadow: inset 0 1px 0 #fffbea, inset 0 0 0 3px #fbe6a0, inset 0 0 0 4px #c99b36, 0 3px 0 #c09640, 0 7px 12px #aa7e2926; }
+:root[data-theme='light'] .comunhao-estudos-card .comunhao-estudos-card__invite .prayer-action__label { color: #67430f; text-shadow: 0 1px 0 #fff5cb; }
+.daily-ebd-card { min-height: 4.9rem; margin-inline: auto; padding: 0.85rem 1rem; border: 1px solid color-mix(in srgb, var(--accent-border) 65%, transparent); border-radius: 1.1rem; background: color-mix(in srgb, var(--surface) 92%, transparent); box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 10%, transparent), 0 12px 25px rgb(0 0 0 / 0.15); }
+.daily-ebd-card:hover { border-color: var(--accent-border); background: var(--surface-highlighted); }
 
 /* Capas do catálogo usam o mesmo par de temas dos banners editoriais. */
 .study-course-cover--dark { display: none; }

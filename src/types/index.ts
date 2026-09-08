@@ -74,6 +74,7 @@ export interface PedidoMural {
   contagem: number;
   comentarios_contagem: number;
   intercedendo: boolean;
+  recompensado?: boolean;
   tipo: TipoPublicacaoMural;
   status: StatusPublicacaoMural;
   permite_comentarios: boolean;

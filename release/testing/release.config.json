@@ -1,19 +1,18 @@
 {
   "channel": "testing",
-  "versionCode": 13003,
-  "versionName": "1.3.0-rc.3",
+  "versionCode": 14056,
+  "versionName": "1.4.0-dev.56",
   "minimumVersionCode": 2,
   "mandatory": false,
-  "releaseDate": "2026-07-31",
-  "releaseTitle": "Comunhão 1.3 RC3 — atualização segura, gesto e Mural Feed",
+  "releaseDate": "2026-09-06",
+  "releaseTitle": "Estudos em Preparação e Idempotência de Oração",
   "testerMessage": "Esta versão é exclusiva do grupo piloto. Não encaminhe o APK fora do grupo de testes.",
   "releaseNotes": [
-    "Atualização por cima limpa caches antigos sem apagar login e preferências",
-    "Service Worker funciona somente na versão web/PWA",
-    "Gesto lateral do Android retorna à tela anterior sem encerrar o aplicativo",
-    "Guia de novidades para usuários atuais e guia de primeiro acesso",
-    "Ajuda contextual disponível ao final das páginas",
-    "Mural redesenhado como feed social de oração"
+    "Mural: correção no fluxo de intercessão com pontuação única e segura de Kesef e XP",
+    "Estudos: catálogo e lições mantidos em preparação com acesso livre a gestores e revisores",
+    "Home: card de estudos com indicação 'Em breve' para os membros do grupo de testes",
+    "Barra Superior: halo pulsante nas notificações e shimmer dinâmico no saldo Kesef",
+    "Tesouro: vitrine interativa com moeda Kesef 3D e Passaporte/Ticket Dourado de resgate"
   ],
   "supabaseUrl": "https://csxrhvgfnkqmkehgmnkp.supabase.co",
   "bucket": "app-updates",
