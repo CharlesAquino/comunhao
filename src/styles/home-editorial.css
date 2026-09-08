@@ -12,13 +12,8 @@
   --home-paper-muted: #647067;
   --home-gutter: clamp(1rem, 5.1vw, 1.25rem);
   --home-rail-width: calc(100% - (2 * var(--home-gutter)));
-  /* O ambiente clássico pertence ao shell inteiro. Na Home, usamos um overlay
-     pesado sobre a imagem para que ela vire apenas uma textura bem sutil,
-     tirando a competição visual. */
-  background:
-    linear-gradient(to bottom, color-mix(in srgb, var(--home-canvas) 85%, transparent), color-mix(in srgb, var(--home-canvas-deep) 96%, transparent)),
-    var(--louvor-environment-image) center / 100% 100% no-repeat,
-    var(--home-canvas);
+  /* A Home herda o fundo e iluminação do BaseLayout (sanctuary-spiritual-aurora e shared-louvor-environment)
+     para manter a consistência visual com as outras abas. */
 }
 
 :root[data-theme='light'] .app-shell--home {
@@ -32,18 +27,10 @@
   --home-paper-deep: #eee7da;
   --home-paper-ink: #193f30;
   --home-paper-muted: #667168;
-  background:
-    linear-gradient(to bottom, color-mix(in srgb, var(--home-canvas) 85%, transparent), color-mix(in srgb, var(--home-canvas-deep) 96%, transparent)),
-    var(--louvor-environment-image) center / 100% 100% no-repeat,
-    var(--home-canvas);
 }
 
-/* A Home tem materialidade própria. As atmosferas globais são desligadas
-   para que o enquadramento não concorra com a composição editorial. */
-.app-shell--home .shared-louvor-environment,
-.app-shell--home .sanctuary-spiritual-aurora {
-  display: none;
-}
+/* A Home agora usa as atmosferas globais do BaseLayout */
+
 
 .home-editorial {
   width: min(100%, 36.25rem);
