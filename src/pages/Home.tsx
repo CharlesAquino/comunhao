@@ -364,7 +364,7 @@ export default function Home() {
         <Link
           to={ROUTES.PERFIL}
           aria-label="Abrir meu perfil"
-          className={`spatial-person relic-avatar relic-interaction group relative flex size-20 shrink-0 items-center justify-center rounded-full border-[3px] border-[var(--surface-elevated)] bg-[var(--surface-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] max-[360px]:size-16 ${
+          className={`spatial-person relic-avatar relic-interaction group relative flex size-[5.5rem] shrink-0 items-center justify-center rounded-full border-[3px] border-[var(--surface-elevated)] bg-[var(--surface-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] max-[360px]:size-20 ${
             isAvailable ? 'ring-4 ring-[var(--accent-primary)]/25 shadow-[0_0_24px_rgba(120,173,136,0.35)]' : ''
           }`}
         >
@@ -391,10 +391,11 @@ export default function Home() {
             </span>
           )}
         </Link>
-        <div className="min-w-0 flex-1">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] txt-green mb-1">Comunhão</p>
-          <h1 className="font-display text-2xl font-semibold leading-tight tracking-tight txt-primary [overflow-wrap:anywhere] max-[360px]:text-xl">
-            A paz do Senhor, {data.usuario.nome?.split(' ')[0] || data.usuario.nome}
+        <div className="min-w-0 flex-1 py-1">
+          <p className="text-[10px] font-bold uppercase tracking-[0.15em] txt-green mb-1.5">Comunhão</p>
+          <h1 className="font-display text-lg font-medium leading-tight tracking-tight txt-secondary [overflow-wrap:anywhere] max-[360px]:text-base">
+            A paz do Senhor,<br />
+            <span className="text-3xl font-bold txt-primary max-[360px]:text-2xl mt-0.5 block">{data.usuario.nome?.split(' ')[0] || data.usuario.nome}</span>
           </h1>
           <p className="mt-1 text-sm txt-tertiary">Seu altar de comunhão e intercessão</p>
           <div className="mt-2.5 flex items-center">
