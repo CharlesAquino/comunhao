@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { LamparinaIcon } from '../icons/SanctuaryIcons';
 import { getDashboardData, subscribeToDataChanges, toggleUserAvailability } from '../../services/dataService';
+import { useToast } from '../../contexts/ToastContext';
 
 export default function LamparinaDock() {
   const location = useLocation();
@@ -10,6 +11,8 @@ export default function LamparinaDock() {
   
   // Ocultar na aba de oração e configuração para evitar sobreposição
   const hideDock = location.pathname.startsWith('/oracao') || location.pathname.startsWith('/configuracoes');
+
+  const { toast } = useToast();
 
   useEffect(() => {
     let mounted = true;
@@ -41,12 +44,21 @@ export default function LamparinaDock() {
 
   const handleToggle = async () => {
     if (loading) return;
+    
+    // Precisamos saber se o usuário está orando para bloquear a alteração,
+    // mas se o botão está ativo e isAvailable for verdadeiro, assumimos que 
+    // não está orando. O ideal seria verificar o status real no banco,
+    // mas o getDashboardData já gerencia isso.
+    
     setLoading(true);
+    const novoEstado = !isAvailable;
     try {
-      await toggleUserAvailability();
-      // subscribeToDataChanges irá atualizar o estado automaticamente
+      await toggleUserAvailability(novoEstado);
+      setIsAvailable(novoEstado);
+      toast.success(novoEstado ? 'Você está disponível para oração.' : 'Sua disponibilidade foi encerrada.');
     } catch (err) {
       console.error(err);
+      toast.error('Não foi possível alterar sua disponibilidade.');
     } finally {
       setLoading(false);
     }

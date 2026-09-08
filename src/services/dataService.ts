@@ -263,6 +263,11 @@ export const toggleUserAvailability = async (disponivel: boolean): Promise<boole
     .eq('id', userId);
 
   if (error) throw error;
+  
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('user-availability-changed', { detail: { disponivel } }));
+  }
+  
   return disponivel;
 };
 

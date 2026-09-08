@@ -46,7 +46,7 @@ export default function Home() {
   const [entrandoSessaoId, setEntrandoSessaoId] = useState<string | null>(null);
   const [jornadaRetomavel, setJornadaRetomavel] = useState<PrayerJourney | null>(null);
   const [editorialLesson, setEditorialLesson] = useState<EbdEditorialLesson | null>(() => getCachedEditorialLesson());
-  const [alterandoDisponibilidade, setAlterandoDisponibilidade] = useState(false);
+
   const ultimoDestinoConviteRef = useRef<string | null>(null);
   const statusConviteEnviadoRef = useRef<ConviteOracao['status'] | null>(null);
   const conviteDialogRef = useRef<HTMLElement | null>(null);
@@ -147,7 +147,20 @@ export default function Home() {
       })
       .catch(() => undefined);
     const unsubData = subscribeToDataChanges(() => loadDashboardData());
-    return () => { unsubData(); };
+    
+    const handleAvailabilityChanged = (e: Event) => {
+      const customEvent = e as CustomEvent<{ disponivel: boolean }>;
+      setData(current => current ? {
+        ...current,
+        usuario: { ...current.usuario, status_anel: customEvent.detail.disponivel ? 'disponivel' : 'offline' },
+      } : current);
+    };
+    window.addEventListener('user-availability-changed', handleAvailabilityChanged);
+
+    return () => { 
+      unsubData(); 
+      window.removeEventListener('user-availability-changed', handleAvailabilityChanged);
+    };
   }, [loadDashboardData]);
 
   const carregarConvites = useCallback(async (encaminharAceiteNovo = false) => {
@@ -286,24 +299,6 @@ export default function Home() {
     }
   };
 
-  const handleToggleAvailability = async () => {
-    if (!data || alterandoDisponibilidade || data.usuario.status_anel === 'orando') return;
-    const novoEstado = data.usuario.status_anel !== 'disponivel';
-    setAlterandoDisponibilidade(true);
-    try {
-      await toggleUserAvailability(novoEstado);
-      setData(current => current ? {
-        ...current,
-        usuario: { ...current.usuario, status_anel: novoEstado ? 'disponivel' : 'offline' },
-      } : current);
-      toast.success(novoEstado ? 'Você está disponível para oração.' : 'Sua disponibilidade foi encerrada.');
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Não foi possível alterar sua disponibilidade.');
-      await loadDashboardData();
-    } finally {
-      setAlterandoDisponibilidade(false);
-    }
-  };
 
   const handleResponderConvite = async (conviteId: string, resposta: 'aceito' | 'recusado', tipo: 'aceite' | 'voz' | 'video') => {
     setRespondendo(conviteId);
