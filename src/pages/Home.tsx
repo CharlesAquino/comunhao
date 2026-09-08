@@ -391,11 +391,11 @@ export default function Home() {
           {isAvailable && (
             <>
               {/* Efeito de Chama Verde Oliva (Giro Lento) */}
-              <div className="pointer-events-none absolute -inset-[12px] z-[-1] rounded-full bg-gradient-to-tr from-lime-600 via-lime-400 to-yellow-500 blur-lg animate-[spin_4s_linear_infinite] opacity-50 mix-blend-screen" />
+              <div className="pointer-events-none absolute -inset-[8px] z-[-1] rounded-full bg-gradient-to-tr from-[#9b9f67] via-[#BEC092] to-[#e4e6c3] blur-md animate-[spin_4s_linear_infinite] opacity-60 mix-blend-screen" />
               {/* Efeito de Calor Verde Oliva (Pulso Rápido) */}
-              <div className="pointer-events-none absolute -inset-[8px] z-[-1] rounded-full bg-gradient-to-bl from-yellow-500 via-lime-500 to-lime-600 blur-md animate-pulse opacity-60 mix-blend-screen" />
+              <div className="pointer-events-none absolute -inset-[4px] z-[-1] rounded-full bg-gradient-to-bl from-[#e4e6c3] via-[#BEC092] to-[#9b9f67] blur-sm animate-pulse opacity-70 mix-blend-screen" />
               {/* Anel Sólido Verde Oliva */}
-              <div className="pointer-events-none absolute -inset-0.5 z-[1] rounded-full border-[3px] border-lime-500 shadow-[0_0_16px_rgba(132,204,22,0.7),inset_0_0_8px_rgba(132,204,22,0.5)]" />
+              <div className="pointer-events-none absolute -inset-0.5 z-[1] rounded-full border-[3px] border-[#BEC092] shadow-[0_0_12px_rgba(190,192,146,0.8),inset_0_0_8px_rgba(190,192,146,0.5)]" />
             </>
           )}
           {data.usuario.avatar ? (
@@ -417,11 +417,19 @@ export default function Home() {
         </Link>
         <div className="min-w-0 flex-1 py-1">
           <p className="text-[10px] font-bold uppercase tracking-[0.15em] txt-green mb-1.5">Comunhão</p>
-          <h1 className="font-display text-lg font-medium leading-tight tracking-tight txt-secondary [overflow-wrap:anywhere] max-[360px]:text-base">
+          <h1 className={`font-display text-lg font-medium leading-tight tracking-tight [overflow-wrap:anywhere] max-[360px]:text-base transition-colors duration-700 ${isAvailable ? 'text-[#BEC092] drop-shadow-[0_0_8px_rgba(190,192,146,0.5)]' : 'txt-secondary'}`}>
             A paz do Senhor,<br />
-            <span className="text-3xl font-bold max-[360px]:text-2xl mt-0.5 block bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent drop-shadow-[0_2px_16px_rgba(251,191,36,0.5)]">{data.usuario.nome?.split(' ')[0] || data.usuario.nome}</span>
+            <span className={`text-3xl font-bold max-[360px]:text-2xl mt-0.5 block bg-gradient-to-r bg-clip-text text-transparent transition-all duration-700 ${
+              isAvailable 
+                ? 'from-[#e4e6c3] via-[#BEC092] to-[#9b9f67] drop-shadow-[0_0_16px_rgba(190,192,146,0.6)]'
+                : 'from-amber-200 via-amber-400 to-amber-600 drop-shadow-[0_2px_16px_rgba(251,191,36,0.5)]'
+            }`}>
+              {data.usuario.nome?.split(' ')[0] || data.usuario.nome}
+            </span>
           </h1>
-          <p className="mt-1 text-sm txt-tertiary">Seu altar de comunhão e intercessão</p>
+          <p className={`mt-1 text-sm transition-colors duration-700 ${isAvailable ? 'text-[#BEC092]/80 drop-shadow-[0_0_8px_rgba(190,192,146,0.3)]' : 'txt-tertiary'}`}>
+            Seu altar de comunhão e intercessão
+          </p>
         </div>
       </header>
 
