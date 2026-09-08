@@ -60,7 +60,7 @@ export default function LamparinaDock() {
         onClick={handleToggle}
         disabled={loading}
         aria-label={isAvailable ? "Ficar offline" : "Ficar disponível"}
-        className={`flex size-[2.35rem] items-center justify-center rounded-lg bg-[var(--surface)] border border-[var(--border)] shadow-md transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] ${
+        className={`flex size-[2.35rem] items-center justify-center rounded-full transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] hover:scale-110 active:scale-95 ${
           isAvailable
             ? 'drop-shadow-[0_0_12px_rgba(251,191,36,0.5)]'
             : 'opacity-50 grayscale filter hover:grayscale-0 hover:opacity-100'
