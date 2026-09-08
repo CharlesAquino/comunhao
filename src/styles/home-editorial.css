@@ -587,8 +587,14 @@
 
 /* Dock premium: profundidade concentrada no plano do vidro, sem deslocar o eixo. */
 .app-shell--home .sanctuary-floating-dock {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  min-height: 4.75rem;
+  border-radius: 1.35rem !important;
   border-color: color-mix(in srgb, var(--home-muted) 18%, transparent);
   background:
+    radial-gradient(ellipse at 50% -55%, color-mix(in srgb, var(--home-action) 18%, transparent), transparent 58%),
     linear-gradient(
       180deg,
       color-mix(in srgb, var(--home-canvas) 86%, transparent),
@@ -601,9 +607,30 @@
   backdrop-filter: blur(24px) saturate(1.18);
 }
 
+.app-shell--home .sanctuary-floating-dock::before,
+.app-shell--home .sanctuary-floating-dock::after {
+  content: '';
+  position: absolute;
+  left: 12%;
+  width: 76%;
+  height: 1px;
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--celebration) 42%, transparent) 18%, color-mix(in srgb, #fff 30%, transparent) 49%, color-mix(in srgb, var(--celebration) 42%, transparent) 82%, transparent);
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--celebration) 28%, transparent));
+}
+
+.app-shell--home .sanctuary-floating-dock::before {
+  top: -1px;
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, #fff 65%, transparent) 0 1px, transparent 1.5px), linear-gradient(90deg, transparent, color-mix(in srgb, var(--celebration) 42%, transparent) 18%, color-mix(in srgb, #fff 24%, transparent) 48%, color-mix(in srgb, var(--celebration) 42%, transparent) 82%, transparent);
+}
+
+.app-shell--home .sanctuary-floating-dock::after { bottom: 0.35rem; opacity: 0.52; }
+
 :root[data-theme='light'] .app-shell--home .sanctuary-floating-dock {
   border-color: rgb(61 91 71 / 0.12);
   background:
+    radial-gradient(ellipse at 50% -55%, rgb(255 247 207 / 0.65), transparent 58%),
     linear-gradient(180deg, rgb(250 247 239 / 0.90), rgb(231 226 214 / 0.92));
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.86),
@@ -615,11 +642,49 @@
 }
 
 .app-shell--home .sanctuary-nav__item--active {
-  background: color-mix(in srgb, var(--home-action) 13%, transparent);
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--home-action) 22%, transparent),
-    inset 0 1px 0 rgb(255 255 255 / 0.055),
-    0 0 1.7rem color-mix(in srgb, var(--home-action) 8%, transparent);
+  background: transparent;
+  box-shadow: none;
+}
+
+.app-shell--home .sanctuary-nav__item--active > div {
+  inset: 0.25rem 20% 1.35rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--home-action) 28%, transparent);
+  background: radial-gradient(circle at 50% 34%, color-mix(in srgb, var(--home-action) 30%, transparent), transparent 60%), color-mix(in srgb, var(--home-action) 10%, transparent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 0 1.25rem color-mix(in srgb, var(--home-action) 16%, transparent);
+}
+
+.app-shell--home .sanctuary-nav__item--active::after {
+  content: '';
+  position: absolute;
+  left: 34%;
+  right: 34%;
+  bottom: 0.15rem;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--celebration);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--celebration) 55%, transparent);
+}
+
+.app-shell--home .sanctuary-nav__item .seal-icon,
+.app-shell--home .sanctuary-nav__item > span {
+  position: relative;
+  z-index: 3;
+}
+
+:root[data-theme='light'] .app-shell--home .sanctuary-nav__item--active > div {
+  border-color: rgb(47 113 83 / 0.3);
+  background: radial-gradient(circle at 50% 34%, rgb(47 113 83 / 0.22), transparent 60%), rgb(47 113 83 / 0.08);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.78), 0 0 1.25rem rgb(47 113 83 / 0.12);
+}
+
+:root[data-theme='light'] .app-shell--home .sanctuary-nav__item--active {
+  color: var(--home-paper-ink) !important;
+}
+
+:root[data-theme='light'] .app-shell--home .sanctuary-nav__item--active::after {
+  background: #b5882c;
+  box-shadow: 0 0 8px rgb(181 136 44 / 0.45);
 }
 
 /* Nenhuma seção da Home pode herdar translação espacial. */

@@ -2,12 +2,14 @@
 import { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Link } from 'react-router-dom';
+import { Home, MessageCircle, UserRound, BookOpen, ShoppingBag } from 'lucide-react';
 import HomeJourneySurface from './src/components/home/HomeJourneySurface';
 import PrayerPartnerCard from './src/components/home/PrayerPartnerCard';
 import DailyEbdCard from './src/components/home/DailyEbdCard';
 import ComunhaoEstudosCard from './src/components/home/ComunhaoEstudosCard';
 import MocidadeGrid from './src/components/MocidadeGrid';
 import SectionHeader from './src/components/ui/SectionHeader';
+import SealIcon from './src/components/ui/SealIcon';
 import type { ConviteOracao } from './src/services/conviteService';
 import { createEmptyEditorialDocument, type EbdEditorialLesson } from './src/types/ebdEditorial';
 import './src/index.css';
@@ -18,6 +20,14 @@ const lesson: EbdEditorialLesson = {
   number: 1, subtitle: '', status: 'published', version: 1,
   document: createEmptyEditorialDocument(),
 };
+
+const previewNav = [
+  { label: 'Início', Icon: Home, active: true },
+  { label: 'Mural', Icon: MessageCircle, active: false },
+  { label: 'EBD', Icon: BookOpen, active: false },
+  { label: 'Tesouro', Icon: ShoppingBag, active: false },
+  { label: 'Perfil', Icon: UserRound, active: false },
+];
 
 function Preview() {
   const [theme, setTheme] = useState('dark');
@@ -65,6 +75,17 @@ function Preview() {
           <p style={{ marginTop: 64 }}>Como usar esta tela</p>
         </footer>
         <p role="status" style={{ textAlign: 'center', padding: 24 }}>{action}</p>
+      </div>
+      <div className="app-shell__bottom-nav" style={{ position: 'fixed', left: '50%', right: 'auto', transform: 'translateX(-50%)', bottom: 0, zIndex: 80, padding: '0 12px 12px', pointerEvents: 'none' }}>
+        <nav aria-label="Navegação principal" className="sanctuary-nav sanctuary-floating-dock app-shell__nav pointer-events-auto relative mx-auto grid grid-cols-5 items-center px-1.5 py-1" style={{ pointerEvents: 'auto' }}>
+          {previewNav.map(({ label, Icon, active }) => (
+            <a key={label} href="#" aria-current={active ? 'page' : undefined} className={`sanctuary-nav__item relative flex min-h-[3.6rem] flex-col items-center justify-center gap-1 px-1 py-1 text-center transition-colors ${active ? 'sanctuary-nav__item--active text-[#BEC092]' : 'text-[color:var(--sanctuary-text-muted)]'}`} onClick={(event) => event.preventDefault()}>
+              {active && <div className="absolute inset-0.5 z-[-1] rounded-[1.15rem]" />}
+              <SealIcon Icon={Icon} active={active} size="sm" />
+              <span className="text-[0.65rem] font-semibold leading-none tracking-[0.03em]">{label}</span>
+            </a>
+          ))}
+        </nav>
       </div>
     </main>
   );
