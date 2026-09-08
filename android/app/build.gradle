@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
-def appVersionCode = (project.findProperty('appVersionCode') ?: '14073').toInteger()
-def appVersionName = project.findProperty('appVersionName') ?: '1.4.0-dev.73'
+def appVersionCode = (project.findProperty('appVersionCode') ?: '14074').toInteger()
+def appVersionName = project.findProperty('appVersionName') ?: '1.4.0-dev.74'
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('keystore.properties')

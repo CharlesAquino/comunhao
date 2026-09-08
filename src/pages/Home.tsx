@@ -371,11 +371,11 @@ export default function Home() {
           title={isAvailable ? 'Você está disponível para interceder' : 'Toque para ficar disponível'}
           className={`relative flex items-center justify-center rounded-full p-2 transition-all duration-500 hover:scale-110 active:scale-95 disabled:opacity-50 ${
             isAvailable
-              ? 'drop-shadow-[0_0_12px_rgba(251,191,36,0.6)]'
+              ? 'drop-shadow-[0_0_16px_rgba(251,191,36,0.8)]'
               : 'opacity-40 grayscale filter hover:grayscale-0 hover:opacity-80'
           }`}
         >
-          <LamparinaIcon size={26} strokeWidth={1.5} className="text-[var(--accent-primary)] drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]" aria-hidden="true" />
+          <LamparinaIcon size={28} strokeWidth={1.5} className="text-amber-400 drop-shadow-[0_0_12px_rgba(251,191,36,1)]" aria-hidden="true" />
           {alterandoDisponibilidade && (
             <span className="absolute -inset-1 rounded-full border-2 border-dashed border-[var(--celebration)] animate-[spin_2s_linear_infinite]" />
           )}
@@ -417,7 +417,7 @@ export default function Home() {
           <p className="text-[10px] font-bold uppercase tracking-[0.15em] txt-green mb-1.5">Comunhão</p>
           <h1 className="font-display text-lg font-medium leading-tight tracking-tight txt-secondary [overflow-wrap:anywhere] max-[360px]:text-base">
             A paz do Senhor,<br />
-            <span className="text-3xl font-bold txt-primary max-[360px]:text-2xl mt-0.5 block">{data.usuario.nome?.split(' ')[0] || data.usuario.nome}</span>
+            <span className="text-3xl font-bold max-[360px]:text-2xl mt-0.5 block bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent drop-shadow-[0_2px_16px_rgba(251,191,36,0.5)]">{data.usuario.nome?.split(' ')[0] || data.usuario.nome}</span>
           </h1>
           <p className="mt-1 text-sm txt-tertiary">Seu altar de comunhão e intercessão</p>
         </div>
