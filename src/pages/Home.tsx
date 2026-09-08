@@ -390,12 +390,12 @@ export default function Home() {
         >
           {isAvailable && (
             <>
-              {/* Efeito de Chama (Giro Lento) */}
-              <div className="pointer-events-none absolute -inset-[18px] z-[-1] rounded-full bg-gradient-to-tr from-orange-600 via-amber-400 to-yellow-300 blur-xl animate-[spin_4s_linear_infinite] opacity-80" />
-              {/* Efeito de Calor (Pulso Rápido) */}
-              <div className="pointer-events-none absolute -inset-[12px] z-[-1] rounded-full bg-gradient-to-bl from-amber-400 via-orange-500 to-amber-600 blur-lg animate-pulse opacity-90" />
-              {/* Anel Sólido de Ouro */}
-              <div className="pointer-events-none absolute -inset-1 z-[1] rounded-full border-4 border-amber-400 shadow-[0_0_24px_rgba(251,191,36,1),inset_0_0_12px_rgba(251,191,36,0.8)]" />
+              {/* Efeito de Chama Verde (Giro Lento) */}
+              <div className="pointer-events-none absolute -inset-[12px] z-[-1] rounded-full bg-gradient-to-tr from-emerald-600 via-green-400 to-teal-300 blur-lg animate-[spin_4s_linear_infinite] opacity-50 mix-blend-screen" />
+              {/* Efeito de Calor Verde (Pulso Rápido) */}
+              <div className="pointer-events-none absolute -inset-[8px] z-[-1] rounded-full bg-gradient-to-bl from-green-400 via-emerald-500 to-teal-400 blur-md animate-pulse opacity-60 mix-blend-screen" />
+              {/* Anel Sólido Verde */}
+              <div className="pointer-events-none absolute -inset-0.5 z-[1] rounded-full border-[3px] border-emerald-400 shadow-[0_0_16px_rgba(52,211,153,0.7),inset_0_0_8px_rgba(52,211,153,0.5)]" />
             </>
           )}
           {data.usuario.avatar ? (
