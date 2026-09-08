@@ -127,7 +127,7 @@ export default function BaseLayout() {
               <ShieldCheck size={16} className="text-amber-400 drop-shadow-[0_0_6px_rgba(251,191,36,0.5)]" />
             </Link>
           )}
-          <Link to="/carteira" aria-label="Abrir carteira" className="button-quiet rounded-lg">
+          <Link to="/carteira" aria-label="Abrir carteira" className="button-quiet flex h-9 items-center justify-center rounded-lg">
             <KesefDisplay />
           </Link>
           <MessageInboxButton />

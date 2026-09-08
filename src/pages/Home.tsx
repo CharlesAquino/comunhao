@@ -386,10 +386,18 @@ export default function Home() {
         <Link
           to={ROUTES.PERFIL}
           aria-label="Abrir meu perfil"
-          className={`spatial-person relic-avatar relic-interaction group relative flex size-[7rem] shrink-0 items-center justify-center rounded-full border-[3px] border-[var(--surface-elevated)] bg-[var(--surface-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] max-[360px]:size-24 transition-all duration-700 ${
-            isAvailable ? 'ring-4 ring-amber-400/60 shadow-[0_0_36px_rgba(251,191,36,0.5),inset_0_0_12px_rgba(251,191,36,0.3)]' : ''
-          }`}
+          className="spatial-person relic-avatar relic-interaction group relative z-0 flex size-[7rem] shrink-0 items-center justify-center rounded-full border-[3px] border-[var(--surface-elevated)] bg-[var(--surface-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] max-[360px]:size-24 transition-all duration-700"
         >
+          {isAvailable && (
+            <>
+              {/* Efeito de Chama (Giro Lento) */}
+              <div className="pointer-events-none absolute -inset-[18px] z-[-1] rounded-full bg-gradient-to-tr from-orange-600 via-amber-400 to-yellow-300 blur-xl animate-[spin_4s_linear_infinite] opacity-80" />
+              {/* Efeito de Calor (Pulso Rápido) */}
+              <div className="pointer-events-none absolute -inset-[12px] z-[-1] rounded-full bg-gradient-to-bl from-amber-400 via-orange-500 to-amber-600 blur-lg animate-pulse opacity-90" />
+              {/* Anel Sólido de Ouro */}
+              <div className="pointer-events-none absolute -inset-1 z-[1] rounded-full border-4 border-amber-400 shadow-[0_0_24px_rgba(251,191,36,1),inset_0_0_12px_rgba(251,191,36,0.8)]" />
+            </>
+          )}
           {data.usuario.avatar ? (
             <img
               src={data.usuario.avatar}
