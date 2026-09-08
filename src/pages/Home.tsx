@@ -359,7 +359,28 @@ export default function Home() {
   const isAvailable = data.usuario.status_anel === "disponivel";
 
   return (
-    <div ref={homeSpatialRef} className="home-editorial relic-home relative z-10 flex min-h-full flex-col gap-[var(--relic-section-gap)] px-5 pb-4 pt-6 max-[360px]:px-4">
+    <div ref={homeSpatialRef} className="home-editorial relic-home relative z-10 flex min-h-full flex-col gap-[var(--relic-section-gap)] px-5 pb-4 pt-[calc(var(--safe-area-top)+4rem)] max-[360px]:px-4">
+      {/* Botão Flutuante de Oração (Canto Esquerdo Paralelo à Dock Superior) */}
+      <div className="absolute z-[70] flex items-center justify-center" style={{ top: 'calc(var(--safe-area-top) + 0.75rem)', left: 'max(var(--app-page-gutter, 1.25rem), var(--safe-area-left, 0px))' }}>
+        <button
+          type="button"
+          onClick={handleToggleAvailability}
+          disabled={alterandoDisponibilidade || data.usuario.status_anel === 'orando'}
+          aria-label={isAvailable ? 'Sair do modo de oração' : 'Ficar disponível para oração'}
+          title={isAvailable ? 'Você está disponível para interceder' : 'Toque para ficar disponível'}
+          className={`relative flex items-center justify-center rounded-full p-2 transition-all duration-500 hover:scale-110 active:scale-95 disabled:opacity-50 ${
+            isAvailable
+              ? 'drop-shadow-[0_0_12px_rgba(251,191,36,0.6)]'
+              : 'opacity-40 grayscale filter hover:grayscale-0 hover:opacity-80'
+          }`}
+        >
+          <span className="text-2xl leading-none" aria-hidden="true">🙏</span>
+          {alterandoDisponibilidade && (
+            <span className="absolute -inset-1 rounded-full border-2 border-dashed border-[var(--celebration)] animate-[spin_2s_linear_infinite]" />
+          )}
+        </button>
+      </div>
+
       <header className="spatial-section spatial-section--quiet flex items-center gap-4 max-[360px]:gap-3">
         <Link
           to={ROUTES.PERFIL}
@@ -392,26 +413,7 @@ export default function Home() {
           )}
         </Link>
         <div className="min-w-0 flex-1 py-1">
-          <div className="mb-1.5 flex items-center justify-between">
-            <p className="text-[10px] font-bold uppercase tracking-[0.15em] txt-green">Comunhão</p>
-            <button
-              type="button"
-              onClick={handleToggleAvailability}
-              disabled={alterandoDisponibilidade || data.usuario.status_anel === 'orando'}
-              aria-label={isAvailable ? 'Sair do modo de oração' : 'Ficar disponível para oração'}
-              title={isAvailable ? 'Você está disponível para interceder' : 'Toque para ficar disponível'}
-              className={`relative flex items-center justify-center rounded-full p-1 transition-all duration-500 hover:scale-110 active:scale-95 disabled:opacity-50 ${
-                isAvailable
-                  ? 'drop-shadow-[0_0_12px_rgba(251,191,36,0.6)]'
-                  : 'opacity-40 grayscale filter hover:grayscale-0 hover:opacity-80'
-              }`}
-            >
-              <span className="text-xl leading-none" aria-hidden="true">🙏</span>
-              {alterandoDisponibilidade && (
-                <span className="absolute -inset-0.5 rounded-full border border-dashed border-[var(--celebration)] animate-[spin_2s_linear_infinite]" />
-              )}
-            </button>
-          </div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.15em] txt-green mb-1.5">Comunhão</p>
           <h1 className="font-display text-lg font-medium leading-tight tracking-tight txt-secondary [overflow-wrap:anywhere] max-[360px]:text-base">
             A paz do Senhor,<br />
             <span className="text-3xl font-bold txt-primary max-[360px]:text-2xl mt-0.5 block">{data.usuario.nome?.split(' ')[0] || data.usuario.nome}</span>
