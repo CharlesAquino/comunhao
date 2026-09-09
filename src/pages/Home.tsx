@@ -22,7 +22,6 @@ import InstitutionalCrest from '../components/InstitutionalCrest';
 import { useSpatialSurface } from '../hooks/useSpatialSurface';
 import IncomingPrayerCall from '../components/oracao/IncomingPrayerCall';
 import PrayerPartnerCard from '../components/home/PrayerPartnerCard';
-import LivePrayerRoomCard from '../components/home/LivePrayerRoomCard';
 import { getPublishedEditorialLesson } from '../services/ebdEditorialService';
 import { getCachedEditorialLesson, cacheEditorialLesson } from '../services/ebdProgressService';
 import type { EbdEditorialLesson } from '../types/ebdEditorial';
@@ -499,15 +498,6 @@ export default function Home() {
           onCancelarConvite={handleCancelarConvite}
         />
       )}>
-
-      {/* Portal da Sala de Oração integrado à Jornada */}
-      <div className="mx-auto w-[var(--home-rail-width)] mb-8 relative z-10 card-enter">
-        <LivePrayerRoomCard
-          sessoesAbertasCount={Object.keys(sessoesAbertas).length}
-          mocidadeOnlineCount={data.mocidade.filter(j => j.status_anel === 'disponivel').length}
-          onEntrar={() => navigate('/oracao')}
-        />
-      </div>
 
       <div className="home-formation">
         <DailyEbdCard editorialLesson={editorialLesson} onAbrir={() => navigate('/ebd')} />
