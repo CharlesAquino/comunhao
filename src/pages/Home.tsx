@@ -22,6 +22,7 @@ import InstitutionalCrest from '../components/InstitutionalCrest';
 import { useSpatialSurface } from '../hooks/useSpatialSurface';
 import IncomingPrayerCall from '../components/oracao/IncomingPrayerCall';
 import PrayerPartnerCard from '../components/home/PrayerPartnerCard';
+import LivePrayerRoomCard from '../components/home/LivePrayerRoomCard';
 import { getPublishedEditorialLesson } from '../services/ebdEditorialService';
 import { getCachedEditorialLesson, cacheEditorialLesson } from '../services/ebdProgressService';
 import type { EbdEditorialLesson } from '../types/ebdEditorial';
@@ -480,6 +481,15 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      {/* Portal da Sala de Oração */}
+      <div className="spatial-section spatial-section--quiet mb-6 card-enter">
+        <LivePrayerRoomCard
+          sessoesAbertasCount={Object.keys(sessoesAbertas).length}
+          mocidadeOnlineCount={data.mocidade.filter(j => j.status_anel === 'disponivel').length}
+          onEntrar={() => navigate('/oracao')}
+        />
+      </div>
 
       {/* Missão da Semana: carro-chefe com intercessão e acesso à Sala de Oração */}
       <HomeJourneySurface mission={data.missaoAtual && (
