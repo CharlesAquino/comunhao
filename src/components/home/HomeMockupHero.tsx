@@ -1,7 +1,7 @@
 import { BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../services/constants';
-import brandLogo from '../../../public/favicon.svg';
+import brandLogo from '../../assets/brand/comunhao-app-icon-master.png';
 import heroSceneryLight from '../../assets/home-v12/hero-cross-clean-v1.png';
 import heroSceneryDark from '../../assets/home-v12/hero-cross-clean-v1.png';
 
