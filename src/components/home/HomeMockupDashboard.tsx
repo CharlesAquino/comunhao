@@ -4,9 +4,10 @@ import {
   Check,
   ChevronRight,
   Hand,
+  Heart,
+  MessageSquare,
   Play,
   Plus,
-  ShoppingBag,
   Users,
   Target,
 } from 'lucide-react';
@@ -131,14 +132,14 @@ export default function HomeMockupDashboard({
         <button type="button" className="home-v12-quick-action home-v12-quick-action--primary" onClick={() => onNavigate(ROUTES.ORACAO)}>
           <Hand size={22} aria-hidden="true" /><span>Orar</span>
         </button>
-        <button type="button" className="home-v12-quick-action" onClick={() => onNavigate('/estudos')}>
-          <BookOpen size={22} aria-hidden="true" /><span>Estudos</span>
+        <button type="button" className="home-v12-quick-action" onClick={() => onNavigate('/oracao?novo=true')}>
+          <MessageSquare size={22} aria-hidden="true" /><span>Pedidos</span>
         </button>
-        <button type="button" className="home-v12-quick-action" onClick={() => onNavigate(ROUTES.LOJA)}>
-          <ShoppingBag size={22} aria-hidden="true" /><span>Tesouro</span>
+        <button type="button" className="home-v12-quick-action" onClick={() => onNavigate('/oracao?aba=interceder')}>
+          <Heart size={22} aria-hidden="true" /><span>Interceder</span>
         </button>
-        <button type="button" className="home-v12-quick-action" onClick={() => onNavigate(ROUTES.COMUNIDADE)}>
-          <Users size={22} aria-hidden="true" /><span>Convidar</span>
+        <button type="button" className="home-v12-quick-action" onClick={() => onNavigate('/oracao?aba=agora')}>
+          <Users size={22} aria-hidden="true" /><span>Ao vivo</span>
         </button>
       </nav>
 

@@ -45,7 +45,7 @@ export default function CentralOracao() {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTab = searchParams.get('aba');
   const [tab, setTab] = useState<Tab>(initialTab === 'meus' || initialTab === 'interceder' || initialTab === 'agora' ? initialTab : 'inicio');
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(searchParams.get('novo') === 'true');
   const [available, setAvailable] = useState<AvailablePrayerRequest[]>([]);
   const [mine, setMine] = useState<MyPrayerRequest[]>([]);
   const [loading, setLoading] = useState(true);
