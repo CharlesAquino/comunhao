@@ -1,11 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate, Link, useSearchParams } from 'react-router-dom';
-import { Hand, Award, Heart, LoaderCircle } from 'lucide-react';
-import { LamparinaIcon } from '../components/icons/SanctuaryIcons';
-import MocidadeGrid from '../components/MocidadeGrid';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Hand, Heart } from 'lucide-react';
 import SessaoAbertaModal from '../components/SessaoAbertaModal';
-import { getCurrentUserId, getDashboardData, subscribeToDataChanges, toggleUserAvailability } from '../services/dataService';
+import { getCurrentUserId, getDashboardData, subscribeToDataChanges } from '../services/dataService';
 import { enviarConviteOracao, responderConviteOracao, cancelarConvite, getConvitesPendentes, getConviteEnviadoEmAndamento, subscribeToConvites } from '../services/conviteService';
 import { mensagemErroConvite } from '../services/conviteErrors';
 import { entrarSessaoGrupo, listarSessoesGrupoAbertas, subscribeToSessaoGrupo } from '../services/oracaoAbertaService';
@@ -13,24 +11,19 @@ import { ROUTES } from '../services/constants';
 import type { DashboardData } from '../types';
 import type { ConviteComRemetente, ConviteOracao } from '../services/conviteService';
 import { useToast } from '../contexts/ToastContext';
-import SectionHeader from '../components/ui/SectionHeader';
 import Button from '../components/ui/Button';
 import SealIcon from '../components/ui/SealIcon';
 import { deveEncaminharAceiteNovo, obterDestinoConviteAceito, obterModoConviteAceito } from '../services/conviteRouting';
 import { getResumablePrayerJourney, type PrayerJourney } from '../services/prayerJourneyService';
-import InstitutionalCrest from '../components/InstitutionalCrest';
 import { useSpatialSurface } from '../hooks/useSpatialSurface';
 import IncomingPrayerCall from '../components/oracao/IncomingPrayerCall';
-import PrayerPartnerCard from '../components/home/PrayerPartnerCard';
 import { getPublishedEditorialLesson } from '../services/ebdEditorialService';
-import { getCachedEditorialLesson, cacheEditorialLesson } from '../services/ebdProgressService';
+import { getCachedEditorialLesson, cacheEditorialLesson, getEbdProgress, type EbdSyncedProgress } from '../services/ebdProgressService';
 import type { EbdEditorialLesson } from '../types/ebdEditorial';
 import { readDashboardCache } from '../services/dashboardCache';
 import { useAdmin } from '../contexts/AdminContext';
-import ComunhaoEstudosCard from '../components/home/ComunhaoEstudosCard';
-import DailyEbdCard from '../components/home/DailyEbdCard';
-import HomeJourneySurface from '../components/home/HomeJourneySurface';
-import '../styles/home-editorial.css';
+import HomeMockupHero from '../components/home/HomeMockupHero';
+import HomeMockupDashboard from '../components/home/HomeMockupDashboard';
 
 export default function Home() {
   const [data, setData] = useState<DashboardData | null>(() => readDashboardCache());
@@ -46,6 +39,7 @@ export default function Home() {
   const [entrandoSessaoId, setEntrandoSessaoId] = useState<string | null>(null);
   const [jornadaRetomavel, setJornadaRetomavel] = useState<PrayerJourney | null>(null);
   const [editorialLesson, setEditorialLesson] = useState<EbdEditorialLesson | null>(() => getCachedEditorialLesson());
+  const [lessonProgress, setLessonProgress] = useState<EbdSyncedProgress | null>(null);
 
   const ultimoDestinoConviteRef = useRef<string | null>(null);
   const statusConviteEnviadoRef = useRef<ConviteOracao['status'] | null>(null);
@@ -335,6 +329,20 @@ export default function Home() {
   }, [sessaoAtivaId, carregarSessoes]);
 
 
+  useEffect(() => {
+    let cancelled = false;
+    if (!editorialLesson?.id) {
+      setLessonProgress(null);
+      return () => { cancelled = true; };
+    }
+
+    getEbdProgress(editorialLesson.id, editorialLesson.version)
+      .then(progress => { if (!cancelled) setLessonProgress(progress); })
+      .catch(() => { if (!cancelled) setLessonProgress(null); });
+
+    return () => { cancelled = true; };
+  }, [editorialLesson?.id, editorialLesson?.version]);
+
   if (loading) {
     return (
       <div className="relic-state flex h-screen flex-col items-center justify-center bg-transparent txt-tertiary">
@@ -352,64 +360,15 @@ export default function Home() {
     );
   }
 
-  const isAvailable = data.usuario.status_anel === "disponivel";
-
   return (
-    <div ref={homeSpatialRef} className="home-editorial relic-home relative z-10 flex min-h-full flex-col gap-[var(--relic-section-gap)] px-5 pb-4 pt-[calc(var(--safe-area-top)+4rem)] max-[360px]:px-4">
-      <header className="spatial-section spatial-section--quiet flex items-center gap-4 max-[360px]:gap-3">
-        <Link
-          to={ROUTES.PERFIL}
-          aria-label="Abrir meu perfil"
-          className="spatial-person relic-avatar relic-interaction group relative z-0 flex size-[7rem] shrink-0 items-center justify-center rounded-full border-[3px] border-[var(--surface-elevated)] bg-[var(--surface-elevated)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] max-[360px]:size-24 transition-all duration-700"
-        >
-          {isAvailable && (
-            <>
-              {/* Efeito de Chama Verde Oliva (Giro Lento) */}
-              <div className="pointer-events-none absolute -inset-[8px] z-[-1] rounded-full bg-gradient-to-tr from-[#9b9f67] via-[#BEC092] to-[#e4e6c3] blur-md animate-[spin_4s_linear_infinite] opacity-60 mix-blend-screen" />
-              {/* Efeito de Calor Verde Oliva (Pulso Rápido) */}
-              <div className="pointer-events-none absolute -inset-[4px] z-[-1] rounded-full bg-gradient-to-bl from-[#e4e6c3] via-[#BEC092] to-[#9b9f67] blur-sm animate-pulse opacity-70 mix-blend-screen" />
-              {/* Anel Sólido Verde Oliva */}
-              <div className="pointer-events-none absolute -inset-0.5 z-[1] rounded-full border-[3px] border-[#BEC092] shadow-[0_0_12px_rgba(190,192,146,0.8),inset_0_0_8px_rgba(190,192,146,0.5)]" />
-            </>
-          )}
-          {data.usuario.avatar ? (
-            <img
-              src={data.usuario.avatar}
-              alt={`Foto de perfil de ${data.usuario.nome}`}
-              className="size-full rounded-full object-cover"
-            />
-          ) : (
-            <span className="font-display text-3xl font-semibold uppercase text-[var(--text-primary)]">
-              {data.usuario.nome?.[0] || '?'}
-            </span>
-          )}
-          {data.usuario.brasaoInstitucional && (
-            <span className="absolute -bottom-2 -left-3 z-10">
-              <InstitutionalCrest kind={data.usuario.brasaoInstitucional} size={30} />
-            </span>
-          )}
-        </Link>
-        <div className="min-w-0 flex-1 py-1">
-          <p className="text-[10px] font-bold uppercase tracking-[0.15em] txt-green mb-1.5">Comunhão</p>
-          <h1 className={`font-display text-lg font-medium leading-tight tracking-tight [overflow-wrap:anywhere] max-[360px]:text-base transition-colors duration-700 ${
-            isAvailable 
-              ? 'home-greeting-illuminated' 
-              : 'txt-secondary'
-          }`}>
-            A paz do Senhor,<br />
-            <span className="text-3xl font-bold max-[360px]:text-2xl mt-0.5 block home-user-name transition-all duration-700">
-              {data.usuario.nome?.split(' ')[0] || data.usuario.nome}
-            </span>
-          </h1>
-          <p className={`mt-1 text-sm transition-colors duration-700 ${
-            isAvailable 
-              ? 'home-subtitle-illuminated' 
-              : 'txt-tertiary'
-          }`}>
-            Seu altar de comunhão e intercessão
-          </p>
-        </div>
-      </header>
+    <div ref={homeSpatialRef} className="home-editorial relative z-10 flex min-h-full flex-col">
+      <HomeMockupHero
+        nome={data.usuario.nome}
+        avatar={data.usuario.avatar}
+        verseReference={editorialLesson?.document.mainVerseReference}
+        verseSummary={editorialLesson?.document.mainVerseSummary}
+        onAbrirEbd={() => navigate(ROUTES.EBD)}
+      />
 
       {jornadaRetomavel && (
         <section className="spatial-section spatial-section--raised relic-surface rounded-2xl border border-[var(--celebration-border)] bg-[var(--surface-highlighted)] p-5 card-enter">
@@ -481,28 +440,25 @@ export default function Home() {
         </section>
       )}
 
-      {/* Missão da Semana: carro-chefe com intercessão e acesso à Sala de Oração */}
-      <HomeJourneySurface mission={data.missaoAtual && (
-        <PrayerPartnerCard
-          missaoAtual={data.missaoAtual}
-          parceiroSustentador={data.parceiroSustentador}
-          conviteEnviado={conviteEnviado}
-          criandoSala={criandoSala}
-          onConvidar={() => {
-            if (!data.missaoAtual.id) return;
-            conviteTriggerRef.current = document.activeElement instanceof HTMLElement
-              ? document.activeElement
-              : null;
-            setConfirmandoConviteDupla(true);
-          }}
-          onCancelarConvite={handleCancelarConvite}
-        />
-      )}>
-
-      <div className="home-formation">
-        <DailyEbdCard editorialLesson={editorialLesson} onAbrir={() => navigate('/ebd')} />
-        <ComunhaoEstudosCard hasEstudosAccess={hasEstudosAccess} onAcessar={() => navigate('/estudos')} />
-      </div>
+      <HomeMockupDashboard
+        data={data}
+        editorialLesson={editorialLesson}
+        lessonProgress={lessonProgress}
+        sessoesAbertas={sessoesAbertas}
+        conviteEnviado={conviteEnviado}
+        criandoSala={criandoSala}
+        hasEstudosAccess={hasEstudosAccess}
+        onNavigate={path => navigate(path)}
+        onMissionAction={() => {
+          if (!data.missaoAtual.id) return;
+          conviteTriggerRef.current = document.activeElement instanceof HTMLElement
+            ? document.activeElement
+            : null;
+          setConfirmandoConviteDupla(true);
+        }}
+        onCancelMissionInvite={handleCancelarConvite}
+        onJoinSession={handleJuntarSessao}
+      />
 
       {confirmandoConviteDupla && createPortal(
         <div
@@ -545,33 +501,6 @@ export default function Home() {
         </div>,
         document.body,
       )}
-
-      {/* Mocidade */}
-      <section className="home-community spatial-section spatial-section--quiet space-y-3">
-        <SectionHeader
-          title="Nossa comunidade"
-          eyebrow=""
-          action={<Link to="/comunidade" className="text-xs font-semibold text-[var(--accent-primary)] hover:underline">Ver todos</Link>}
-        />
-        <div className="community-presence-card card-enter">
-          <MocidadeGrid
-            compact
-            jovens={data.mocidade}
-            sessoesAbertas={sessoesAbertas}
-            onJuntarSessao={handleJuntarSessao}
-          />
-        </div>
-      </section>
-
-      </HomeJourneySurface>
-
-      {/* Footer */}
-      <div className="spatial-section spatial-section--quiet text-center pt-2 pb-4">
-        <Link to="/guia" className="inline-flex items-center gap-2 txt-tertiary hover:txt-primary text-xs font-medium transition px-4 py-2 rounded-full">
-          <Award size={13} />
-          Jornada de Serviço — como funciona
-        </Link>
-      </div>
 
       {sessaoAtiva && (
         <SessaoAbertaModal

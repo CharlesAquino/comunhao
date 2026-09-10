@@ -32,12 +32,10 @@ async function updateStatusBar(theme: Theme) {
   try {
     const { StatusBar, Style } = await import('@capacitor/status-bar');
     const canvas = getComputedStyle(document.documentElement).getPropertyValue('--canvas').trim();
-    await StatusBar.setOverlaysWebView({ overlay: false });
+    // A arte pode ocupar a área da barra; o layout reserva os safe-area insets.
+    await StatusBar.setOverlaysWebView({ overlay: true });
     await StatusBar.setStyle({
       style: theme === 'dark' ? Style.Dark : Style.Light,
-    });
-    await StatusBar.setBackgroundColor({
-      color: canvas,
     });
     document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')?.setAttribute('content', canvas);
   } catch {

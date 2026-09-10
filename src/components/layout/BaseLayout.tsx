@@ -117,11 +117,11 @@ export default function BaseLayout() {
           acima da navegação persistente conforme a hierarquia do DS. */}
       <main className="app-shell__main scrollbar-hidden flex-1 overflow-y-auto page-enter">
         <Outlet />
-        <PageHelp />
+        {location.pathname !== '/' && <PageHelp />}
       </main>
 
       {/* Alternador de Tema + Carteira (pílula unificada) */}
-      <LamparinaDock />
+      {location.pathname !== '/' && <LamparinaDock />}
       <div className="app-shell__utility absolute z-[70]">
         <div className="flex items-center gap-1 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-1.5 py-1">
           {hasAdminAccess && (
@@ -163,7 +163,13 @@ export default function BaseLayout() {
                   <div className="pointer-events-none absolute inset-0.5 z-[-1] rounded-[1.15rem] bg-gradient-to-b from-[#BEC092]/15 to-transparent border-t border-[#BEC092]/30 shadow-[inset_0_1px_6px_rgba(190,192,146,0.1)]" />
                 )}
                 <SealIcon Icon={Icon} size="sm" />
-                <span className="text-[10px] font-semibold leading-none truncate max-w-full px-1">{label}</span>
+                <span className="text-[10px] font-semibold leading-none truncate max-w-full px-1">
+                  {location.pathname === '/' && to === '/mural'
+                    ? 'Comunidade'
+                    : location.pathname === '/' && to === '/ebd'
+                      ? 'Estudos'
+                      : label}
+                </span>
               </Link>
             );
           })}

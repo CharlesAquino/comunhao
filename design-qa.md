@@ -1,6 +1,6 @@
-# Design QA — dock Livro-portal
+# Design QA — Home v12 / Amanhecer e Santuário
 
-source visual truth path: `/home/pcnono/.codex/generated_images/01a08114-9f28-7de2-8354-173abd4382a4/exec-bb2a4ede-8c84-492b-a962-029bc610edaa.png` (option 3 selected by the user)
+source visual truth path: `/home/pcnono/Transferências/ChatGPT Image 9 de set. de 2026, 17_36_07.png`
 
 ## Comparison evidence
 
@@ -16,14 +16,15 @@ source visual truth path: `/home/pcnono/.codex/generated_images/01a08114-9f28-7d
 
 ## Findings
 
-No actionable P0, P1, or P2 findings remain. The implementation carries the selected concept's open-book seam through the active item treatment, top light line, lower page filete, and rounded dark/light material while retaining the production Lucide/SealIcon components and existing navigation links.
+No actionable P0, P1, or P2 findings remain. The implementation now uses the mockup's mobile composition: full-width hero art with bottom fade, editorial cards, clean generated artwork, real HTML controls, and the responsive five-item dock.
 
 P3 polish: the generated concept uses a more literal book seam than the code-native treatment; keeping the seam as a restrained active-state glow avoids introducing a raster asset into a responsive control.
 
 ## Comparison history
 
-1. Initial dock styling used the existing generic active fill. Fixed by adding the Livro-portal top seam, active inset oval, lower filete, and theme-specific material gradients.
-2. Light pass showed insufficient active-label contrast. Fixed with `color: var(--home-paper-ink) !important` for the active item in the light theme; recaptured `dock-light-390.png`.
+1. Earlier Home art had cropped UI fragments and a narrow hero. Replaced with clean premium asset variants and a full-width masked fade.
+2. Initial v12 typography was undersized and the lesson strip wrapped too early. Increased display/interface scales and rebalanced its grid at mobile widths.
+3. Mission fallback used a plain letter. Added the transparent floral S asset for the Sophia fixture while retaining real profile photos when supplied.
 
 ## Implementation checklist
 
@@ -33,6 +34,7 @@ P3 polish: the generated concept uses a more literal book seam than the code-nat
 - [x] Verify active state and both themes in a rendered browser.
 - [x] Check console and interaction harness; no dock-related errors.
 - [x] Run lint and production build.
+- [x] Build private development APK without publishing OTA metadata.
 
 Primary interactions tested: theme toggle, mission/access controls, EBD CTA, Estudos CTA, invitation/cancel controls, and dock links (links retain their existing destinations in production).
 
