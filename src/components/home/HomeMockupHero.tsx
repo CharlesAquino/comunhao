@@ -1,8 +1,7 @@
 import { BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../services/constants';
-import brandLeafLight from '../../assets/home-v12/mockup-brand-leaf-light.png';
-import brandLeafDark from '../../assets/home-v12/mockup-brand-leaf-dark.png';
+import brandLogo from '../../../public/favicon.svg';
 import heroSceneryLight from '../../assets/home-v12/hero-cross-clean-v1.png';
 import heroSceneryDark from '../../assets/home-v12/hero-cross-clean-v1.png';
 
@@ -43,16 +42,10 @@ export default function HomeMockupHero({
       <div className="home-v12-hero__top">
         <div className="home-v12-brand" aria-label="Comunhão">
           <img
-            className="home-v12-theme-art home-v12-theme-art--light"
-            src={brandLeafLight}
-            alt=""
+            src={brandLogo}
+            alt="Logo Comunhão"
             aria-hidden="true"
-          />
-          <img
-            className="home-v12-theme-art home-v12-theme-art--dark"
-            src={brandLeafDark}
-            alt=""
-            aria-hidden="true"
+            style={{ width: '28px', height: '28px', objectFit: 'contain' }}
           />
           <span>
             <strong>Comunhão</strong>
