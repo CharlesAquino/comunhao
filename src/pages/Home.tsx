@@ -21,7 +21,6 @@ import { getPublishedEditorialLesson } from '../services/ebdEditorialService';
 import { getCachedEditorialLesson, cacheEditorialLesson, getEbdProgress, type EbdSyncedProgress } from '../services/ebdProgressService';
 import type { EbdEditorialLesson } from '../types/ebdEditorial';
 import { readDashboardCache } from '../services/dashboardCache';
-import { useAdmin } from '../contexts/AdminContext';
 import HomeMockupHero from '../components/home/HomeMockupHero';
 import HomeMockupDashboard from '../components/home/HomeMockupDashboard';
 
@@ -51,8 +50,6 @@ export default function Home() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const toast = useToast();
-  const { can: canAdmin, isAdmin, hasAdminAccess } = useAdmin();
-  const hasEstudosAccess = isAdmin || canAdmin('estudos.manage') || canAdmin('estudos.review') || hasAdminAccess;
   const sessaoConviteId = searchParams.get('orar_com');
 
   useEffect(() => {
@@ -447,7 +444,6 @@ export default function Home() {
         sessoesAbertas={sessoesAbertas}
         conviteEnviado={conviteEnviado}
         criandoSala={criandoSala}
-        hasEstudosAccess={hasEstudosAccess}
         onNavigate={path => navigate(path)}
         onMissionAction={() => {
           if (!data.missaoAtual.id) return;

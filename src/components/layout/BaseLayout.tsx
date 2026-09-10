@@ -164,11 +164,7 @@ export default function BaseLayout() {
                 )}
                 <SealIcon Icon={Icon} size="sm" />
                 <span className="text-[10px] font-semibold leading-none truncate max-w-full px-1">
-                  {location.pathname === '/' && to === '/mural'
-                    ? 'Comunidade'
-                    : location.pathname === '/' && to === '/ebd'
-                      ? 'Estudos'
-                      : label}
+                  {label}
                 </span>
               </Link>
             );

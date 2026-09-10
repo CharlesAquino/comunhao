@@ -9,6 +9,7 @@ import { useToast } from '../contexts/ToastContext';
 import { COMUNHAO_ESTUDOS_CATALOG_SCHEMA_ENABLED, completeCourseBlock, getStudyCatalog } from '../services/comunhaoEstudosService';
 import { PILOT_CATALOG, type StudyBlock, type StudyCatalog } from '../types/comunhaoEstudos';
 import BiblicalComprehensionAssistant from '../components/estudos/BiblicalComprehensionAssistant';
+import { recordStudyVisit } from '../services/studyResumeService';
 
 const icons = { video: Play, scripture: BookOpen, context: Sparkles, reflection: Lightbulb, mission: Flag, meeting: Radio, audio: Volume2, resource: FileText };
 
@@ -22,6 +23,11 @@ export default function EstudosAula() {
   const course = catalog.courses.find(item => item.modules.some(module => module.lessons.some(lesson => lesson.id === lessonId))) ?? catalog.courses[0];
   const module = course?.modules.find(item => item.lessons.some(lesson => lesson.id === lessonId)) ?? course?.modules[0];
   const lesson = module?.lessons.find(item => item.id === lessonId) ?? module?.lessons[0];
+  useEffect(() => {
+    if (course?.status === 'published' && lesson?.id === lessonId && lesson.status !== 'locked') {
+      void recordStudyVisit(course.id, lesson.id);
+    }
+  }, [course?.id, course?.status, lesson?.id, lesson?.status, lessonId]);
   if (!course || !module || !lesson) return <div className="p-8 text-center txt-secondary">Aula não encontrada.</div>;
   const completed = lesson.blocks.filter(block => block.completed).length;
   const progress = lesson.blocks.length ? Math.round((completed / lesson.blocks.length) * 100) : 0;

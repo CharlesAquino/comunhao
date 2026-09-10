@@ -8,12 +8,16 @@ import ProgressBar from '../components/ui/ProgressBar';
 import StudyCourseArtwork from '../components/estudos/StudyCourseArtwork';
 import { COMUNHAO_ESTUDOS_CATALOG_SCHEMA_ENABLED, getStudyCatalog } from '../services/comunhaoEstudosService';
 import { PILOT_CATALOG, type StudyCatalog } from '../types/comunhaoEstudos';
+import { recordStudyVisit } from '../services/studyResumeService';
 
 export default function EstudosCurso() {
   const { courseId } = useParams();
   const [catalog, setCatalog] = useState<StudyCatalog>(PILOT_CATALOG);
   useEffect(() => { if (COMUNHAO_ESTUDOS_CATALOG_SCHEMA_ENABLED) void getStudyCatalog().then(result => { if (result.courses.length) setCatalog(result); }).catch(() => undefined); }, []);
   const course = catalog.courses.find(item => item.id === courseId) ?? catalog.courses[0];
+  useEffect(() => {
+    if (course?.id === courseId && course.status === 'published') void recordStudyVisit(course.id);
+  }, [course?.id, course?.status, courseId]);
   if (!course) return <div className="p-8 text-center txt-secondary">Curso não encontrado.</div>;
   const lessons = course.modules.flatMap(module => module.lessons);
   const nextLesson = lessons.find(lesson => lesson.status === 'current') ?? lessons.find(lesson => lesson.status === 'available');

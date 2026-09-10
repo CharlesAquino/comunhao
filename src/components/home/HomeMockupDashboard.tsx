@@ -6,8 +6,6 @@ import {
   Hand,
   Heart,
   MessageSquare,
-  Play,
-  Plus,
   Users,
   Target,
 } from 'lucide-react';
@@ -21,10 +19,7 @@ import type {
   EbdWeekday,
 } from '../../types/ebdEditorial';
 import { ROUTES } from '../../services/constants';
-import studiesBibleLight from '../../assets/home-v12/studies-bible-clean-v1.png';
-import studiesBibleDark from '../../assets/home-v12/studies-bible-clean-v1.png';
-import resumeCaveLight from '../../assets/home-v12/mockup-resume-cave-light.png';
-import resumeCaveDark from '../../assets/home-v12/mockup-resume-cave-dark.png';
+import HomeStudiesCard from './HomeStudiesCard';
 import devotionalSproutLight from '../../assets/home-v12/devotional-sprout-clean-v1.png';
 import devotionalSproutDark from '../../assets/home-v12/devotional-sprout-clean-v1.png';
 import '../../styles/home-mockup-v12.css';
@@ -37,7 +32,6 @@ interface Props {
   sessoesAbertas: Record<string, string>;
   conviteEnviado: ConviteOracao | null;
   criandoSala: boolean;
-  hasEstudosAccess: boolean;
   onNavigate: (path: string) => void;
   onMissionAction: () => void;
   onCancelMissionInvite: () => void;
@@ -83,7 +77,6 @@ export default function HomeMockupDashboard({
   sessoesAbertas,
   conviteEnviado,
   criandoSala,
-  hasEstudosAccess,
   onNavigate,
   onMissionAction,
   onCancelMissionInvite,
@@ -103,9 +96,6 @@ export default function HomeMockupDashboard({
 
   const totalDays = validDays.length;
   const completedCount = validDays.filter(day => completed.has(day.day)).length;
-  const progressPercent = totalDays > 0
-    ? Math.round((completedCount / totalDays) * 100)
-    : 0;
 
   const currentDay = lessonDays.find(day => day.day === todayKey && day.blocks.length > 0);
   const syncedDay = lessonProgress?.currentDayId
@@ -122,7 +112,6 @@ export default function HomeMockupDashboard({
 
   const lessonNumber = editorialLesson ? `Lição ${editorialLesson.number}` : 'EBD';
   const lessonTitle = editorialLesson?.title || 'Sua jornada na Palavra';
-  const resumeTitle = resumeDay?.title || lessonTitle;
   const devotionalTitle = currentDay?.title || resumeDay?.title || lessonTitle;
   const devotionalReference = editorialLesson?.document.mainVerseReference || 'Palavra para hoje';
 
@@ -202,47 +191,15 @@ export default function HomeMockupDashboard({
         {conviteEnviado && <button type="button" className="home-v12-mission__pending" onClick={onCancelMissionInvite}>Convite enviado · cancelar</button>}
       </section>
 
-      <div className="home-v12-study-grid">
-        <section className="home-v12-study-card home-v12-study-card--library" aria-labelledby="home-v12-studies-title">
-          <img className="home-v12-study-card__art home-v12-theme-art home-v12-theme-art--light" src={studiesBibleLight} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          <img className="home-v12-study-card__art home-v12-theme-art home-v12-theme-art--dark" src={studiesBibleDark} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          <div className="home-v12-study-card__copy">
-            <BookOpen size={22} aria-hidden="true" />
-            <h2 id="home-v12-studies-title">Estudos</h2>
-            <button type="button" className="home-v12-round-action" onClick={() => onNavigate('/estudos')} aria-label={hasEstudosAccess ? 'Acessar estudos' : 'Conhecer estudos'}>
-              <ArrowRight size={17} aria-hidden="true" />
-            </button>
-          </div>
-        </section>
-
-        <section className="home-v12-study-card home-v12-study-card--resume" aria-labelledby="home-v12-resume-title">
-          <div className="home-v12-resume__copy">
-            <span className="home-v12-play" aria-hidden="true"><Play size={11} fill="currentColor" /></span>
-            <p>Continuar</p>
-            <h2 id="home-v12-resume-title">{resumeTitle}</h2>
-            <div className="home-v12-mini-progress"><span><i style={{ width: `${progressPercent}%` }} /></span><strong>{progressPercent}%</strong></div>
-          </div>
-          <img className="home-v12-resume__art home-v12-theme-art home-v12-theme-art--light" src={resumeCaveLight} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          <img className="home-v12-resume__art home-v12-theme-art home-v12-theme-art--dark" src={resumeCaveDark} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-          <button type="button" className="home-v12-resume__hit" onClick={() => onNavigate(ROUTES.EBD)} aria-label={`Continuar ${resumeTitle}`} />
-        </section>
-      </div>
-
-      <section className="home-v12-lesson-strip home-v12-surface" aria-labelledby="home-v12-lesson-title">
-        <span className="home-v12-lesson-strip__icon" aria-hidden="true"><BookOpen size={22} /></span>
-        <div className="home-v12-lesson-strip__copy"><small>Acompanhamento da lição</small><h2 id="home-v12-lesson-title">{lessonNumber}</h2><p>{lessonTitle}</p></div>
-        <div className="home-v12-lesson-strip__progress"><span><i style={{ width: `${progressPercent}%` }} /></span><strong>{progressPercent}%</strong></div>
-        <button type="button" className="home-v12-pill-action" onClick={() => onNavigate(ROUTES.EBD)}>Continuar <ChevronRight size={16} aria-hidden="true" /></button>
-      </section>
+      <HomeStudiesCard />
 
       <section className="home-v12-community home-v12-surface" aria-labelledby="home-v12-community-title">
         <div className="home-v12-community__heading">
-          <div><Users size={20} aria-hidden="true" /><h2 id="home-v12-community-title">Nossa comunidade</h2></div>
+          <div><Users size={20} aria-hidden="true" /><h2 id="home-v12-community-title">Nosso mural</h2></div>
           <button type="button" onClick={() => onNavigate(ROUTES.COMUNIDADE)}>Ver todos <ChevronRight size={15} aria-hidden="true" /></button>
         </div>
 
         <div className="home-v12-community__rail" role="list">
-          <button type="button" className="home-v12-community__new" onClick={() => onNavigate(ROUTES.MURAL)}><span><Plus size={20} /></span><small>Novo</small></button>
           {data.mocidade.slice(0, 5).map(member => {
             const sessaoId = sessoesAbertas[member.id];
             return (
