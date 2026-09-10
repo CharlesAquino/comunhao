@@ -45,7 +45,7 @@ export default function HomeMockupHero({
             src={brandLogo}
             alt="Logo Comunhão"
             aria-hidden="true"
-            style={{ width: '28px', height: '28px', objectFit: 'contain' }}
+            style={{ width: '28px', height: '28px', objectFit: 'cover', borderRadius: '50%' }}
           />
           <span>
             <strong>Comunhão</strong>
