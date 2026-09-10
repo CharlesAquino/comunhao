@@ -35,7 +35,7 @@ export default function HomeStudiesCard() {
         <img className="home-v12-study-card__art" src={studiesBible} alt="" loading="lazy" decoding="async" />
         <span className="home-v12-study-card__copy">
           <BookOpen size={22} aria-hidden="true" />
-          <h2>EBD</h2>
+          <h2>Estudos<br />bíblicos</h2>
           <span className="home-v12-round-action" aria-hidden="true"><ArrowRight size={17} /></span>
         </span>
       </span>
