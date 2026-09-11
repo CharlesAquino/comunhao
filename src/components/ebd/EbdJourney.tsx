@@ -1,7 +1,26 @@
-import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, BookOpen, Check, Clock3, LayoutPanelTop, LockKeyhole, Play, Sparkles } from 'lucide-react';
-import Button from '../ui/Button';
-import Card from '../ui/Card';
+import {
+  useEffect,
+  useRef,
+  useState } from 'react'; import { Link } from 'react-router-dom'; import { ArrowLeft,
+  BookOpen,
+  Check,
+  ChevronRight,
+  Clock3,
+  FileText,
+  Grid2X2,
+  History,
+  Lightbulb,
+  LockKeyhole,
+  Play,
+  Video,
+  Hand,
+  Heart,
+  Target,
+  Users,
+  CircleHelp,
+  Sprout,
+  Flag,
+} from 'lucide-react';
 import InstitutionalAction from '../ui/InstitutionalAction';
 import { creditarKesef, creditarXp } from '../../services/kesefService';
 import { KESEF_VALORES } from '../../services/kesefConstants';
@@ -15,7 +34,12 @@ import {
   type EbdEditorialLesson,
 } from '../../types/ebdEditorial';
 import { getEbdProgress, saveEbdProgress } from '../../services/ebdProgressService';
-import { isRedundantEditorialTitle } from '../../services/editorialLanguage';
+import brandLeafLight from '../../assets/ebd-v14/brand-leaf-light.png';
+import '../../styles/ebd-mockup-v14.css';
+import '../../styles/ebd-sessions-v16.css';
+import '../../styles/ebd-reference-v17.css';
+import { EbdLessonView } from './EbdLessonView';
+import leafArt from '../../assets/ebd-v17/olive-branch.png';
 
 interface ProgressState {
   completedBlocks: string[];
@@ -32,35 +56,225 @@ function readProgress(lessonId: string): ProgressState {
   try {
     const value = localStorage.getItem(progressKey(lessonId));
     if (!value) {
-      return { completedBlocks: [], responses: {}, rewardedDays: [], rewardedQuizQuestions: [] };
+      return {
+        completedBlocks: [],
+        responses: {},
+        rewardedDays: [],
+        rewardedQuizQuestions: [],
+      };
     }
+
     const parsed = JSON.parse(value) as Partial<ProgressState>;
     return {
-      completedBlocks: Array.isArray(parsed.completedBlocks) ? parsed.completedBlocks : [],
-      responses: parsed.responses && typeof parsed.responses === 'object' ? parsed.responses as Record<string, string> : {},
-      rewardedDays: Array.isArray(parsed.rewardedDays) ? parsed.rewardedDays : [],
-      rewardedQuizQuestions: Array.isArray(parsed.rewardedQuizQuestions) ? parsed.rewardedQuizQuestions : [],
-      currentDayId: typeof parsed.currentDayId === 'string' ? parsed.currentDayId : null,
-      currentBlockId: typeof parsed.currentBlockId === 'string' ? parsed.currentBlockId : null,
+      completedBlocks: Array.isArray(parsed.completedBlocks)
+        ? parsed.completedBlocks
+        : [],
+      responses:
+        parsed.responses && typeof parsed.responses === 'object'
+          ? (parsed.responses as Record<string, string>)
+          : {},
+      rewardedDays: Array.isArray(parsed.rewardedDays)
+        ? parsed.rewardedDays
+        : [],
+      rewardedQuizQuestions: Array.isArray(parsed.rewardedQuizQuestions)
+        ? parsed.rewardedQuizQuestions
+        : [],
+      currentDayId:
+        typeof parsed.currentDayId === 'string' ? parsed.currentDayId : null,
+      currentBlockId:
+        typeof parsed.currentBlockId === 'string' ? parsed.currentBlockId : null,
     };
   } catch {
-    return { completedBlocks: [], responses: {}, rewardedDays: [], rewardedQuizQuestions: [] };
+    return {
+      completedBlocks: [],
+      responses: {},
+      rewardedDays: [],
+      rewardedQuizQuestions: [],
+    };
   }
 }
 
 function isAvailable(lesson: EbdEditorialLesson, day: EbdEditorialDay) {
-  if (!day.title.trim() || day.blocks.length === 0) {
-    return false;
-  }
-  if (lesson.document.releaseMode === 'immediate') {
-    return true;
-  }
-  // No modo agendado, data vazia significa que o gestor ainda fará a
-  // liberação manual. Publicar um único dia grava o instante atual nele.
-  return Boolean(day.unlocksAt) && Date.now() >= new Date(day.unlocksAt).getTime();
+  if (!day.title.trim() || day.blocks.length === 0) return false;
+  if (lesson.document.releaseMode === 'immediate') return true;
+  return Boolean(day.unlocksAt)
+    && Date.now() >= new Date(day.unlocksAt).getTime();
 }
 
-function EditorialBlock({
+function getLeadBlock(day: EbdEditorialDay) {
+  return (
+    day.blocks.find(block => block.type === 'hero' && Boolean(block.mediaUrl?.trim()))
+    ?? day.blocks.find(block => block.type !== 'video' && Boolean(block.mediaUrl?.trim()))
+    ?? null
+  );
+}
+
+function splitEditorialLines(content?: string) {
+  if (!content?.trim()) return [];
+
+  return content
+    .split(/\n+/)
+    .map(line => line.trim())
+    .filter(Boolean);
+}
+
+function normalizeTimelineItems(content?: string) {
+  const lines = splitEditorialLines(content);
+
+  return lines.map((line, index) => {
+    const cleaned = line
+      .replace(/^\s*(?:[-–—•*]|\d+[.)])\s*/, '')
+      .trim();
+
+    const separatorIndex = cleaned.indexOf(':');
+    if (separatorIndex > 0 && separatorIndex < 44) {
+      return {
+        id: `${index}-${cleaned.slice(0, separatorIndex)}`,
+        title: cleaned.slice(0, separatorIndex).trim(),
+        content: cleaned.slice(separatorIndex + 1).trim(),
+      };
+    }
+
+    return {
+      id: `${index}-${cleaned.slice(0, 24)}`,
+      title: `Etapa ${index + 1}`,
+      content: cleaned,
+    };
+  });
+}
+
+type BlockVisualDefinition = {
+  label: string;
+  session:
+    | 'opening'
+    | 'study'
+    | 'reflection'
+    | 'mission'
+    | 'prayer'
+    | 'quiz';
+  description: string;
+};
+
+const BLOCK_VISUALS = {
+  hero: {
+    label: 'Abertura',
+    session: 'opening',
+    description: 'Apresentação visual e direção principal da etapa.',
+  },
+  text: {
+    label: 'Estudo',
+    session: 'study',
+    description: 'Desenvolvimento do assunto em leitura editorial.',
+  },
+  scripture: {
+    label: 'Escritura',
+    session: 'study',
+    description: 'Texto bíblico e referência em primeiro plano.',
+  },
+  character: {
+    label: 'Personagem',
+    session: 'study',
+    description: 'Pessoa bíblica, contexto e aprendizado.',
+  },
+  timeline: {
+    label: 'Linha do tempo',
+    session: 'study',
+    description: 'Sequência de acontecimentos em ordem visual.',
+  },
+  reflection: {
+    label: 'Reflexão',
+    session: 'reflection',
+    description: 'Pergunta pessoal com resposta privada.',
+  },
+  mission: {
+    label: 'Missão',
+    session: 'mission',
+    description: 'Aplicação prática do aprendizado.',
+  },
+  prayer: {
+    label: 'Oração',
+    session: 'prayer',
+    description: 'Momento contemplativo e oração guiada.',
+  },
+  quiz: {
+    label: 'Perguntas',
+    session: 'quiz',
+    description: 'Verificação do aprendizado, uma pergunta por vez.',
+  },
+  video: {
+    label: 'Vídeo',
+    session: 'study',
+    description: 'Conteúdo audiovisual complementar.',
+  },
+} satisfies Record<EbdEditorialBlock['type'], BlockVisualDefinition>;
+
+function blockLabel(type: EbdEditorialBlock['type']) {
+  return BLOCK_VISUALS[type].label;
+}
+
+function assertNeverBlock(value: never): never {
+  throw new Error(`Tipo editorial sem interface: ${String(value)}`);
+}
+
+
+
+type LessonSessionKind =
+  | 'opening'
+  | 'study'
+  | 'reflection'
+  | 'mission'
+  | 'prayer'
+  | 'quiz';
+
+interface LessonSession {
+  kind: LessonSessionKind;
+  label: string;
+  blocks: EbdEditorialBlock[];
+}
+
+const SESSION_ORDER: Array<{
+  kind: LessonSessionKind;
+  label: string;
+  types: EbdEditorialBlock['type'][];
+}> = [
+  { kind: 'opening', label: 'Abertura', types: ['hero'] },
+  {
+    kind: 'study',
+    label: 'Estudo bíblico',
+    types: ['text', 'scripture', 'character', 'timeline', 'video'],
+  },
+  { kind: 'reflection', label: 'Reflexão', types: ['reflection'] },
+  { kind: 'mission', label: 'Missão', types: ['mission'] },
+  { kind: 'prayer', label: 'Oração', types: ['prayer'] },
+  { kind: 'quiz', label: 'Perguntas', types: ['quiz'] },
+];
+
+// Garantia adicional: todo tipo do registry precisa pertencer a uma sessão.
+const BLOCK_TYPES_IN_SESSIONS = new Set(
+  SESSION_ORDER.flatMap(session => session.types),
+);
+
+(Object.keys(BLOCK_VISUALS) as EbdEditorialBlock['type'][]).forEach(type => {
+  if (!BLOCK_TYPES_IN_SESSIONS.has(type)) {
+    throw new Error(`Tipo editorial sem sessão: ${type}`);
+  }
+});
+
+function buildLessonSessions(day: EbdEditorialDay): LessonSession[] {
+  const mapped = SESSION_ORDER.map(session => ({
+    kind: session.kind,
+    label: session.label,
+    blocks: day.blocks.filter(block => session.types.includes(block.type)),
+  }));
+
+  // A abertura é uma etapa de orientação mesmo quando o conteúdo editorial
+  // não traz um bloco hero explícito. As demais só aparecem quando existem.
+  return mapped.filter(session =>
+    session.kind === 'opening' ? true : session.blocks.length > 0,
+  );
+}
+
+export function EditorialBlock({
   block,
   done,
   response,
@@ -68,6 +282,7 @@ function EditorialBlock({
   onResponse,
   onRewardQuizQuestion,
   rewardedQuizQuestions,
+  suppressMedia = false,
 }: {
   block: EbdEditorialBlock;
   done: boolean;
@@ -76,13 +291,23 @@ function EditorialBlock({
   onResponse: (value: string) => void;
   onRewardQuizQuestion: (questionRewardId: string) => Promise<void>;
   rewardedQuizQuestions: string[];
+  suppressMedia?: boolean;
 }) {
   const interactive = ['scripture', 'reflection', 'mission', 'quiz'].includes(block.type);
-  const quizSettings = block.type === 'quiz' ? getQuizSettings(block) : null;
+  const timelineItems = block.type === 'timeline'
+    ? normalizeTimelineItems(block.content)
+    : [];
+
   const [quizAnswers, setQuizAnswers] = useState<Record<string, number[]>>({});
   const [quizSubmitted, setQuizSubmitted] = useState<Record<string, boolean>>({});
+  const [quizQuestionIndex, setQuizQuestionIndex] = useState(0);
 
-  const toggleQuizAnswer = (questionId: string, optionIndex: number, multiple: boolean) => {
+  const toggleQuizAnswer = (
+    questionId: string,
+    optionIndex: number,
+    multiple: boolean,
+  ) => {
+    setQuizSubmitted(current => ({ ...current, [questionId]: false }));
     setQuizAnswers(current => {
       const previous = current[questionId] ?? [];
       const next = multiple
@@ -90,157 +315,581 @@ function EditorialBlock({
           ? previous.filter(answer => answer !== optionIndex)
           : [...previous, optionIndex].sort((a, b) => a - b)
         : [optionIndex];
+
       return { ...current, [questionId]: next };
     });
   };
 
-  const submitQuizQuestion = (questionId: string) => {
-    setQuizSubmitted(current => ({ ...current, [questionId]: true }));
-  };
-
   const sameAnswers = (left: number[], right: number[]) =>
-    left.length === right.length && left.every((value, index) => value === right[index]);
+    left.length === right.length
+    && left.every((value, index) => value === right[index]);
 
-  return (
-    <Card variant={block.type === 'mission' ? 'highlighted' : 'standard'} className="overflow-hidden p-5">
-      {block.mediaUrl && (block.type === 'hero' || block.type === 'video') && (
-        block.type === 'video'
-          ? <video controls preload="metadata" src={block.mediaUrl} className="mb-4 aspect-video w-full rounded-xl bg-black" />
-          : (
-            <div className="mb-4 flex w-full justify-center overflow-hidden rounded-xl bg-[var(--surface-highlighted)]">
-              <img
-                src={block.mediaUrl}
-                alt={block.altText || ''}
-                className="max-h-[32rem] max-w-full object-contain"
-              />
-            </div>
-          )
-      )}
-      <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--celebration)]">{block.type}</p>
-      <h3 className="mt-1 font-display text-lg text-[var(--text-primary)]">{block.title}</h3>
-      {block.reference && <p className="mt-2 text-xs font-semibold text-[var(--accent-primary)]">{block.reference}</p>}
-      {block.content && <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-[var(--text-secondary)]">{block.content}</p>}
-      {block.type === 'video' && !block.mediaUrl && (
-        <div className="mt-4 flex min-h-28 flex-col items-center justify-center rounded-xl bg-[var(--surface-highlighted)] text-[var(--text-muted)]">
-          <Play size={24} /><span className="mt-2 text-xs">Conteúdo em produção</span>
+  const mediaVisible = !suppressMedia && Boolean(block.mediaUrl?.trim());
+
+  if (block.type === 'hero') {
+    return (
+      <article className="ebd-v15-block ebd-v15-block--hero">
+        {mediaVisible && (
+          <img
+            className="ebd-v15-hero-block__art"
+            src={block.mediaUrl}
+            alt={block.altText || ''}
+          />
+        )}
+
+        <div className="ebd-v15-hero-block__veil" aria-hidden="true" />
+
+        <div className="ebd-v15-hero-block__copy">
+          <p className="ebd-v15-block__eyebrow">{blockLabel(block.type)}</p>
+          <h3>{block.title}</h3>
+
+          {block.reference && (
+            <p className="ebd-v15-block__reference">{block.reference}</p>
+          )}
+
+          {block.content && (
+            <p className="ebd-v15-block__body">{block.content}</p>
+          )}
         </div>
-      )}
-      {block.type === 'reflection' && (
-        <textarea
-          value={response}
-          onChange={event => onResponse(event.target.value)}
-          placeholder="Sua resposta permanece privada"
-          className="input-theme mt-4 min-h-28 w-full resize-y rounded-xl border p-3 text-sm"
-        />
-      )}
-      {block.type === 'quiz' && quizSettings && (
-        <div className="mt-4 space-y-4">
-          {quizSettings.questions.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-[var(--border)] p-4 text-sm text-[var(--text-muted)]">
-              Nenhuma pergunta configurada neste quiz.
-            </div>
-          ) : quizSettings.questions.map((question, questionIndex) => {
-            const selectedAnswers = quizAnswers[question.id] ?? [];
-            const submitted = quizSubmitted[question.id] ?? false;
-            const multiple = question.selectionMode === 'multiple';
-            const correct = sameAnswers(selectedAnswers, [...question.correctAnswers].sort((a, b) => a - b));
-            return (
-              <div key={question.id} className="rounded-2xl border border-[var(--border)] p-4">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--celebration)]">
-                  Pergunta {questionIndex + 1} {multiple ? '· Caixa de seleção' : '· Resposta única'}
-                </p>
-                <h4 className="mt-2 text-sm font-semibold text-[var(--text-primary)]">{question.prompt}</h4>
-                <div className="mt-3 space-y-2">
-                  {question.options.map((option, optionIndex) => {
-                    const inputType = multiple ? 'checkbox' : 'radio';
-                    const checked = selectedAnswers.includes(optionIndex);
-                    return (
-                      <label key={`${question.id}-${optionIndex}`} className="flex items-start gap-3 rounded-xl border border-[var(--border)] px-3 py-2 text-sm text-[var(--text-secondary)]">
-                        <input
-                          type={inputType}
-                          name={question.id}
-                          checked={checked}
-                          onChange={() => toggleQuizAnswer(question.id, optionIndex, multiple)}
-                          className="mt-0.5"
-                        />
-                        <span>{option}</span>
-                      </label>
-                    );
-                  })}
-                </div>
-                <Button
-                  variant="secondary"
-                  className="mt-3 w-full"
-                  onClick={() => {
-                    submitQuizQuestion(question.id);
-                    if (correct) {
-                      void onRewardQuizQuestion(`${block.id}:${question.id}`);
-                    }
-                  }}
-                  disabled={selectedAnswers.length === 0}
-                >
-                  <Check size={16} /> Verificar resposta
-                </Button>
-                {submitted && (
-                  <div className={`mt-3 rounded-xl border px-3 py-3 text-sm ${correct ? 'border-[var(--success)]/40 bg-[var(--success)]/10 text-[var(--text-primary)]' : 'border-[var(--danger)]/30 bg-[var(--danger)]/10 text-[var(--text-primary)]'}`}>
-                    <p className="font-semibold">{correct ? 'Resposta correta' : 'Resposta incorreta'}</p>
-                    {question.explanation && <p className="mt-1 text-[var(--text-secondary)]">{question.explanation}</p>}
-                    {correct && rewardedQuizQuestions.includes(`${block.id}:${question.id}`) && (
-                      <p className="mt-1 text-[var(--accent-primary)]">+{KESEF_VALORES.QUIZ_ACERTO} Kesef · +{XP_ACOES.QUIZ} XP</p>
-                    )}
-                  </div>
-                )}
+      </article>
+    );
+  }
+
+  if (block.type === 'scripture') {
+    return (
+      <article className="ebd-v15-block ebd-v15-block--scripture">
+        <img className="ebd-match-leaf" src={leafArt} alt="" aria-hidden="true" />
+        <div className="ebd-v15-block__icon" aria-hidden="true">
+          <BookOpen size={25} />
+        </div>
+
+        <div className="ebd-v15-scripture__copy">
+          <p className="ebd-v15-block__eyebrow">{blockLabel(block.type)}</p>
+          <h3>{block.title}</h3>
+
+          {block.reference && <p className="ebd-v15-scripture__reference">{block.reference}</p>}
+          {block.content && (
+            <blockquote>{block.content}</blockquote>
+          )}
+
+          {interactive && (
+            <button
+              type="button"
+              className={`ebd-v15-inline-action ${done ? 'is-done' : ''}`}
+              onClick={onDone}
+            >
+              <Check size={15} aria-hidden="true" />
+              {done ? 'Leitura concluída' : 'Concluir leitura'}
+            </button>
+          )}
+        </div>
+      </article>
+    );
+  }
+
+  if (block.type === 'character') {
+    return (
+      <article className="ebd-v15-block ebd-v15-block--character">
+        {mediaVisible && (
+          <div className="ebd-v15-character__media">
+            <img src={block.mediaUrl} alt={block.altText || ''} />
+          </div>
+        )}
+
+        <div className="ebd-v15-character__copy">
+          <p className="ebd-v15-block__eyebrow">{blockLabel(block.type)}</p>
+          <h3>{block.title}</h3>
+
+          {block.reference && (
+            <p className="ebd-v15-block__reference">{block.reference}</p>
+          )}
+
+          {block.content && (
+            <p className="ebd-v15-block__body">{block.content}</p>
+          )}
+        </div>
+      </article>
+    );
+  }
+
+  if (block.type === 'timeline') {
+    return (
+      <article className="ebd-v15-block ebd-v15-block--timeline">
+        <img className="ebd-match-leaf" src={leafArt} alt="" aria-hidden="true" />
+        <header className="ebd-v15-block__header">
+          <div className="ebd-v15-block__icon" aria-hidden="true">
+            <Lightbulb size={24} />
+          </div>
+          <div>
+            <h3>{block.title}</h3>
+          </div>
+        </header>
+
+        {block.reference && (
+          <p className="ebd-v15-block__reference">{block.reference}</p>
+        )}
+
+        <div className="ebd-v15-timeline">
+          {(timelineItems.length > 0
+            ? timelineItems
+            : [{
+                id: 'single',
+                title: 'Contexto',
+                content: block.content || '',
+              }]
+          ).map((item, index) => (
+            <div key={item.id} className="ebd-v15-timeline__item">
+              <span aria-hidden="true">{index + 1}</span>
+              <div>
+                <strong>{item.title}</strong>
+                {item.content && <p>{item.content}</p>}
               </div>
+            </div>
+          ))}
+        </div>
+      </article>
+    );
+  }
+
+  if (block.type === 'reflection') {
+    return (
+      <article className="ebd-v15-block ebd-v15-block--reflection">
+        <header className="ebd-v15-block__header">
+          <div className="ebd-v15-block__icon" aria-hidden="true">
+            <Lightbulb size={26} />
+          </div>
+          <div>
+            <p className="ebd-v15-block__eyebrow">{blockLabel(block.type)}</p>
+            <h3>{block.title}</h3>
+          </div>
+        </header>
+
+        {block.content && (
+          <p className="ebd-v15-block__body">{block.content}</p>
+        )}
+
+        {block.prompt && (
+          <p className="ebd-v15-reflection__prompt">{block.prompt}</p>
+        )}
+
+        <label className="ebd-v15-reflection__field">
+          <span>Sua reflexão <span>(opcional)</span></span>
+          <textarea
+            value={response}
+            maxLength={1000}
+            onChange={event => onResponse(event.target.value)}
+            placeholder="Escreva sua reflexão. Ela permanece privada."
+          />
+          <small className="ebd-match-response-count">{response.length}/1000</small>
+        </label>
+
+        <p className="ebd-match-private"><LockKeyhole size={13} /> Sua resposta é privada</p>
+
+        <button
+          type="button"
+          className={`ebd-v15-full-action ${done ? 'is-done' : ''}`}
+          onClick={onDone}
+        >
+          <Check size={17} aria-hidden="true" />
+          {done ? 'Reflexão concluída' : 'Marcar como refletido'}
+          <ChevronRight size={17} aria-hidden="true" />
+        </button>
+      </article>
+    );
+  }
+
+  if (block.type === 'mission') {
+    const generosity = /generosidade/i.test(block.title);
+    const actions = generosity ? [
+      { title: 'Ajude alguém de forma discreta', description: 'Faça algo por alguém que precisa, sem divulgar e sem esperar reconhecimento.' },
+      { title: 'Doe algo sem esperar retorno', description: 'Contribua com tempo, recursos ou talentos, com um coração livre.' },
+      { title: 'Sirva com gratidão', description: 'Coloque seus dons a serviço, agradecendo a Deus pela oportunidade de abençoar outras pessoas.' },
+    ] : splitEditorialLines(block.prompt).map(title => ({ title, description: '' }));
+    let selected: number[] = [];
+    try { const parsed = JSON.parse(response || '[]'); if (Array.isArray(parsed)) selected = parsed.filter(value => Number.isInteger(value)); } catch { /* resposta anterior em texto */ }
+    return (
+      <article className="ebd-v15-block ebd-v15-block--mission">
+        <div className="ebd-v15-mission__flare" aria-hidden="true" />
+
+        <header className="ebd-v15-block__header">
+          <div className="ebd-v15-block__icon" aria-hidden="true">
+            <Target size={27} />
+          </div>
+          <div>
+            <p className="ebd-v15-block__eyebrow">{blockLabel(block.type)}</p>
+            <h3>{block.title}</h3>
+          </div>
+        </header>
+
+        {block.content && (
+          <p className="ebd-v15-block__body">{block.content}</p>
+        )}
+
+        {block.prompt && (
+          <p className="ebd-v15-mission__prompt">{block.prompt}</p>
+        )}
+
+        {actions.length > 0 && <>
+          <h3>Coloque em prática</h3>
+          <p className="ebd-v15-block__body">Escolha atitudes simples para viver esta missão durante a semana.</p>
+          <div className="ebd-match-mission-list">{actions.map((action, i) => {
+            const Icon = [Users, Heart, Hand][i % 3];
+            return <label key={action.title}><input type="checkbox" checked={selected.includes(i)} onChange={() => onResponse(JSON.stringify(selected.includes(i) ? selected.filter(value => value !== i) : [...selected, i]))} /><span className="ebd-match-icon"><Icon size={24} /></span><span><strong>{action.title}</strong>{action.description && <p>{action.description}</p>}</span></label>;
+          })}</div>
+          <div className="ebd-match-callout ebd-match-callout--green">
+            <span className="ebd-match-callout__icon">
+              <Sprout size={22} />
+            </span>
+            <div>
+              <strong>Você faz a diferença!</strong>
+              <p>Cada gesto de generosidade sem barganha espalha o amor de Cristo e edifica o Seu Reino.</p>
+            </div>
+          </div>
+        </>}
+
+        <button
+          type="button"
+          className={`ebd-v15-mission__action ${done ? 'is-done' : ''}`}
+          onClick={onDone}
+        >
+          <span>
+            {done ? <Check size={17} aria-hidden="true" /> : <Flag size={18} aria-hidden="true" />}
+          </span>
+          {done ? 'Missão concluída' : 'Concluir missão'}
+          <ChevronRight size={18} aria-hidden="true" />
+        </button>
+      </article>
+    );
+  }
+
+  if (block.type === 'prayer') {
+    return (
+      <>
+      <article className="ebd-v15-block ebd-v15-block--prayer">
+        <img className="ebd-match-leaf" src={leafArt} alt="" aria-hidden="true" />
+        <div className="ebd-v15-prayer__icon" aria-hidden="true">
+          <Hand size={23} />
+        </div>
+
+        <div className="ebd-v15-prayer__copy">
+          <p className="ebd-v15-block__eyebrow">{blockLabel(block.type)}</p>
+          <h3>Oração guiada</h3>
+
+          {block.content && (
+            <p className="ebd-v15-prayer__text">{block.content}</p>
+          )}
+
+          {block.reference && (
+            <p className="ebd-v15-block__reference">{block.reference}</p>
+          )}
+        </div>
+      </article>
+      {block.prompt && <article className="ebd-v15-block ebd-match-prayer-intentions"><img className="ebd-match-leaf" src={leafArt} alt="" aria-hidden="true" /><h3>Ore também por:</h3><ol>{splitEditorialLines(block.prompt).map(line => <li key={line}>{line}</li>)}</ol></article>}
+      </>
+    );
+  }
+
+  if (block.type === 'video') {
+    return (
+      <article className="ebd-v15-block ebd-v15-block--video">
+        <header className="ebd-v15-block__header">
+          <div className="ebd-v15-block__icon" aria-hidden="true">
+            <Video size={20} />
+          </div>
+          <div>
+            <p className="ebd-v15-block__eyebrow">{blockLabel(block.type)}</p>
+            <h3>{block.title}</h3>
+          </div>
+        </header>
+
+        {block.mediaUrl ? (
+          <video
+            controls
+            preload="metadata"
+            src={block.mediaUrl}
+            className="ebd-v15-video__frame"
+          />
+        ) : (
+          <div className="ebd-v15-video__placeholder">
+            <Play size={25} aria-hidden="true" />
+            <span>Conteúdo em produção</span>
+          </div>
+        )}
+
+        {block.content && (
+          <p className="ebd-v15-block__body">{block.content}</p>
+        )}
+      </article>
+    );
+  }
+
+  if (block.type === 'quiz') {
+    const questions = getQuizSettings(block).questions;
+    const safeQuestionIndex = Math.min(
+      quizQuestionIndex,
+      Math.max(questions.length - 1, 0),
+    );
+    const question = questions[safeQuestionIndex];
+
+    if (!question) {
+      return (
+        <article className="ebd-v15-block ebd-v15-block--quiz">
+          <header className="ebd-v15-block__header">
+            <div className="ebd-v15-block__icon" aria-hidden="true">
+              <Check size={20} />
+            </div>
+            <div>
+              <p className="ebd-v15-block__eyebrow">Perguntas</p>
+              <h3>{block.title}</h3>
+            </div>
+          </header>
+          <div className="ebd-v15-quiz__empty">
+            Nenhuma pergunta configurada neste quiz.
+          </div>
+        </article>
+      );
+    }
+
+    const selectedAnswers = quizAnswers[question.id] ?? [];
+    const submitted = quizSubmitted[question.id] ?? false;
+    const multiple = question.selectionMode === 'multiple';
+    const correct = sameAnswers(
+      selectedAnswers,
+      [...question.correctAnswers].sort((a, b) => a - b),
+    );
+    const lastQuestion = safeQuestionIndex === questions.length - 1;
+
+    return (
+      <article className="ebd-v15-block ebd-v15-block--quiz ebd-v16-quiz">
+        <header className="ebd-v16-quiz__head">
+          <div className="ebd-v16-quiz__icon" aria-hidden="true"><CircleHelp size={32} /></div>
+          <div>
+            <p className="ebd-v15-block__eyebrow">
+              Pergunta {safeQuestionIndex + 1} de {questions.length}
+            </p>
+            <h3>{question.prompt}</h3>
+          </div>
+        </header>
+
+        {block.content && safeQuestionIndex === 0 && (
+          <p className="ebd-v15-block__body">{block.content}</p>
+        )}
+
+        <div className="ebd-v15-quiz__options ebd-v16-quiz__options">
+          {question.options.map((option, optionIndex) => {
+            const inputType = multiple ? 'checkbox' : 'radio';
+            const checked = selectedAnswers.includes(optionIndex);
+
+            return (
+              <label
+                key={`${question.id}-${optionIndex}`}
+                className={checked ? 'is-selected' : ''}
+              >
+                <input
+                  type={inputType}
+                  name={question.id}
+                  checked={checked}
+                  onChange={() =>
+                    toggleQuizAnswer(question.id, optionIndex, multiple)
+                  }
+                />
+                <span>{option}</span>
+              </label>
             );
           })}
         </div>
-      )}
-      {interactive && (
-        <Button variant={done ? 'secondary' : 'primary'} className="mt-4 w-full" onClick={onDone} disabled={block.type === 'reflection' && response.trim().length < 3}>
-          <Check size={16} /> {done ? 'Concluído' : 'Marcar como concluído'}
-        </Button>
-      )}
-    </Card>
-  );
+
+        {!submitted ? (
+          <button
+            type="button"
+            className="ebd-v16-quiz__verify"
+            onClick={() => {
+              setQuizSubmitted(current => ({
+                ...current,
+                [question.id]: true,
+              }));
+
+              if (correct) {
+                void onRewardQuizQuestion(`${block.id}:${question.id}`);
+              }
+            }}
+            disabled={selectedAnswers.length === 0}
+          >
+            <span><Check size={17} aria-hidden="true" /></span>
+            Verificar resposta
+            <ChevronRight size={18} aria-hidden="true" />
+          </button>
+        ) : (
+          <div
+            className={`ebd-v15-quiz__feedback ${
+              correct ? 'is-correct' : 'is-wrong'
+            }`}
+          >
+            <strong>
+              {correct ? 'Resposta correta' : 'Resposta incorreta'}
+            </strong>
+
+            {question.explanation && <p>{question.explanation}</p>}
+
+            {correct && rewardedQuizQuestions.includes(
+              `${block.id}:${question.id}`,
+            ) && (
+              <small>
+                +{KESEF_VALORES.QUIZ_ACERTO} Kesef · +{XP_ACOES.QUIZ} XP
+              </small>
+            )}
+          </div>
+        )}
+
+        {submitted && correct && (
+          <button
+            type="button"
+            className="ebd-v16-quiz__next"
+            onClick={() => {
+              if (lastQuestion) {
+                if (!done) onDone();
+                return;
+              }
+              setQuizQuestionIndex(current => current + 1);
+            }}
+          >
+            {lastQuestion ? 'Concluir perguntas' : 'Próxima pergunta'}
+            <ChevronRight size={17} aria-hidden="true" />
+          </button>
+        )}
+      </article>
+    );
+  }
+
+  if (block.type === 'text') {
+    return (
+      <article className="ebd-v15-block ebd-v15-block--text">
+        <header className="ebd-v15-block__header">
+          <div className="ebd-v15-block__icon" aria-hidden="true">
+            <FileText size={20} />
+          </div>
+          <div>
+            <p className="ebd-v15-block__eyebrow">Estudo</p>
+            <h3>{block.title}</h3>
+          </div>
+        </header>
+
+        {block.reference && (
+          <p className="ebd-v15-block__reference">{block.reference}</p>
+        )}
+
+        {block.content && (
+          <div className="ebd-v16-text-reading">
+            {block.content
+              .split(/\n{2,}/)
+              .map(paragraph => paragraph.trim())
+              .filter(Boolean)
+              .map(paragraph => (
+                <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+              ))}
+          </div>
+        )}
+      </article>
+    );
+  }
+
+  return assertNeverBlock(block.type);
 }
 
-export default function EbdJourney({ lesson, isAdmin = false }: { lesson: EbdEditorialLesson; isAdmin?: boolean }) {
+export default function EbdJourney({
+  lesson,
+  isAdmin = false,
+}: {
+  lesson: EbdEditorialLesson;
+  isAdmin?: boolean;
+}) {
   const toast = useToast();
   const [dayIndex, setDayIndex] = useState<number | null>(null);
-  const [progress, setProgress] = useState<ProgressState>(() => readProgress(lesson.id));
+  const [sessionIndex, setSessionIndex] = useState(0);
+  const [progress, setProgress] = useState<ProgressState>(() =>
+    readProgress(lesson.id),
+  );
   const hydratedRef = useRef(false);
-  const required = lesson.document.days.map(day => day.blocks.filter(block => block.required).map(block => block.id));
-  const completedDays = required.filter(ids => ids.length > 0 && ids.every(id => progress.completedBlocks.includes(id))).length;
-  const coverImageUrl = getEditorialCoverImage(lesson.document);
+
+  const required = lesson.document.days.map(day =>
+    day.blocks.filter(block => block.required).map(block => block.id),
+  );
   const totalRequiredBlocks = required.flat().length;
+  const coverImageUrl = getEditorialCoverImage(lesson.document);
+
+  const dayIsComplete = (index: number) => {
+    const ids = required[index] ?? [];
+    if (ids.length === 0) {
+      return progress.rewardedDays.includes(lesson.document.days[index]?.id);
+    }
+    return ids.every(id => progress.completedBlocks.includes(id));
+  };
+
+  const completedDays = lesson.document.days.filter((_, index) =>
+    dayIsComplete(index),
+  ).length;
 
   useEffect(() => {
     let active = true;
-    getEbdProgress(lesson.id, lesson.version).then(remote => {
-      if (!active || !remote) return;
-      const merged: ProgressState = {
-        completedBlocks: [...new Set([...progress.completedBlocks, ...remote.completedBlocks])],
-        responses: { ...progress.responses, ...remote.responses },
-        rewardedDays: [...new Set([...progress.rewardedDays, ...remote.rewardedDays])],
-        rewardedQuizQuestions: [...new Set([...progress.rewardedQuizQuestions, ...remote.rewardedQuizQuestions])],
-        currentDayId: remote.currentDayId || progress.currentDayId,
-        currentBlockId: remote.currentBlockId || progress.currentBlockId,
-      };
-      setProgress(merged);
-      localStorage.setItem(progressKey(lesson.id), JSON.stringify(merged));
-    }).catch(() => undefined).finally(() => { hydratedRef.current = true; });
-    return () => { active = false; };
-    // A hidratação ocorre uma vez por versão; o progresso local inicial é a base de mesclagem offline.
+
+    getEbdProgress(lesson.id, lesson.version)
+      .then(remote => {
+        if (!active || !remote) return;
+
+        const merged: ProgressState = {
+          completedBlocks: [
+            ...new Set([
+              ...progress.completedBlocks,
+              ...remote.completedBlocks,
+            ]),
+          ],
+          responses: { ...progress.responses, ...remote.responses },
+          rewardedDays: [
+            ...new Set([...progress.rewardedDays, ...remote.rewardedDays]),
+          ],
+          rewardedQuizQuestions: [
+            ...new Set([
+              ...progress.rewardedQuizQuestions,
+              ...remote.rewardedQuizQuestions,
+            ]),
+          ],
+          currentDayId: remote.currentDayId || progress.currentDayId,
+          currentBlockId: remote.currentBlockId || progress.currentBlockId,
+        };
+
+        setProgress(merged);
+        localStorage.setItem(progressKey(lesson.id), JSON.stringify(merged));
+      })
+      .catch(() => undefined)
+      .finally(() => {
+        hydratedRef.current = true;
+      });
+
+    return () => {
+      active = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lesson.id, lesson.version]);
 
   useEffect(() => {
     if (!hydratedRef.current) return;
+
     const timer = setTimeout(() => {
-      void saveEbdProgress(lesson.id, lesson.version, progress, totalRequiredBlocks).catch(() => undefined);
+      void saveEbdProgress(
+        lesson.id,
+        lesson.version,
+        progress,
+        totalRequiredBlocks,
+      ).catch(() => undefined);
     }, 700);
+
     return () => clearTimeout(timer);
-  }, [lesson.id, lesson.version, progress, totalRequiredBlocks]);
+  }, [
+    lesson.id,
+    lesson.version,
+    progress,
+    totalRequiredBlocks,
+  ]);
 
   const persist = (next: ProgressState) => {
     setProgress(next);
@@ -249,65 +898,99 @@ export default function EbdJourney({ lesson, isAdmin = false }: { lesson: EbdEdi
 
   const openDay = (index: number) => {
     const day = lesson.document.days[index];
+    if (!day || !isAvailable(lesson, day)) return;
+
+    const pendingBlock = day.blocks.find(
+      block => !progress.completedBlocks.includes(block.id),
+    );
+    const currentBlockId =
+      progress.currentDayId === day.id
+        ? progress.currentBlockId
+        : pendingBlock?.id ?? day.blocks[0]?.id ?? null;
+
     persist({
       ...progress,
       currentDayId: day.id,
-      currentBlockId: day.blocks.find(block => !progress.completedBlocks.includes(block.id))?.id || day.blocks[0]?.id || null,
+      currentBlockId,
     });
+    setSessionIndex(-1);
     setDayIndex(index);
   };
 
   const rewardDayCompletion = async (day: EbdEditorialDay) => {
-    if (progress.rewardedDays.includes(day.id)) {
-      return;
-    }
+    if (progress.rewardedDays.includes(day.id)) return;
 
     try {
       await Promise.all([
-        creditarKesef('licao', KESEF_VALORES.LICAO_CONCLUIDA, `${lesson.id}:${day.id}`),
+        creditarKesef(
+          'licao',
+          KESEF_VALORES.LICAO_CONCLUIDA,
+          `${lesson.id}:${day.id}`,
+        ),
         creditarXp(XP_ACOES.LICAO, `${lesson.id}:${day.id}`),
       ]);
+
       const next = {
         ...progress,
         rewardedDays: [...progress.rewardedDays, day.id],
       };
+
       persist(next);
-      toast.success(`${day.label} concluído · +${KESEF_VALORES.LICAO_CONCLUIDA} Kesef · +${XP_ACOES.LICAO} XP`);
+      toast.success(
+        `${day.label} concluído · +${KESEF_VALORES.LICAO_CONCLUIDA} Kesef · +${XP_ACOES.LICAO} XP`,
+      );
     } catch {
-      toast.error('O dia foi concluído, mas a recompensa não pôde ser registrada agora.');
+      toast.error(
+        'O dia foi concluído, mas a recompensa não pôde ser registrada agora.',
+      );
     }
   };
 
   const rewardQuizQuestion = async (rewardId: string) => {
-    if (progress.rewardedQuizQuestions.includes(rewardId)) {
-      return;
-    }
+    if (progress.rewardedQuizQuestions.includes(rewardId)) return;
 
     try {
       await Promise.all([
-        creditarKesef('quiz_acerto', KESEF_VALORES.QUIZ_ACERTO, `${lesson.id}:${rewardId}`),
+        creditarKesef(
+          'quiz_acerto',
+          KESEF_VALORES.QUIZ_ACERTO,
+          `${lesson.id}:${rewardId}`,
+        ),
         creditarXp(XP_ACOES.QUIZ, `${lesson.id}:${rewardId}`),
       ]);
-      const next = {
+
+      persist({
         ...progress,
-        rewardedQuizQuestions: [...progress.rewardedQuizQuestions, rewardId],
-      };
-      persist(next);
+        rewardedQuizQuestions: [
+          ...progress.rewardedQuizQuestions,
+          rewardId,
+        ],
+      });
     } catch {
-      toast.error('A resposta foi validada, mas a recompensa do quiz não pôde ser registrada agora.');
+      toast.error(
+        'A resposta foi validada, mas a recompensa do quiz não pôde ser registrada agora.',
+      );
     }
   };
 
-  const toggleBlockCompletion = (day: EbdEditorialDay, blockId: string) => {
+  const toggleBlockCompletion = (
+    day: EbdEditorialDay,
+    blockId: string,
+  ) => {
     const exists = progress.completedBlocks.includes(blockId);
     const completedBlocks = exists
       ? progress.completedBlocks.filter(id => id !== blockId)
       : [...progress.completedBlocks, blockId];
+
     const next = { ...progress, completedBlocks };
     persist(next);
 
-    const requiredIds = day.blocks.filter(block => block.required).map(block => block.id);
-    const completedNow = requiredIds.length > 0 && requiredIds.every(id => completedBlocks.includes(id));
+    const requiredIds = day.blocks
+      .filter(block => block.required)
+      .map(block => block.id);
+    const completedNow =
+      requiredIds.length > 0
+      && requiredIds.every(id => completedBlocks.includes(id));
     const rewardedAlready = next.rewardedDays.includes(day.id);
 
     if (!exists && completedNow && !rewardedAlready) {
@@ -315,120 +998,358 @@ export default function EbdJourney({ lesson, isAdmin = false }: { lesson: EbdEdi
     }
   };
 
+  const availableIndexes = lesson.document.days
+    .map((day, index) => ({ day, index }))
+    .filter(item => isAvailable(lesson, item.day))
+    .map(item => item.index);
+
+  const firstPending = lesson.document.days.findIndex(
+    (day, index) =>
+      isAvailable(lesson, day) && !dayIsComplete(index),
+  );
+  const continueIndex =
+    firstPending >= 0
+      ? firstPending
+      : (availableIndexes[0] ?? 0);
+  const continueDay =
+    lesson.document.days[continueIndex] ?? lesson.document.days[0];
+  const continueLead =
+    continueDay ? getLeadBlock(continueDay) : null;
+  const weeklyPercent = Math.round((completedDays / 7) * 100);
+
   if (dayIndex !== null) {
     const day = lesson.document.days[dayIndex];
     const available = isAvailable(lesson, day);
-    return (
-      <div className="ebd-journey-page space-y-5 px-5 pb-8 pt-6">
-        <Button variant="ghost" className="!px-2" onClick={() => setDayIndex(null)}><ArrowLeft size={17} /> Jornada</Button>
-        <header>
-          <p className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)]">{day.label} · {day.purpose}</p>
-          {!isRedundantEditorialTitle(day.title, day.label) && (
-            <h1 className="mt-2 font-display text-2xl text-[var(--text-primary)]">{day.title}</h1>
-          )}
-          <p className="mt-1 text-sm text-[var(--text-secondary)]">{day.subtitle}</p>
-          <p className="mt-3 flex items-center gap-2 text-xs text-[var(--text-muted)]"><Clock3 size={14} /> {day.estimatedMinutes} minutos</p>
-        </header>
-        {!available ? (
-          <Card className="p-7 text-center">
-            <LockKeyhole size={28} className="mx-auto text-[var(--text-muted)]" />
-            <h2 className="mt-4 font-display text-lg text-[var(--text-primary)]">Conteúdo programado</h2>
-            <p className="mt-2 text-sm text-[var(--text-secondary)]">
+    const leadBlock = getLeadBlock(day);
+    const sessions = buildLessonSessions(day);
+    const safeSessionIndex = Math.max(0, Math.min(
+      sessionIndex,
+      Math.max(sessions.length - 1, 0),
+    ));
+    const activeSession = sessions[safeSessionIndex];
+    const nextSession = sessions[safeSessionIndex + 1];
+
+    const activeRequired = activeSession?.blocks.filter(block => block.required) ?? [];
+    const activeInteractiveRequired = activeRequired.filter(block =>
+      ['reflection', 'mission', 'quiz'].includes(block.type),
+    );
+    const activeInteractiveComplete = activeInteractiveRequired.every(block =>
+      progress.completedBlocks.includes(block.id),
+    );
+
+    const completePassiveSessionBlocks = () => {
+      if (!activeSession) return progress;
+
+      const passiveIds = activeSession.blocks
+        .filter(block => !['reflection', 'mission', 'quiz'].includes(block.type))
+        .map(block => block.id);
+      const completedBlocks = [
+        ...new Set([...progress.completedBlocks, ...passiveIds]),
+      ];
+
+      const next: ProgressState = {
+        ...progress,
+        completedBlocks,
+        currentDayId: day.id,
+        currentBlockId: nextSession?.blocks[0]?.id ?? null,
+      };
+
+      persist(next);
+      return next;
+    };
+
+    const advanceSession = () => {
+      if (!activeSession) return;
+
+      if (!activeInteractiveComplete) {
+        toast.info('Conclua a atividade desta sessão para continuar.');
+        return;
+      }
+
+      const nextProgress = completePassiveSessionBlocks();
+
+      if (nextSession) {
+        setSessionIndex(current => current + 1);
+        requestAnimationFrame(() => {
+          document
+            .querySelector('.ebd-v16-session-page')
+            ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        return;
+      }
+
+      const requiredIds = required[dayIndex] ?? [];
+      const completedAfterSession = new Set(nextProgress.completedBlocks);
+      const allRequiredComplete = requiredIds.every(id =>
+        completedAfterSession.has(id),
+      );
+
+      if (!allRequiredComplete) {
+        toast.info('Ainda existe uma atividade obrigatória nesta jornada.');
+        return;
+      }
+
+      if (!nextProgress.rewardedDays.includes(day.id)) {
+        void rewardDayCompletion(day);
+      }
+      setDayIndex(null);
+      setSessionIndex(0);
+    };
+
+    const renderSessionBlocks = () => {
+      if (!activeSession) return null;
+
+      return activeSession.blocks.map(block => (
+        <EditorialBlock
+          key={block.id}
+          block={block}
+          suppressMedia={activeSession.kind === 'opening' && leadBlock?.id === block.id}
+          done={progress.completedBlocks.includes(block.id)}
+          response={progress.responses[block.id] ?? ''}
+          onDone={() => toggleBlockCompletion(day, block.id)}
+          onResponse={value =>
+            persist({
+              ...progress,
+              responses: {
+                ...progress.responses,
+                [block.id]: value,
+              },
+            })
+          }
+          onRewardQuizQuestion={rewardQuizQuestion}
+          rewardedQuizQuestions={progress.rewardedQuizQuestions}
+        />
+      ));
+    };
+
+    if (!available) {
+      return (
+        <div className="ebd-v14-page ebd-v14-day-page">
+          <EbdBrandHeader leaf={brandLeafLight} />
+          <button
+            type="button"
+            className="ebd-v14-back"
+            onClick={() => setDayIndex(null)}
+          >
+            <ArrowLeft size={17} aria-hidden="true" />
+            Jornada
+          </button>
+          <section className="ebd-v14-card ebd-v14-locked">
+            <LockKeyhole size={30} aria-hidden="true" />
+            <h2>Conteúdo programado</h2>
+            <p>
               {day.unlocksAt
-                ? `Disponível em ${new Date(day.unlocksAt).toLocaleString('pt-BR', { dateStyle: 'long', timeStyle: 'short' })}.`
+                ? `Disponível em ${new Date(day.unlocksAt).toLocaleString(
+                    'pt-BR',
+                    { dateStyle: 'long', timeStyle: 'short' },
+                  )}.`
                 : 'Aguardando liberação editorial.'}
             </p>
-            <p className="mt-3 text-xs text-[var(--text-muted)]">A antecipação solidária será adicionada na próxima etapa.</p>
-          </Card>
-        ) : day.blocks.map(block => (
-          <EditorialBlock
-            key={block.id}
-            block={block}
-            done={progress.completedBlocks.includes(block.id)}
-            response={progress.responses[block.id] ?? ''}
-            onDone={() => toggleBlockCompletion(day, block.id)}
-            onResponse={value => persist({ ...progress, responses: { ...progress.responses, [block.id]: value } })}
-            onRewardQuizQuestion={rewardQuizQuestion}
-            rewardedQuizQuestions={progress.rewardedQuizQuestions}
-          />
-        ))}
-      </div>
+          </section>
+        </div>
+      );
+    }
+
+    return (
+      <EbdLessonView
+        lesson={lesson}
+        day={day}
+        sessions={sessions}
+        index={sessionIndex}
+        currentBlockId={progress.currentBlockId}
+        completedBlocks={progress.completedBlocks}
+        onBack={() => setDayIndex(null)}
+        onSelect={index => {
+          setSessionIndex(index);
+          if (index >= 0) persist({ ...progress, currentDayId: day.id, currentBlockId: sessions[index]?.blocks[0]?.id ?? null });
+          document.querySelector('.app-shell__main')?.scrollTo({ top: 0 });
+        }}
+        onAdvance={advanceSession}
+        onFinish={() => {
+          if (!(required[dayIndex] ?? []).every(id => progress.completedBlocks.includes(id))) return;
+          if (!progress.rewardedDays.includes(day.id)) void rewardDayCompletion(day);
+          setDayIndex(null);
+        }}
+        canAdvance={activeSession?.kind === 'opening' || activeSession?.kind === 'study' || activeSession?.kind === 'prayer' || activeInteractiveComplete}
+      >
+        {renderSessionBlocks()}
+      </EbdLessonView>
     );
   }
 
-  const firstPending = lesson.document.days.findIndex((day, index) => isAvailable(lesson, day) && !required[index].every(id => progress.completedBlocks.includes(id)));
-  const continueIndex = firstPending >= 0 ? firstPending : 0;
-  const today = lesson.document.days[continueIndex];
-
   return (
-    <div className="ebd-journey-page space-y-5 px-5 pb-8 pt-6">
-      <header className="relative overflow-hidden rounded-[1.7rem] border border-[var(--celebration-border)] bg-[var(--surface-highlighted)] p-5">
-        <div className="flex items-start gap-4">
-          <div className="grid size-24 shrink-0 place-items-center overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm">
-            {coverImageUrl
-              ? <img src={coverImageUrl} alt={`Capa da lição ${lesson.number}`} className="size-full object-contain" />
-              : <BookOpen size={28} className="text-[var(--accent-primary)]" />}
-          </div>
-          <div className="min-w-0 flex-1 py-0.5">
-            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--celebration)]">Escola Bíblica Digital · Lição {lesson.number}</p>
-            <h1 className="mt-2 line-clamp-2 font-display text-2xl leading-tight text-[var(--text-primary)]">{lesson.title}</h1>
-            {lesson.subtitle && <p className="mt-1 line-clamp-2 text-sm leading-snug text-[var(--text-secondary)]">{lesson.subtitle}</p>}
-            {lesson.document.periodLabel && <p className="mt-2 text-xs text-[var(--text-muted)]">{lesson.document.periodLabel}</p>}
-          </div>
+    <div className="ebd-v14-page ebd-v14-overview">
+      <EbdBrandHeader leaf={brandLeafLight} />
+
+      <section className="ebd-v14-intro">
+        <div>
+          <h1>EBD</h1>
+          <p>Aprenda, acompanhe e viva a Palavra.</p>
         </div>
-        {lesson.document.releaseMode === 'immediate' && (
-          <p className="mt-4 inline-flex rounded-full border border-[var(--accent-border)] bg-[var(--accent-soft)] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--accent-primary)]">
-            Publicada agora
-          </p>
+
+        <DecorativeMotto leaf={brandLeafLight} />
+      </section>
+
+      <section className="ebd-v14-feature-card">
+        <div className="ebd-v14-feature-card__cover">
+          {coverImageUrl ? (
+            <img src={coverImageUrl} alt={`Capa da lição ${lesson.number}`} />
+          ) : (
+            <BookOpen size={34} aria-hidden="true" />
+          )}
+        </div>
+
+        <div className="ebd-v14-feature-card__content">
+          <p>Escola Bíblica Digital · Lição {lesson.number}</p>
+          <h2>Nova lição {lesson.number}</h2>
+          <h3>{lesson.title}</h3>
+          <span className="ebd-v14-gold-line" aria-hidden="true" />
+
+          <button
+            type="button"
+            className="ebd-v14-access-lesson"
+            onClick={() => openDay(continueIndex)}
+            disabled={!continueDay || !isAvailable(lesson, continueDay)}
+          >
+            <span>
+              <BookOpen size={21} aria-hidden="true" />
+            </span>
+            Acessar lição
+            <ChevronRight size={20} aria-hidden="true" />
+          </button>
+        </div>
+
+        {coverImageUrl && (
+          <img
+            className="ebd-v14-feature-card__ambient"
+            src={coverImageUrl}
+            alt=""
+            aria-hidden="true"
+          />
         )}
-      </header>
+      </section>
 
       {isAdmin && (
-        <InstitutionalAction to="/admin/ebd-studio" icon={<LayoutPanelTop size={17} />}>Abrir Estúdio Editorial</InstitutionalAction>
+        <InstitutionalAction
+          to="/admin/ebd-studio"
+          icon={<Grid2X2 size={18} />}
+          className="ebd-v14-studio-link"
+        >
+          Abrir Estúdio Editorial
+        </InstitutionalAction>
       )}
 
-      <Card className="p-5">
-        <div className="flex items-start justify-between gap-3">
-          <p className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)]">Continuar jornada</p>
-          <span className={`inline-flex rounded-full border px-2.5 py-1 text-[10px] font-semibold ${
-            lesson.document.releaseMode === 'immediate'
-              ? 'border-[var(--accent-primary)] bg-[var(--accent-soft)] text-[var(--accent-primary)]'
-              : 'border-[var(--border)] bg-[var(--surface-highlighted)] text-[var(--text-muted)]'
-          }`}>
-            {lesson.document.releaseMode === 'immediate' ? 'Publicada agora' : 'Agendada'}
+      <section className="ebd-v14-card ebd-v14-continue-card">
+        <div className="ebd-v14-continue-card__copy">
+          <p>Continuar jornada</p>
+          <h2>{continueDay?.title || 'Conteúdo da semana'}</h2>
+          <span>
+            <Clock3 size={15} aria-hidden="true" />
+            {continueDay?.label || 'EBD'}
+            {' · '}
+            {continueDay?.estimatedMinutes || 0} min
           </span>
-        </div>
-        <h2 className="mt-2 font-display text-xl text-[var(--text-primary)]">{today.title || 'Conteúdo da semana'}</h2>
-        <p className="mt-1 text-sm text-[var(--text-secondary)]">{today.label} · {today.estimatedMinutes} min</p>
-        <InstitutionalAction className="mt-4" icon={<BookOpen size={17} />} onClick={() => openDay(continueIndex)}>Continuar jornada</InstitutionalAction>
-      </Card>
 
-      <Card className="space-y-3 p-5">
-        <div className="flex justify-between"><h2 className="font-display text-lg text-[var(--text-primary)]">Progresso semanal</h2><span className="text-sm font-semibold text-[var(--accent-primary)]">{Math.round((completedDays / 7) * 100)}%</span></div>
-        <div className="grid grid-cols-7 gap-2">
+          <button
+            type="button"
+            onClick={() => openDay(continueIndex)}
+            disabled={!continueDay || !isAvailable(lesson, continueDay)}
+          >
+            <i aria-hidden="true">
+              <Play size={13} fill="currentColor" />
+            </i>
+            Continuar jornada
+            <ChevronRight size={18} aria-hidden="true" />
+          </button>
+        </div>
+
+        <div className="ebd-v14-continue-card__visual">
+          {continueLead?.mediaUrl || coverImageUrl ? (
+            <img
+              src={continueLead?.mediaUrl || coverImageUrl}
+              alt=""
+              aria-hidden="true"
+            />
+          ) : (
+            <BookOpen size={30} aria-hidden="true" />
+          )}
+        </div>
+      </section>
+
+      <section
+        className="ebd-v14-card ebd-v14-week-progress"
+        aria-labelledby="ebd-v14-progress-title"
+      >
+        <div className="ebd-v14-week-progress__head">
+          <h2 id="ebd-v14-progress-title">Progresso semanal</h2>
+          <strong>{weeklyPercent}%</strong>
+        </div>
+
+        <div className="ebd-v14-week-progress__days">
           {lesson.document.days.map((day, index) => {
-            const complete = required[index].length > 0 && required[index].every(id => progress.completedBlocks.includes(id));
+            const complete = dayIsComplete(index);
             const available = isAvailable(lesson, day);
+
             return (
-              <button key={day.id} type="button" onClick={() => openDay(index)} className="flex flex-col items-center gap-1">
-                <span className={`grid size-8 place-items-center rounded-full border text-[10px] font-bold ${complete ? 'border-[var(--accent-primary)] bg-[var(--accent-primary)] text-[var(--text-on-accent)]' : available ? 'border-[var(--accent-border)] bg-[var(--accent-soft)] text-[var(--accent-primary)]' : 'border-[var(--border)] text-[var(--text-muted)]'}`}>
-                  {complete ? <Check size={14} /> : available ? index + 1 : <LockKeyhole size={12} />}
+              <button
+                key={day.id}
+                type="button"
+                onClick={() => openDay(index)}
+                disabled={!available}
+                className={[
+                  complete ? 'is-complete' : '',
+                  available && !complete ? 'is-current' : '',
+                ].filter(Boolean).join(' ')}
+              >
+                <span>
+                  {complete ? (
+                    <Check size={17} aria-hidden="true" />
+                  ) : available ? (
+                    <i aria-hidden="true" />
+                  ) : null}
                 </span>
-                <span className="text-[9px] text-[var(--text-muted)]">{day.label.slice(0, 3)}</span>
+                <small>{day.label.slice(0, 3)}</small>
               </button>
             );
           })}
         </div>
-      </Card>
+      </section>
 
-      {lesson.document.weeklyMissionTitle && (
-        <Card variant="highlighted" className="p-5">
-          <Sparkles size={20} className="text-[var(--celebration)]" />
-          <p className="mt-3 text-xs font-bold uppercase tracking-wider text-[var(--celebration)]">Missão da semana</p>
-          <h2 className="mt-1 font-display text-lg text-[var(--text-primary)]">{lesson.document.weeklyMissionTitle}</h2>
-          <p className="mt-2 text-sm text-[var(--text-secondary)]">{lesson.document.weeklyMissionDescription}</p>
-        </Card>
-      )}
+      <Link to="/guia" className="ebd-v14-help-card">
+        <span aria-hidden="true">
+          <Lightbulb size={22} />
+        </span>
+        <strong>Como usar esta tela</strong>
+        <ChevronRight size={19} aria-hidden="true" />
+      </Link>
+    </div>
+  );
+}
+
+function EbdBrandHeader({ leaf }: { leaf: string }) {
+  return (
+    <div className="ebd-v14-brand-row">
+      <div className="ebd-v14-brand">
+        <img src={leaf} alt="" aria-hidden="true" />
+        <div>
+          <strong>Comunhão</strong>
+          <small>Juntos em uma caminhada com Deus</small>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DecorativeMotto({ leaf }: { leaf: string }) {
+  return (
+    <div className="ebd-v14-motto" aria-hidden="true">
+      <img src={leaf} alt="" />
+      <span>
+        Mais conhecimento.<br />
+        Mais vida<br />
+        com Deus.
+      </span>
+      <i />
     </div>
   );
 }

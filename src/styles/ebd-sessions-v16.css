@@ -1,0 +1,752 @@
+/*
+ * EBD V16 — Sessões aprovadas
+ * Referência: mockups Amanhecer validados pelo usuário.
+ */
+
+.ebd-v16-session-page {
+  scroll-behavior: smooth;
+}
+
+.ebd-v16-session-hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 218px;
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 0 0 28px 28px;
+}
+
+.ebd-v16-session-back {
+  position: relative;
+  z-index: 4;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 4px;
+  color: #1d6048;
+  font-size: 12px;
+  font-weight: 680;
+}
+
+.ebd-v16-session-hero__copy {
+  position: relative;
+  z-index: 3;
+  width: 56%;
+  padding: 24px 0 22px;
+}
+
+.ebd-v16-session-kicker {
+  margin: 0;
+  color: #a87522;
+  font-size: 8.6px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.ebd-v16-session-hero__copy h1 {
+  margin: 10px 0 0;
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 570;
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  color: #0d2535;
+  text-wrap: balance;
+}
+
+.ebd-v16-session-hero__copy > p:last-child {
+  margin: 8px 0 0;
+  color: #667486;
+  font-size: 12px;
+  line-height: 1.28;
+}
+
+.ebd-v16-session-hero__art {
+  position: absolute;
+  right: -16px;
+  top: 3px;
+  z-index: 1;
+  width: 57%;
+  height: 205px;
+  overflow: hidden;
+  border-radius: 46% 22px 22px 46%;
+  background: #e5e1d7;
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%, 10% 62%, 2% 28%);
+}
+
+.ebd-v16-session-hero__art::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(90deg, rgb(248 245 238 / 0.7), transparent 23%),
+    linear-gradient(180deg, transparent 62%, rgb(20 74 54 / 0.13));
+}
+
+.ebd-v16-session-hero__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ebd-v16-session-hero__art > div {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+  width: 46%;
+  height: 72%;
+  opacity: 0.85;
+  background:
+    radial-gradient(ellipse at 20% 90%, #3e7555 0 9%, transparent 10%),
+    linear-gradient(148deg, transparent 0 38%, rgb(47 104 74 / 0.80) 39% 42%, transparent 43% 100%);
+  clip-path: polygon(0 100%, 26% 42%, 43% 58%, 57% 16%, 73% 51%, 100% 0, 100% 100%);
+}
+
+.ebd-v16-session-progress {
+  margin: 2px 0 10px;
+  padding: 11px 12px;
+  border: 1px solid rgb(45 74 60 / 0.08);
+  border-radius: 17px;
+  background: rgb(255 254 250 / 0.94);
+  box-shadow:
+    0 5px 16px rgb(60 68 63 / 0.055),
+    inset 0 1px 0 rgb(255 255 255 / 0.96);
+}
+
+.ebd-v16-session-progress__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ebd-v16-session-progress__head strong {
+  color: #173045;
+  font-size: 11px;
+}
+
+.ebd-v16-session-progress__head span {
+  color: #276c51;
+  font-size: 10px;
+  font-weight: 720;
+}
+
+.ebd-v16-session-progress__rail {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.ebd-v16-session-progress__rail::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 14px;
+  height: 1px;
+  background: #d9ddd9;
+}
+
+.ebd-v16-session-progress__rail button {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 29px;
+  height: 29px;
+  place-items: center;
+  border: 1px solid #cfd4d0;
+  border-radius: 50%;
+  color: #53645d;
+  background: #fffefa;
+  font-size: 9px;
+  font-weight: 760;
+}
+
+.ebd-v16-session-progress__rail button.is-complete {
+  color: #fff;
+  border-color: #2d7659;
+  background: #2d7659;
+}
+
+.ebd-v16-session-progress__rail button.is-current {
+  color: #fff;
+  border-color: #b98525;
+  background: #bf8b2c;
+  box-shadow: 0 0 0 4px rgb(223 191 119 / 0.13);
+}
+
+/* abertura */
+.ebd-v16-opening-card {
+  display: grid;
+  grid-template-columns: 46% minmax(0, 1fr);
+  min-height: 235px;
+  overflow: hidden;
+  border: 1px solid rgb(48 75 61 / 0.08);
+  border-radius: 22px;
+  background: #fffefa;
+  box-shadow:
+    0 7px 22px rgb(63 70 65 / 0.065),
+    inset 0 1px 0 #fff;
+}
+
+.ebd-v16-opening-card__visual {
+  position: relative;
+  min-height: 235px;
+  overflow: hidden;
+  color: #2f6e54;
+  background: #eee7d9;
+}
+
+.ebd-v16-opening-card__visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 65%, #fffefa 100%);
+}
+
+.ebd-v16-opening-card__visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ebd-v16-opening-card__copy {
+  align-self: center;
+  min-width: 0;
+  padding: 18px 16px;
+}
+
+.ebd-v16-opening-card__copy h2 {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-size: 25px;
+  font-weight: 570;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: #10283a;
+}
+
+.ebd-v16-opening-card__reference {
+  margin: 10px 0 0;
+  color: #2e7659;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.ebd-v16-opening-card__time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 9px 0 0;
+  color: #657383;
+  font-size: 9.7px;
+}
+
+.ebd-v16-opening-card__summary {
+  display: -webkit-box;
+  margin: 12px 0 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  color: #5f6e7c;
+  font-size: 10.6px;
+  line-height: 1.42;
+}
+
+.ebd-v16-objectives {
+  margin-top: 10px;
+  padding: 15px 15px 11px;
+  border: 1px solid rgb(48 75 61 / 0.075);
+  border-radius: 20px;
+  background: rgb(255 254 250 / 0.96);
+  box-shadow:
+    0 7px 22px rgb(63 70 65 / 0.05),
+    inset 0 1px 0 #fff;
+}
+
+.ebd-v16-objectives > h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 570;
+  color: #10283a;
+}
+
+.ebd-v16-objectives > div {
+  margin-top: 7px;
+}
+
+.ebd-v16-objectives article {
+  display: grid;
+  grid-template-columns: 45px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ecebe6;
+}
+
+.ebd-v16-objectives article:last-child {
+  border-bottom: 0;
+}
+
+.ebd-v16-objectives article > span {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  place-items: center;
+  border-radius: 50%;
+  color: #2e6f54;
+  background: #eef5ef;
+}
+
+.ebd-v16-objectives article:nth-child(even) > span {
+  color: #a8761e;
+  background: #faf3e3;
+}
+
+.ebd-v16-objectives article strong {
+  display: block;
+  color: #142c3c;
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.ebd-v16-objectives article p {
+  margin: 3px 0 0;
+  color: #657383;
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+/* conteúdo da sessão */
+.ebd-v16-session-content {
+  display: grid;
+  gap: 10px;
+}
+
+.ebd-v16-session-content--study .ebd-v15-block--scripture {
+  order: -2;
+}
+
+.ebd-v16-session-content--study .ebd-v15-block--text {
+  order: -1;
+}
+
+.ebd-v16-session-content--reflection .ebd-v15-block,
+.ebd-v16-session-content--mission .ebd-v15-block,
+.ebd-v16-session-content--prayer .ebd-v15-block,
+.ebd-v16-session-content--quiz .ebd-v15-block {
+  border-radius: 22px;
+}
+
+.ebd-v16-session-content--reflection .ebd-v15-block--reflection {
+  padding: 20px 16px;
+}
+
+.ebd-v16-session-content--reflection .ebd-v15-block--reflection h3 {
+  font-size: 29px;
+  line-height: 0.98;
+}
+
+.ebd-v16-session-content--mission .ebd-v15-block--mission {
+  padding: 20px 17px;
+  background:
+    radial-gradient(circle at 86% 10%, rgb(228 187 98 / 0.10), transparent 30%),
+    linear-gradient(135deg, #fffaf0, #fbf6e8) !important;
+  color: #10283a;
+  border-color: rgb(186 138 43 / 0.20);
+  box-shadow:
+    0 7px 22px rgb(83 70 48 / 0.07),
+    inset 0 1px 0 #fff;
+}
+
+.ebd-v16-session-content--mission .ebd-v15-block--mission h3 {
+  color: #10283a;
+  font-size: 28px;
+}
+
+.ebd-v16-session-content--mission .ebd-v15-block--mission .ebd-v15-block__body,
+.ebd-v16-session-content--mission .ebd-v15-mission__prompt {
+  color: #667383;
+}
+
+.ebd-v16-session-content--mission .ebd-v15-mission__action {
+  color: #fff;
+  border: 0;
+  background: linear-gradient(100deg, #2d7559, #1c5b43);
+}
+
+.ebd-v16-session-content--prayer .ebd-v15-block--prayer {
+  padding: 20px 17px;
+}
+
+.ebd-v16-session-content--prayer .ebd-v15-prayer__text {
+  font-size: 16.5px;
+  line-height: 1.5;
+}
+
+/* quiz uma pergunta por vez */
+.ebd-v16-quiz {
+  padding: 18px 15px 16px !important;
+}
+
+.ebd-v16-quiz__head {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.ebd-v16-quiz__icon {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border-radius: 50%;
+  color: #a87019;
+  background: #fbf1dd;
+  font-family: var(--font-display);
+  font-size: 31px;
+}
+
+.ebd-v16-quiz__head h3 {
+  margin-top: 6px;
+  font-size: 27px;
+  line-height: 1;
+}
+
+.ebd-v16-quiz__options {
+  margin-top: 18px;
+  gap: 9px;
+}
+
+.ebd-v16-quiz__options label {
+  min-height: 58px;
+  align-items: center;
+  grid-template-columns: 27px minmax(0, 1fr);
+  padding: 12px 14px;
+  border-radius: 15px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.ebd-v16-quiz__options input {
+  width: 21px;
+  height: 21px;
+}
+
+.ebd-v16-quiz__verify,
+.ebd-v16-quiz__next {
+  display: grid;
+  grid-template-columns: 39px minmax(0, 1fr) 18px;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 14px;
+  padding: 6px 12px 6px 7px;
+  border: 0;
+  border-radius: 16px;
+  color: #fff;
+  background: linear-gradient(100deg, #2d7659, #1d6047);
+  font-size: 13px;
+  font-weight: 720;
+  text-align: left;
+}
+
+.ebd-v16-quiz__verify > span {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  place-items: center;
+  border-radius: 50%;
+  color: #1d6047;
+  background: #fff;
+}
+
+.ebd-v16-quiz__verify:disabled {
+  opacity: 0.42;
+}
+
+.ebd-v16-quiz__next {
+  grid-template-columns: minmax(0, 1fr) 18px;
+  padding-left: 16px;
+  background: #eff6f0;
+  color: #215c45;
+}
+
+/* CTA entre sessões */
+.ebd-v16-session-next {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 23px;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  min-height: 61px;
+  margin-top: 10px;
+  padding: 7px 13px 7px 8px;
+  border: 0;
+  border-radius: 20px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 85% 30%, rgb(123 158 123 / 0.20), transparent 28%),
+    linear-gradient(100deg, #15543e, #1f674d 70%, #19583f);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.12),
+    0 7px 17px rgb(24 80 59 / 0.15);
+  text-align: left;
+}
+
+.ebd-v16-session-next > span {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 50%;
+  color: #195c44;
+  background: #fff;
+}
+
+.ebd-v16-session-next strong,
+.ebd-v16-session-next small {
+  display: block;
+}
+
+.ebd-v16-session-next strong {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 560;
+}
+
+.ebd-v16-session-next small {
+  margin-top: 2px;
+  color: rgb(255 255 255 / 0.76);
+  font-size: 9px;
+}
+
+.ebd-v16-session-percent {
+  margin: 8px 0 0;
+  color: #7b8580;
+  font-size: 8px;
+  text-align: center;
+}
+
+/* Utilitário do shell: menor e menos invasivo durante a jornada */
+.app-shell--ebd .app-shell__utility {
+  transform: scale(0.94);
+  transform-origin: top right;
+}
+
+/* Tema escuro mantém a mesma geometria */
+:root[data-theme='dark'] .ebd-v16-session-hero__copy h1,
+:root[data-theme='dark'] .ebd-v16-opening-card__copy h2,
+:root[data-theme='dark'] .ebd-v16-objectives > h2,
+:root[data-theme='dark'] .ebd-v16-objectives article strong,
+:root[data-theme='dark'] .ebd-v16-session-progress__head strong {
+  color: #f0e8da;
+}
+
+:root[data-theme='dark'] .ebd-v16-session-hero__copy > p:last-child,
+:root[data-theme='dark'] .ebd-v16-opening-card__summary,
+:root[data-theme='dark'] .ebd-v16-objectives article p {
+  color: #bdb5aa;
+}
+
+:root[data-theme='dark'] .ebd-v16-session-progress,
+:root[data-theme='dark'] .ebd-v16-opening-card,
+:root[data-theme='dark'] .ebd-v16-objectives {
+  border-color: rgb(210 171 94 / 0.13);
+  background: rgb(23 25 22 / 0.96);
+  box-shadow:
+    0 8px 24px rgb(0 0 0 / 0.19),
+    inset 0 1px 0 rgb(255 255 255 / 0.035);
+}
+
+:root[data-theme='dark'] .ebd-v16-opening-card__visual::after {
+  background: linear-gradient(90deg, transparent 65%, #171916 100%);
+}
+
+:root[data-theme='dark'] .ebd-v16-objectives article {
+  border-color: rgb(215 180 106 / 0.08);
+}
+
+:root[data-theme='dark'] .ebd-v16-session-content--mission .ebd-v15-block--mission {
+  color: #f0e8da;
+  background:
+    radial-gradient(circle at 86% 10%, rgb(228 187 98 / 0.08), transparent 30%),
+    #191a16 !important;
+}
+
+:root[data-theme='dark'] .ebd-v16-session-content--mission .ebd-v15-block--mission h3 {
+  color: #f0e8da;
+}
+
+:root[data-theme='dark'] .ebd-v16-session-content--mission .ebd-v15-block--mission .ebd-v15-block__body,
+:root[data-theme='dark'] .ebd-v16-session-content--mission .ebd-v15-mission__prompt {
+  color: #bdb5aa;
+}
+
+:root[data-theme='dark'] .ebd-v16-quiz__icon {
+  color: #d7b66e;
+  background: rgb(215 182 110 / 0.09);
+}
+
+@media (max-width: 389px) {
+  .ebd-v16-session-hero__copy {
+    width: 60%;
+  }
+
+  .ebd-v16-session-hero__copy h1 {
+    font-size: 31px;
+  }
+
+  .ebd-v16-session-hero__art {
+    width: 54%;
+  }
+
+  .ebd-v16-opening-card {
+    grid-template-columns: 42% minmax(0, 1fr);
+  }
+
+  .ebd-v16-opening-card__copy {
+    padding-inline: 13px;
+  }
+
+  .ebd-v16-opening-card__copy h2 {
+    font-size: 22px;
+  }
+
+  .ebd-v16-quiz__head h3 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 349px) {
+  .ebd-v16-session-hero {
+    min-height: 246px;
+  }
+
+  .ebd-v16-session-hero__copy {
+    width: 67%;
+  }
+
+  .ebd-v16-session-hero__art {
+    right: -38px;
+    opacity: 0.72;
+  }
+
+  .ebd-v16-opening-card {
+    grid-template-columns: 1fr;
+  }
+
+  .ebd-v16-opening-card__visual {
+    height: 160px;
+    min-height: 160px;
+  }
+
+  .ebd-v16-opening-card__visual::after {
+    background: linear-gradient(180deg, transparent 68%, #fffefa 100%);
+  }
+}
+
+
+/* ================================================================
+   V16.1 — cobertura visual exaustiva de blocos
+   ================================================================ */
+
+/* ESTUDO / TEXT
+   Renderer próprio para leitura longa, sem depender do fallback. */
+.ebd-v16-session-content--study .ebd-v15-block--text {
+  padding: 19px 17px 20px;
+  background:
+    radial-gradient(
+      ellipse at 90% 0%,
+      rgb(54 118 88 / 0.055),
+      transparent 30%
+    ),
+    rgb(255 254 250 / 0.98);
+}
+
+.ebd-v16-session-content--study .ebd-v15-block--text .ebd-v15-block__icon {
+  color: #2c7055;
+  background: #edf5ef;
+}
+
+.ebd-v16-text-reading {
+  display: grid;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.ebd-v16-text-reading p {
+  margin: 0;
+  color: #5e6d7a;
+  font-size: 14px;
+  line-height: 1.66;
+  text-wrap: pretty;
+}
+
+/* SCRIPTURE */
+.ebd-v16-session-content--study .ebd-v15-block--scripture {
+  border-color: rgb(187 139 46 / 0.16);
+}
+
+/* CHARACTER */
+.ebd-v16-session-content--study .ebd-v15-block--character {
+  min-height: 158px;
+}
+
+/* TIMELINE */
+.ebd-v16-session-content--study .ebd-v15-block--timeline {
+  background:
+    linear-gradient(180deg, #fffefa 0%, #fbfcf9 100%);
+}
+
+/* VIDEO */
+.ebd-v16-session-content--study .ebd-v15-block--video {
+  background:
+    linear-gradient(180deg, #fffefa 0%, #f6f8f5 100%);
+}
+
+/* Os seletores acima são deliberadamente explícitos:
+   hero, text, scripture, character, timeline, reflection, mission,
+   prayer, quiz e video possuem uma interface dedicada no renderer. */
+
+:root[data-theme='dark']
+  .ebd-v16-session-content--study
+  .ebd-v15-block--text {
+  background:
+    radial-gradient(
+      ellipse at 90% 0%,
+      rgb(112 169 136 / 0.045),
+      transparent 30%
+    ),
+    rgb(23 25 22 / 0.97);
+}
+
+:root[data-theme='dark'] .ebd-v16-text-reading p {
+  color: #bdb5aa;
+}
+
+:root[data-theme='dark']
+  .ebd-v16-session-content--study
+  .ebd-v15-block--timeline,
+:root[data-theme='dark']
+  .ebd-v16-session-content--study
+  .ebd-v15-block--video {
+  background: rgb(23 25 22 / 0.97);
+}
+
+@media (max-width: 389px) {
+  .ebd-v16-text-reading p {
+    font-size: 13.2px;
+    line-height: 1.62;
+  }
+}

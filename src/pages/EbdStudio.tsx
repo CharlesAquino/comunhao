@@ -1505,7 +1505,7 @@ export default function EbdStudio() {
                       </div>
                     );
                   })()}
-                  {(block.type === 'hero' || block.type === 'video') && (
+                  {(['hero', 'video', 'prayer', 'mission'].includes(block.type)) && (
                     <>
                       <label className="block text-xs text-[var(--text-muted)]">
                         Texto alternativo

@@ -1,0 +1,153 @@
+/* Referência: jornada e seis sessões — arte separada dos controles. */
+.app-shell--ebd { background: #fffdf8 !important; }
+.app-shell--ebd .app-shell__main { padding-top: 0; background: #fffdf8 !important; }
+.ebd-match { --lesson-paper: #fffdf8; --lesson-ink: #101713; --lesson-muted: #526075; --lesson-green: #174d39; --lesson-gold: #a66a0e; width: min(100%, 430px); margin-inline: auto; padding: calc(var(--safe-area-top) + 12px) 8px calc(90px + var(--safe-area-bottom)); color: var(--lesson-ink); background: var(--lesson-paper); font-family: var(--font-sans); }
+.ebd-match h1, .ebd-match h2, .ebd-match h3, .ebd-match h4 { font-family: Georgia, 'Times New Roman', serif; letter-spacing: -.045em; }
+.ebd-match-brand { position: relative; z-index: 3; display: flex; align-items: center; gap: 6px; height: 43px; margin: 0 9px 5px; width: 145px; }
+.ebd-match-brand img { width: 29px; height: 33px; object-fit: contain; }
+.ebd-match-brand strong { font: 600 23px/1 Georgia, serif; letter-spacing: -.055em; }
+.ebd-match-brand small { display: block; margin: 4px 0 0 7px; font-size: 5px; line-height: 1.4; letter-spacing: .38em; color: var(--lesson-muted); }
+.ebd-match-hero { position: relative; isolation: isolate; min-height: 260px; padding: 0 10px 12px; }
+.ebd-match-hero__art { position: absolute; right: -5px; top: -28px; z-index: -1; width: 61%; height: 285px; object-fit: fill; mix-blend-mode: multiply; pointer-events: none; }
+.ebd-match-back { display: inline-flex; position: relative; z-index: 2; gap: 9px; align-items: center; min-height: 36px; color: var(--lesson-green); font-size: 12px; }
+.ebd-match-eyebrow { margin: 8px 0; font-size: 7.5px; line-height: 1.4; font-weight: 650; letter-spacing: .2em; text-transform: uppercase; color: var(--lesson-gold); }
+.ebd-match-back .ebd-match-eyebrow { font-size: 7px; }
+.ebd-match-session-kicker { margin: 8px 0 16px; color: var(--lesson-green); }
+.ebd-match-session-kicker span { color: var(--lesson-gold); }
+.ebd-match-hero__copy { position: relative; z-index: 1; width: 53%; }
+.ebd-match-hero h1 { width: 111%; margin: 8px 0 6px; font-size: 32px; font-weight: 500; line-height: .99; }
+.ebd-match-hero__summary { margin: 7px 0; font-size: 11px; line-height: 1.3; color: var(--lesson-muted); }
+.ebd-match-meta { display: flex; gap: 12px; width: 111%; margin-top: 12px; color: var(--lesson-muted); font-size: 9px; line-height: 1.3; }
+.ebd-match-meta > span { display: flex; align-items: center; gap: 5px; }
+.ebd-match-meta svg { flex: none; width: 15px; height: 15px; }
+.ebd-match-start { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 112%; min-height: 41px; margin-top: 12px; padding: 5px 10px 5px 6px; border-radius: 30px; color: #fff; background: #184e3a url('../assets/home-v12/mission-green-clean-v1.png') center / cover; font-size: 10px; text-align: left; box-shadow: 0 5px 12px #213d231a; }
+.ebd-match-start > span { flex: none; display: grid; place-items: center; width: 29px; height: 29px; border-radius: 50%; background: #fffdf8; color: var(--lesson-green); }
+.ebd-match-paper, .ebd-match-content .ebd-v15-block { border: 1px solid #e9e4da80; border-radius: 17px; background: var(--lesson-paper); box-shadow: 0 4px 12px #393e2d0c; }
+.ebd-match-progress { position: relative; padding: 10px 13px; margin: 0 0 8px; }
+.ebd-match-progress > div:first-child:not(.ebd-match-steps) { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.ebd-match-progress h2 { margin: 0; font: 600 12px/1.3 var(--font-sans); letter-spacing: -.035em; }
+.ebd-match-progress > div > span { font-size: 9px; color: var(--lesson-muted); }
+.ebd-match-steps { display: flex; justify-content: space-between; position: relative; gap: 4px; }
+.ebd-match-steps--labels { margin-top: 10px; }
+.ebd-match-steps::before { content: ''; position: absolute; top: 11px; left: 17px; right: 17px; border-top: 1px solid #bfc7be; }
+.ebd-match-steps button { position: relative; display: flex; flex: 1; align-items: center; flex-direction: column; gap: 5px; min-width: 0; color: var(--lesson-muted); }
+.ebd-match-steps button > span { display: grid; place-items: center; width: 23px; height: 23px; border-radius: 50%; border: 1px solid #b7bdb6; background: var(--lesson-paper); font-size: 11px; }
+.ebd-match-steps small { font-size: 9px; }
+.ebd-match-steps .is-current > span, .ebd-match-steps .is-complete > span { color: white; background: var(--lesson-green); border-color: var(--lesson-green); }
+.ebd-match-steps .is-current small { color: var(--lesson-green); font-weight: 650; }
+.ebd-match--quiz .ebd-match-steps .is-current > span { background: #bc913e; border-color: #bc913e; }
+.ebd-match-timeline { display: grid; gap: 5px; position: relative; margin-top: 8px; }
+.ebd-match-timeline::before { content: ''; position: absolute; left: 13px; top: 16px; bottom: 25px; border-left: 1px solid #d5d7cc; }
+.ebd-match-timeline__row { display: flex; gap: 10px; align-items: center; }
+.ebd-match-timeline__number { position: relative; display: grid; place-items: center; flex: 0 0 23px; height: 23px; margin-left: 2px; border-radius: 50%; color: white; background: #35664b; font-size: 11px; }
+.ebd-match-timeline__row > button { position: relative; isolation: isolate; display: flex; align-items: center; flex: 1; min-width: 0; min-height: 51px; overflow: hidden; gap: 11px; padding: 5px 7px; text-align: left; }
+.ebd-match-timeline__art { position: absolute; right: 0; top: 0; z-index: -1; width: 53%; height: 100%; object-fit: cover; object-position: right center; mask-image: linear-gradient(90deg, transparent, #000); }
+.ebd-match-icon { display: grid; place-items: center; flex: 0 0 43px; height: 43px; border-radius: 50%; background: #f7f1df; color: #946310; }
+.ebd-match-icon svg { width: 25px; height: 25px; stroke-width: 1.6; }
+.ebd-match-timeline__copy { min-width: 0; flex: 1; }
+.ebd-match-timeline__copy strong { display: block; font: 500 19px/1 Georgia, serif; letter-spacing: -.045em; }
+.ebd-match-timeline__copy small { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin-top: 3px; font-size: 10px; line-height: 1.25; color: var(--lesson-muted); }
+.ebd-match-round { display: grid; place-items: center; flex: 0 0 29px; height: 29px; border-radius: 50%; color: var(--lesson-green); background: #fffdf5; }
+.ebd-match-finish { display: flex; align-items: center; gap: 11px; min-height: 57px; margin-top: 8px; padding: 10px; color: #fffaf0; border-radius: 13px; background: #194833 url('../assets/home-v12/mission-green-clean-v1.png') center / cover; }
+.ebd-match-finish > svg { color: #d6bd7d; flex: none; }
+.ebd-match-finish div { min-width: 0; flex: 1; }
+.ebd-match-finish h2 { margin: 0; font-size: 17px; line-height: 1; font-weight: 400; }
+.ebd-match-finish p { font-size: 9px; margin: 4px 0 0; }
+.ebd-match-finish button { display: flex; align-items: center; gap: 5px; min-height: 31px; padding: 6px 10px; border-radius: 24px; color: #171e18; background: #fffaeb; font-size: 9px; flex: none; }
+.ebd-match-finish button:disabled { opacity: .65; cursor: not-allowed; }
+.ebd-match-session-label { font-size: 11px; line-height: 1.3; color: var(--lesson-muted); margin: 6px 0; }
+.ebd-match-session-label--bottom { position: absolute; left: 11px; bottom: 2px; }
+.ebd-match--opening .ebd-match-hero { min-height: 352px; padding-top: 0; }
+.ebd-match--opening .ebd-match-hero__art { top: 65px; right: -1px; width: 62%; height: calc(100% - 65px); }
+.ebd-match--opening .ebd-match-hero__copy { width: 53%; margin-top: 38px; }
+.ebd-match--opening .ebd-match-meta { flex-direction: column; gap: 10px; margin-top: 19px; font-size: 11px; }
+.ebd-match--opening .ebd-match-hero h1 { font-size: 34px; }
+.ebd-match-opening-quote { font: italic 15px/1.12 Georgia, serif; text-align: center; margin: 19px 0 12px; max-width: 155px; }
+.ebd-match-opening-quote cite { display: block; margin-top: 9px; font: normal 6px var(--font-sans); letter-spacing: .3em; }
+.ebd-match-objectives { margin-top: 8px; padding: 12px 15px 5px; }
+.ebd-match-objectives > h2 { font-size: 27px; line-height: 1.1; margin: 0 0 5px; font-weight: 500; }
+.ebd-match-objectives article { display: flex; align-items: center; gap: 15px; padding: 9px 0; border-bottom: 1px solid #e6e2d6; }
+.ebd-match-objectives article:last-child { border: 0; }
+.ebd-match-objectives .ebd-match-icon { flex-basis: 54px; height: 54px; }
+.ebd-match-objectives article h3 { margin: 0; font-size: 18px; line-height: 1.1; font-weight: 500; }
+.ebd-match-objectives article p { margin: 4px 0 0; font-size: 11px; line-height: 1.3; color: var(--lesson-muted); }
+.ebd-match-next { display: flex; align-items: center; gap: 16px; width: 100%; min-height: 51px; margin-top: 9px; padding: 8px 16px; text-align: left; border-radius: 16px; background: #174b37 url('../assets/home-v12/mission-green-clean-v1.png') center / cover; color: #fffdf7; box-shadow: 0 4px 10px #203b2220; }
+.ebd-match-next .ebd-match-round { flex-basis: 32px; height: 32px; }
+.ebd-match-next > span:nth-child(2) { flex: 1; }
+.ebd-match-next strong { display: block; font: 400 22px/1.1 Georgia, serif; letter-spacing: -.035em; }
+.ebd-match-next small { display: block; margin-top: 3px; font-size: 10px; }
+.ebd-match--reflection .ebd-match-hero { min-height: 168px; }
+.ebd-match--reflection .ebd-match-hero__art { height: 214px; top: -25px; }
+.ebd-match-reflection-heading { font-size: 18px !important; width: 150% !important; line-height: 1.2 !important; }
+.ebd-match--reflection .ebd-match-hero__copy > .ebd-match-eyebrow { width: 140%; margin-top: 20px; }
+.ebd-match--prayer .ebd-match-hero, .ebd-match--mission .ebd-match-hero { min-height: 240px; }
+.ebd-match--prayer .ebd-match-hero__art, .ebd-match--mission .ebd-match-hero__art { height: 272px; }
+.ebd-match--study .ebd-match-hero { min-height: 209px; }
+.ebd-match--study .ebd-match-hero__art { height: 225px; }
+.ebd-match--quiz .ebd-match-hero { min-height: 205px; }
+.ebd-match-content { display: grid; gap: 7px; }
+.ebd-match-content .ebd-v15-block { padding: 14px 12px; color: var(--lesson-ink); }
+.ebd-match-content .ebd-v15-block h3 { margin: 3px 0 0; font-family: Georgia, serif; font-size: 25px; font-weight: 500; line-height: 1.06; color: var(--lesson-ink); }
+.ebd-match-content .ebd-v15-block__header { display: flex; gap: 13px; align-items: flex-start; }
+.ebd-match-content .ebd-v15-block__icon, .ebd-match-content .ebd-v15-prayer__icon, .ebd-match-content .ebd-v16-quiz__icon { display: grid; place-items: center; flex: 0 0 49px; width: 49px; height: 49px; border-radius: 50%; color: #946310; background: #f8f1df; }
+.ebd-match-content .ebd-v15-block__eyebrow { color: var(--lesson-gold); font-size: 8px; letter-spacing: .18em; margin: 2px 0 5px; }
+.ebd-match-content .ebd-v15-block__body, .ebd-match-content .ebd-v16-text-reading p { font-size: 13px; line-height: 1.4; color: var(--lesson-muted); white-space: pre-line; }
+.ebd-match-content .ebd-v15-block--scripture { display: block; position: relative; }
+.ebd-match-content .ebd-v15-block--scripture > .ebd-v15-block__icon { float: left; margin: 0 14px 12px 0; color: var(--lesson-green); background: #edf0e5; }
+.ebd-match-content .ebd-v15-scripture__copy h3 { font-size: 28px; }
+.ebd-match-content .ebd-v15-scripture__copy blockquote { clear: both; position: relative; padding: 14px 14px 14px 40px; margin: 13px 0 0; border-radius: 12px; background: #edeee1; color: var(--lesson-ink); font: italic 17px/1.12 Georgia, serif; border: 0; }
+.ebd-match-content .ebd-v15-scripture__copy blockquote::before { content: ''; position: absolute; left: 14px; top: 13px; bottom: 13px; border-left: 3px solid #bb8d2b; }
+.ebd-match-content .ebd-v15-scripture__reference { font-size: 12px; letter-spacing: 0; color: var(--lesson-muted); }
+.ebd-match-content--study .ebd-v15-inline-action { display: none; }
+.ebd-match-content--reflection .ebd-v15-block h3 { font-size: 32px; }
+.ebd-match-content--reflection .ebd-v15-block__body { font-size: 14px; margin-top: 17px; }
+.ebd-match-content .ebd-v15-reflection__prompt { padding: 14px; margin: 12px 0 15px; border: 0; border-radius: 12px; color: var(--lesson-green); background: #faf4e5; font: 600 18px/1.12 Georgia, serif; }
+.ebd-match-content .ebd-v15-reflection__field { display: block; margin-top: 15px; font-size: 12px; }
+.ebd-match-content .ebd-v15-reflection__field textarea { width: 100%; min-height: 119px; margin-top: 6px; padding: 14px; border: 1px solid #d7d8cf; background: transparent; border-radius: 12px; color: var(--lesson-muted); font-size: 13px; line-height: 1.3; }
+.ebd-match-response-count { display: block; margin-top: -23px; margin-right: 12px; position: relative; text-align: right; color: var(--lesson-muted); font-size: 9px; pointer-events: none; }
+.ebd-match-private { display: flex; align-items: center; gap: 7px; margin: 17px 0 10px; color: var(--lesson-muted); font-size: 10px; }
+.ebd-match-content .ebd-v15-full-action, .ebd-match-content .ebd-v15-mission__action, .ebd-match-content .ebd-v16-quiz__verify { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 46px; width: 100%; padding: 8px 16px; border: 0; border-radius: 25px; background: #1a503b url('../assets/home-v12/mission-green-clean-v1.png') center / cover; color: white; font-size: 14px; }
+.ebd-match-content .ebd-v15-block--mission { background: var(--lesson-paper) !important; }
+.ebd-match-content .ebd-v15-mission__flare { display: none; }
+.ebd-match-content .ebd-v15-mission__prompt { color: var(--lesson-muted); background: transparent; font-size: 12px; }
+.ebd-match-mission-list { display: grid; gap: 7px; margin: 10px 0; }
+.ebd-match-mission-list label { display: flex; align-items: center; gap: 13px; border: 1px solid #e8e3d9; border-radius: 12px; padding: 9px 12px; }
+.ebd-match-mission-list input { flex: none; width: 22px; height: 22px; accent-color: var(--lesson-green); }
+.ebd-match-mission-list strong { font: 500 16px/1.1 Georgia, serif; }
+.ebd-match-mission-list p { margin: 3px 0 0; font-size: 10px; line-height: 1.3; color: var(--lesson-muted); }
+.ebd-match-content .ebd-v15-block--prayer { display: block; position: relative; }
+.ebd-match-leaf { position: absolute; right: 0; top: 0; width: 23%; height: 100%; object-fit: contain; object-position: right top; opacity: .28; mix-blend-mode: multiply; pointer-events: none; }
+.ebd-match-prayer-intentions { position: relative; }
+.ebd-match-prayer-intentions ol { position: relative; display: grid; gap: 12px; margin: 15px 20px 0 21px; padding-left: 6px; color: var(--lesson-muted); font-size: 12px; line-height: 1.3; list-style: decimal; }
+.ebd-match-prayer-intentions li::marker { color: var(--lesson-green); font-weight: 700; }
+.ebd-match-content .ebd-v15-prayer__icon { float: left; margin-right: 13px; }
+.ebd-match-content .ebd-v15-prayer__text { clear: both; font: 400 12px/1.4 var(--font-sans); color: var(--lesson-muted); white-space: pre-line; margin: 16px 8px 0; }
+.ebd-match-content .ebd-v16-quiz__head { grid-template-columns: 47px minmax(0,1fr); gap: 13px; }
+.ebd-match-content .ebd-v16-quiz__head h3 { font-size: 27px; }
+.ebd-match-content .ebd-v16-quiz__head .ebd-v15-block__eyebrow { text-transform: none; font-size: 11px; color: var(--lesson-green); letter-spacing: 0; }
+.ebd-match-content .ebd-v16-quiz__options { gap: 7px; margin-top: 15px; }
+.ebd-match-content .ebd-v16-quiz__options label { min-height: 49px; padding: 10px 12px; border: 1px solid #e7e1d6; border-radius: 15px; color: var(--lesson-muted); background: var(--lesson-paper); box-shadow: 0 3px 8px #333b2410; font-size: 13px; line-height: 1.3; }
+.ebd-match-content .ebd-v16-quiz__options input { width: 23px; height: 23px; accent-color: var(--lesson-green); }
+.ebd-match-content .ebd-v16-quiz__verify { border-radius: 17px; margin-top: 14px; }
+.ebd-match button:focus-visible { outline: 2px solid var(--lesson-gold); outline-offset: 3px; }
+.app-shell--ebd .app-shell__utility { top: calc(var(--safe-area-top) + 15px) !important; right: max(14px, calc((100% - 430px)/2 + 14px)) !important; transform: none !important; }
+.app-shell--ebd .app-shell__utility > div { gap: 5px !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; backdrop-filter: none !important; }
+.app-shell--ebd .app-shell__utility > div > * { min-width: 33px; min-height: 33px; border: 0; border-radius: 50% !important; background: #fffefb !important; box-shadow: 0 4px 14px #28392c0d; }
+.app-shell--ebd .app-shell__utility > div > a[href='/carteira'] { min-width: 53px; padding: 0 7px; }
+.app-shell--ebd .app-shell__utility > div > a[href='/carteira'] img { width: 20px; height: 20px; }
+.app-shell--ebd .app-shell__utility .button-quiet { width: auto; height: 33px; }
+.app-shell--ebd .app-shell__utility > div > button:last-child { min-width: 26px; width: 26px; height: 33px; }
+.app-shell--ebd .app-shell__bottom-nav { padding: 0 0 var(--safe-area-bottom); }
+.app-shell--ebd .app-shell__nav { width: min(100%,430px); max-width: 430px; min-height: 69px; border: 0 !important; border-radius: 22px 22px 0 0; background: #fffdf8 !important; box-shadow: 0 -3px 12px #393e2d0c; }
+.app-shell--ebd .sanctuary-nav__item { min-height: 50px; gap: 4px; font-size: 10px; color: #566073; background: transparent; }
+.app-shell--ebd .sanctuary-nav__item[aria-current='page'] { color: #164d3a; background: #e7ecdf !important; border-radius: 18px; box-shadow: none; }
+.app-shell--ebd .sanctuary-nav__item svg { width: 22px; height: 22px; }
+:root[data-theme='dark'] .ebd-match { --lesson-paper: #151f19; --lesson-ink: #f5efdf; --lesson-muted: #bdc6bf; --lesson-green: #a8c6b2; --lesson-gold: #d7b46e; }
+:root[data-theme='dark'] .app-shell--ebd, :root[data-theme='dark'] .app-shell--ebd .app-shell__main { background: #151f19 !important; }
+:root[data-theme='dark'] .ebd-match-hero__art { mix-blend-mode: normal; filter: brightness(.62) saturate(.7); mask-image: linear-gradient(90deg, transparent, #000 30%); border-radius: 30px; }
+:root[data-theme='dark'] .ebd-match-paper, :root[data-theme='dark'] .ebd-match-content .ebd-v15-block { border-color: #a1b6a31c; }
+:root[data-theme='dark'] .ebd-match-icon, :root[data-theme='dark'] .ebd-match-content .ebd-v15-block__icon { background: #353428; color: #d7b46e; }
+:root[data-theme='dark'] .ebd-match-content .ebd-v15-reflection__prompt, :root[data-theme='dark'] .ebd-match-content .ebd-v15-scripture__copy blockquote { background: #28342a; }
+:root[data-theme='dark'] .ebd-match-timeline__art { filter: brightness(.6); }
+:root[data-theme='dark'] .app-shell--ebd .app-shell__nav, :root[data-theme='dark'] .app-shell--ebd .app-shell__utility > div > * { background: #1c2b21 !important; color: #e9eddf; }
+@media(max-width:389px) { .ebd-match-hero h1 { font-size: 28px; } .ebd-match-brand strong { font-size: 20px; } .ebd-match-brand img { width: 24px; } .ebd-match-brand { margin-left: 7px; } .ebd-match-hero__summary { font-size: 10px; } .ebd-match-finish { gap: 6px; } .ebd-match-finish h2 { font-size: 14px; } .ebd-match-finish p { font-size: 8px; } .ebd-match-start { font-size: 9px; gap: 5px; } .ebd-match-hero { min-height: 258px; } .ebd-match--opening .ebd-match-hero { min-height: 360px; } .ebd-match--reflection .ebd-match-hero { min-height: 172px; } .ebd-match--study .ebd-match-hero { min-height: 212px; } .ebd-match--mission .ebd-match-hero, .ebd-match--prayer .ebd-match-hero { min-height: 246px; } .ebd-match--quiz .ebd-match-hero { min-height: 210px; } }

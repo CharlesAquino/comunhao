@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Home, MessageCircle, UserRound, BookOpen, ShoppingBag, ShieldCheck } from 'lucide-react';
+import { Home, MessageCircle, UserRound, BookOpen, ShoppingBag, ShieldCheck, Search, Users } from 'lucide-react';
 import ThemeToggle from '../ThemeToggle';
 import KesefDisplay from '../KesefDisplay';
 import { useAdmin } from '../../contexts/AdminContext';
@@ -89,9 +89,13 @@ export default function BaseLayout() {
   }, []);
 
   const isActive = (path: string): boolean => location.pathname === path;
+  const isEbd = location.pathname === '/ebd';
+  const navigationItems = isEbd
+    ? [NAV_ITEMS[0], NAV_ITEMS[2], { to: '/comunidade', label: 'Comunidade', Icon: Users }, NAV_ITEMS[3], NAV_ITEMS[4]]
+    : NAV_ITEMS;
 
   return (
-    <div className={`app-shell ${location.pathname === '/' ? 'app-shell--home' : ''} premium-viewport relative mx-auto flex flex-col overflow-hidden font-sans ${hasSharedEnvironment ? 'bg-transparent' : 'material-app-canvas'}`}>
+    <div className={`app-shell ${location.pathname === '/' ? 'app-shell--home' : ''} ${location.pathname === '/ebd' ? 'app-shell--ebd' : ''} premium-viewport relative mx-auto flex flex-col overflow-hidden font-sans ${hasSharedEnvironment ? 'bg-transparent' : 'material-app-canvas'}`}>
       
       {/* Atmosfera visual compartilhada pelos dois temas */}
       {!hasSharedEnvironment && (
@@ -117,31 +121,33 @@ export default function BaseLayout() {
           acima da navegação persistente conforme a hierarquia do DS. */}
       <main className="app-shell__main scrollbar-hidden flex-1 overflow-y-auto page-enter">
         <Outlet />
-        {location.pathname !== '/' && <PageHelp />}
+        {location.pathname !== '/' && location.pathname !== '/ebd' && <PageHelp />}
       </main>
 
       {/* Alternador de Tema + Carteira (pílula unificada) */}
-      {location.pathname !== '/' && <LamparinaDock />}
+      {location.pathname !== '/' && !isEbd && <LamparinaDock />}
       <div className="app-shell__utility absolute z-[70]">
         <div className="flex items-center gap-1 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-1.5 py-1">
-          {hasAdminAccess && (
+          {hasAdminAccess && !isEbd && (
             <Link to="/admin" aria-label="Painel de administração" className="flex size-9 items-center justify-center rounded-lg hover:bg-[var(--surface-elevated)]" title="Painel de Administração">
               <ShieldCheck size={16} className="text-amber-400 drop-shadow-[0_0_6px_rgba(251,191,36,0.5)]" />
             </Link>
           )}
+          {isEbd && <Link to="/comunidade" aria-label="Buscar na comunidade" className="flex items-center justify-center"><Search size={20} /></Link>}
+          {isEbd && <NotificationCenterButton />}
           <Link to="/carteira" aria-label="Abrir carteira" className="button-quiet flex h-9 items-center justify-center rounded-lg">
             <KesefDisplay />
           </Link>
-          <MessageInboxButton />
-          <NotificationCenterButton />
-          <div className="h-5 w-px bg-[var(--border)]" />
+          {!isEbd && <MessageInboxButton />}
+          {!isEbd && <NotificationCenterButton />}
+          {!isEbd && <div className="h-5 w-px bg-[var(--border)]" />}
           <ThemeToggle />
         </div>
       </div>
 
       <div className="app-shell__bottom-nav absolute bottom-0 z-[80] w-full pointer-events-none pb-[calc(0.5rem+var(--safe-area-bottom))] px-3">
         <nav aria-label="Navegação principal" className="sanctuary-nav sanctuary-floating-dock app-shell__nav pointer-events-auto relative mx-auto grid grid-cols-5 items-center px-1.5 py-1">
-          {NAV_ITEMS.map(({ to, label, Icon }) => {
+          {navigationItems.map(({ to, label, Icon }) => {
             const active = isActive(to);
             return (
               <Link
